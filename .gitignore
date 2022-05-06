@@ -1,0 +1,8 @@
+*.obj
+cross_platform/cmake
+cross_platform/bomberman
+cross_platform/cmake_install.cmake
+cross_platform/CMakeCache.txt
+cross_platform/Makefile
+cross_platform/CMakeFiles
+.vscode
