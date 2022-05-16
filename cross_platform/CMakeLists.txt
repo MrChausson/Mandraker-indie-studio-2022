@@ -4,11 +4,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # set the project name
-project(FastBombing)    
+project(FastBombing)
 
 include(cmake/Findraylib.cmake)
 # add the executable
-add_executable(bomberman src/main.cpp)
+add_executable(${PROJECT_NAME} ../main.cpp)
 # foreach(i IN ITEMS raylib)
 #if(NOT TARGET raylib)
 #    message(FATAL_ERROR "raylib is not a target")
