@@ -8,7 +8,7 @@ project(FastBombing)
 
 include(cmake/Findraylib.cmake)
 # add the executable
-add_executable(${PROJECT_NAME} ../main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp)
 # foreach(i IN ITEMS raylib)
 #if(NOT TARGET raylib)
 #    message(FATAL_ERROR "raylib is not a target")
