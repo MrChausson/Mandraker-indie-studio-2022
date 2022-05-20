@@ -4,6 +4,9 @@
 #include "ecs/Components/Components.hpp"
 #include "ecs/System/System.hpp"
 
+//TODO: save pointers to components in Entities
+//TODO: create a ECSManager to store everything
+
 int main()
 {
     Example testexample;
@@ -12,7 +15,7 @@ int main()
     std::cout << "Entity: " << entity << std::endl;
     Component component(entity);
     std::cout << component.entity() << std::endl;
-    System system();
+    // System System<component>();
 }
 
 // int main(void)
