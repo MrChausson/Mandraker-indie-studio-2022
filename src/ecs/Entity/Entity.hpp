@@ -18,6 +18,7 @@ class Entity {
         ~Entity();
         int getId();
         std::vector<std::unique_ptr<IComponent>> *getComponents();
+        void addComponent(std::unique_ptr<IComponent> component);
 
     protected:
     private:

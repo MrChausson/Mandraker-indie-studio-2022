@@ -7,9 +7,11 @@
 
 #include "Placable.hpp"
 
-Placable::Placable(TYPE type)
+Placable::Placable(float x, float y, float z)
 {
-    this->_type = type;
+    this->_x = x;
+    this->_y = y;
+    this->_z = z;
 }
 
 Placable::~Placable()

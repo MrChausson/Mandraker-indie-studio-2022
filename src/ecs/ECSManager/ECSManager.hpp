@@ -18,11 +18,12 @@ class ECSManager {
         ~ECSManager();
         int createEntity();
         // deleteEntity
-        // getEntity
+        void addComponent(int entityId, std::unique_ptr<IComponent> component);
+        std::unique_ptr<Entity> getEntity(int id);
         // updateEntity
 
     protected:
-        std::vector<std::unique_ptr<Entity>> _entities;
+        std::vector<std::unique_ptr<Entity>> _entities = {};
         std::vector<ISystem> _systems;
     private:
 };

@@ -9,12 +9,12 @@
 
 int main()
 {
-    Example testexample;
-    Entities entities =  testexample.CreatingRemovingEntities();
-    Entity entity = entities.getEntities()[6];
-    std::cout << "Entity: " << entity << std::endl;
-    Component component(entity);
-    std::cout << component.entity() << std::endl;
+    // Example testexample;
+    // Entities entities =  testexample.CreatingRemovingEntities();
+    // Entity entity = entities.getEntities()[6];
+    // std::cout << "Entity: " << entity << std::endl;
+    // Component component(entity);
+    // std::cout << component.entity() << std::endl;
     // System System<component>();
 }
 

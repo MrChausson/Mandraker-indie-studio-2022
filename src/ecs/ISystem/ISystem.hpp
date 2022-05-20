@@ -8,13 +8,14 @@
 #ifndef ISYSTEM_HPP_
 #define ISYSTEM_HPP_
 
+#include <memory>
 #include "../IComponent/IComponent.hpp"  
 
 class ISystem {
     public:
-        ISystem();
-        ~ISystem();
-        virtual void apply(std::unique_ptr<IComponent> component);
+        ISystem() = default;
+        ~ISystem() = default;
+        virtual void apply(std::unique_ptr<IComponent> component) = 0;
 
     protected:
     private:

@@ -25,3 +25,8 @@ int Entity::getId()
 {
     return this->_id;
 }
+
+void Entity::addComponent(std::unique_ptr<IComponent> component)
+{
+    this->_components.push_back(std::move(component)); 
+}

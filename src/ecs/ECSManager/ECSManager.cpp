@@ -6,6 +6,7 @@
 */
 
 #include "ECSManager.hpp"
+#include <iostream>
 
 ECSManager::ECSManager()
 {
@@ -17,7 +18,16 @@ ECSManager::~ECSManager()
 
 int ECSManager::createEntity()
 {
-    std::unique_ptr<Entity> entity(new Entity(this->_entities.size()));
-    this->_entities.push_back(entity);
-    return (entity.get()->getId());
+    // Entity *entity = new Entity(this->_entities.size());
+    this->_entities.emplace_back(new Entity(this->_entities.size()));
+    return (this->_entities[this->_entities.size() - 1].get()->getId());
+}
+
+std::unique_ptr<Entity> ECSManager::getEntity(int id)
+{
+    for (auto &entity : this->_entities) {
+        if (entity.get()->getId() == id)
+            return (std::move(entity));
+    }
+    return nullptr;
 }

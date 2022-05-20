@@ -9,12 +9,11 @@
 #define ICOMPONENT_HPP_
 
 enum TYPE {
-    POSITION
+    PLACABLE
 };
 
 class IComponent {
     public:
-        IComponent();
         ~IComponent();
 
     protected:

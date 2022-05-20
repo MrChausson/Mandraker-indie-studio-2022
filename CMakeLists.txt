@@ -15,9 +15,12 @@ src/Example/Example.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 # Components #
+src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Placable/Placable.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
+# ECS MANAGER #
+src/ecs/ECSManager/ECSManager.cpp
 )
 
 # foreach(i IN ITEMS raylib)
