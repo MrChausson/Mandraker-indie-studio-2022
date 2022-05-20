@@ -7,7 +7,8 @@
 
 #include "Components.hpp"
 
-Component::Component(Entity entity) : m_entity(entity) {
+Component::Component(Entity entity){
+    this->m_entity = entity ;
 }
     
 Entity Component::entity() const {

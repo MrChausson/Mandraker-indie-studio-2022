@@ -16,6 +16,7 @@ class Entities {
         Entity create();
         void remove(Entity entity);
         void print() const;
+        std::vector<Entity> getEntities();
     private:
         std::vector<Entity> m_entities{};
 };

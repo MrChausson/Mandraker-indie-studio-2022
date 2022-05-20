@@ -11,9 +11,8 @@
     #include "../../../includes/ecs.hpp"
 
 class Component {
-    protected:
-        Component(Entity entity);
     public:
+        Component(Entity entity);
         Entity entity() const;
     private:
         Entity m_entity{};

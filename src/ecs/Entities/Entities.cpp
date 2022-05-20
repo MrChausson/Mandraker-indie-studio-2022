@@ -36,3 +36,8 @@ void Entities::print() const {
     }; 
     std::cout << std::endl;
 }
+
+std::vector<Entity> Entities::getEntities()
+{
+    return this->m_entities;
+}
