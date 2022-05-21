@@ -31,3 +31,13 @@ std::unique_ptr<Entity> ECSManager::getEntity(int id)
     }
     return nullptr;
 }
+
+void ECSManager::addComponent(int entityId, std::unique_ptr<IComponent> component)
+{
+    for (auto &entity : this->_entities) {
+        if (entity.get()->getId() == entityId) {
+            entity.get()->addComponent(std::move(component));
+            return;
+        }
+    }
+}
