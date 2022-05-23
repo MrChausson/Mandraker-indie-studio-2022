@@ -19,6 +19,8 @@ class Entity {
         ~Entity();
         int getId();
         std::vector<IComponent *> getComponents();
+        template <class T>
+        T getComponentsByType(COMPONENT_TYPES type);
         void addComponent(std::unique_ptr<IComponent> component);
 
     protected:

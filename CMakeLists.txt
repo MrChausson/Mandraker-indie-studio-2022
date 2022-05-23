@@ -15,6 +15,7 @@ src/Example/Example.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 # Components #
+src/ecs/Components/Breakable/Breakable.cpp
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Placable/Placable.cpp
 # Entity #
