@@ -25,7 +25,7 @@ class ECSManager {
         void addComponent(int entityId, std::unique_ptr<IComponent> component);
         // Systems Functions //
         void addSystem(std::unique_ptr<ISystem> system);
-        void updateSystems();
+        void applySystems();
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};

@@ -22,3 +22,8 @@ void Gravity::apply(std::unique_ptr<IComponent> component)
     Placable *placable = (Placable *) component.get();
     placable->setZ(placable->getZ() - 1.0);
 }
+
+int Gravity::getType()
+{
+    return (PLACABLE);
+}

@@ -70,3 +70,14 @@ void ECSManager::addSystem(std::unique_ptr<ISystem> system)
 {
     this->_systems.push_back(std::move(system));
 }
+
+
+void ECSManager::applySystems()
+{
+    for (auto &system : this->_systems)
+        for (auto &entity : this->_entities)
+            for (auto &component : entity.get()->getComponents()) {
+                if (system->getType() == PLACABLE && component.get()->getType() == PLACABLE)
+                    system->apply(component.get());
+            }
+}

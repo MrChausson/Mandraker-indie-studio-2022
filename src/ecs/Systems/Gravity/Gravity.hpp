@@ -16,6 +16,7 @@ class Gravity : public ISystem {
         Gravity();
         ~Gravity();
         void apply(std::unique_ptr<IComponent> component) override;
+        int getType() override;
 
     protected:
     private:
