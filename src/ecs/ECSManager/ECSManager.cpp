@@ -16,18 +16,42 @@ ECSManager::~ECSManager()
 {
 }
 
-int ECSManager::createEntity()
+void ECSManager::deleteEntity(int id)
 {
-    // Entity *entity = new Entity(this->_entities.size());
-    this->_entities.emplace_back(new Entity(this->_entities.size()));
-    return (this->_entities[this->_entities.size() - 1].get()->getId());
+    bool found = false;
+    this->_deletedEntityIds.push_back(id); // adds id to the list of deleted entities
+    if (this->_entities[this->_entities.size() - 1].get()->getId() == id)
+        this->_entities.pop_back();
+    else {
+        for (unsigned int i = 0; i < this->_entities.size(); i++)
+            if (this->_entities[i].get()->getId() == id) {
+                this->_entities.erase(this->_entities.begin() + i);
+                found = true;
+                break;
+            }
+        if (!found)
+            throw(std::runtime_error("Cannot delete entity with id (not found): " + std::to_string(id)));
+    }
 }
 
-std::unique_ptr<Entity> ECSManager::getEntity(int id)
+int ECSManager::createEntity()
+{
+    int id;
+    
+    if (this->_deletedEntityIds.size() != 0) {
+        id = this->_deletedEntityIds.back();
+        this->_deletedEntityIds.pop_back();
+    } else 
+        id = this->current_id++;
+    this->_entities.push_back(std::make_unique<Entity>(id));
+    return (id);
+}
+
+Entity *ECSManager::getEntity(int id)
 {
     for (auto &entity : this->_entities) {
         if (entity.get()->getId() == id)
-            return (std::move(entity));
+            return (entity.get());
     }
     return nullptr;
 }
@@ -40,4 +64,9 @@ void ECSManager::addComponent(int entityId, std::unique_ptr<IComponent> componen
             return;
         }
     }
+}
+
+void ECSManager::addSystem(std::unique_ptr<ISystem> system)
+{
+    this->_systems.push_back(std::move(system));
 }

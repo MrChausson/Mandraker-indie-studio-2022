@@ -10,10 +10,12 @@
 Entity::Entity(int id)
 {
     this->_id = id;
+    std::cout << "Entity created with id " << this->_id << std::endl;
 }
 
 Entity::~Entity()
 {
+    std::cout << "Entity deleted with id " << this->_id << std::endl;
 }
 
 std::vector<std::unique_ptr<IComponent>> *Entity::getComponents()

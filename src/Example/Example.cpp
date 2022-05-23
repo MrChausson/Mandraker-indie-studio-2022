@@ -14,9 +14,12 @@
 int main(void)
 {
     ECSManager manager;
-    IComponent placable = Placable(1.1, 2.2, 3.3);
+    std::unique_ptr<IComponent> placable = std::make_unique<Placable>(Placable(1.1, 2.2, 3.3));
+
     int id_test = manager.createEntity();
+    int second_id = manager.createEntity();
     std::cout << "id_test = " << id_test << std::endl;
-    std::unique_ptr<Entity> test = manager.getEntity(id_test);
-    manager.addComponent(id_test, std::make_unique<IComponent>(placable));
+    Entity *test = manager.getEntity(id_test);
+    manager.addComponent(id_test, std::move(placable));
+    manager.deleteEntity(second_id);
 }
