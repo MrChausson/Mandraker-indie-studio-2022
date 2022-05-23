@@ -8,13 +8,14 @@
 #ifndef ICOMPONENT_HPP_
 #define ICOMPONENT_HPP_
 
-enum TYPE {
+enum COMPONENT_TYPES {
     PLACABLE
 };
 
 class IComponent {
     public:
         ~IComponent();
+        virtual COMPONENT_TYPES getType() = 0;
 
     protected:
     private:

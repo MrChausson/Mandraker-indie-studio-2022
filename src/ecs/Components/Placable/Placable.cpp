@@ -47,3 +47,8 @@ float Placable::getZ()
 {
     return this->_z;
 }
+
+COMPONENT_TYPES Placable::getType()
+{
+    return this->_type;
+}

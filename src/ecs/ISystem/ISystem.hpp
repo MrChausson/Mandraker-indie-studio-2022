@@ -11,12 +11,16 @@
 #include <memory>
 #include "../IComponent/IComponent.hpp"
 
+enum SYSTEM_TYPES {
+    GRAVITY
+};
+
 class ISystem {
     public:
         ISystem() = default;
         ~ISystem() = default;
-        virtual void apply(std::unique_ptr<IComponent> component) = 0;
-        virtual int getType() = 0;
+        virtual void apply(IComponent *component) = 0;
+        virtual SYSTEM_TYPES getType() = 0;
 
     protected:
     private:

@@ -76,8 +76,7 @@ void ECSManager::applySystems()
 {
     for (auto &system : this->_systems)
         for (auto &entity : this->_entities)
-            for (auto &component : entity.get()->getComponents()) {
-                if (system->getType() == PLACABLE && component.get()->getType() == PLACABLE)
-                    system->apply(component.get());
-            }
+            for (auto &component : entity.get()->getComponents())
+                if (system->getType() == GRAVITY && component->getType() == PLACABLE)
+                    system->apply(component);
 }

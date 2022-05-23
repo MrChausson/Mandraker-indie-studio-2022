@@ -17,13 +17,20 @@ Gravity::~Gravity()
 {
 }
 
-void Gravity::apply(std::unique_ptr<IComponent> component)
+void Gravity::apply(IComponent *component)
 {
-    Placable *placable = (Placable *) component.get();
+    Placable *placable = (Placable *) component;
     placable->setZ(placable->getZ() - 1.0);
 }
 
-int Gravity::getType()
+SYSTEM_TYPES Gravity::getType()
 {
-    return (PLACABLE);
+    return (GRAVITY);
+}
+
+std::vector<SYSTEM_TYPES> Gravity::getAffectedComponents()
+{
+    std::vector<SYSTEM_TYPES> affectedComponents;
+    affectedComponents.push_back(GRAVITY);
+    return (affectedComponents);
 }

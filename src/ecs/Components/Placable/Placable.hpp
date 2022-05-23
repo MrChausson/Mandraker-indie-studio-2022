@@ -13,6 +13,7 @@ class Placable : public IComponent {
     public:
         Placable(float x = 0, float y = 0, float z = 0);
         ~Placable();
+        COMPONENT_TYPES getType() override;
         void setZ(float z);
         float getZ();
         void setX(float x);
@@ -21,7 +22,7 @@ class Placable : public IComponent {
         float getY();
 
     protected:
-        TYPE _type = PLACABLE;
+        COMPONENT_TYPES _type = PLACABLE;
         float _x;
         float _y;
         float _z;

@@ -18,11 +18,6 @@ Entity::~Entity()
     std::cout << "Entity deleted with id " << this->_id << std::endl;
 }
 
-std::vector<std::unique_ptr<IComponent>> *Entity::getComponents()
-{
-    return &this->_components;
-}
-
 int Entity::getId()
 {
     return this->_id;
@@ -31,4 +26,12 @@ int Entity::getId()
 void Entity::addComponent(std::unique_ptr<IComponent> component)
 {
     this->_components.push_back(std::move(component)); 
+}
+
+std::vector<IComponent *> Entity::getComponents()
+{
+    std::vector<IComponent *> components;
+    for (auto &component : this->_components)
+        components.push_back(component.get());
+    return components;
 }

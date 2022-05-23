@@ -9,17 +9,21 @@
 #include <memory>
 #include "../ecs/ECSManager/ECSManager.hpp"
 #include "../ecs/Components/Placable/Placable.hpp"
+#include "../ecs/Systems/Gravity/Gravity.hpp"
 
 
 int main(void)
 {
     ECSManager manager;
-    std::unique_ptr<IComponent> placable = std::make_unique<Placable>(Placable(1.1, 2.2, 3.3));
 
     int id_test = manager.createEntity();
-    int second_id = manager.createEntity();
-    std::cout << "id_test = " << id_test << std::endl;
-    Entity *test = manager.getEntity(id_test);
+    std::unique_ptr<IComponent> placable = std::make_unique<Placable>(Placable(1.1, 2.2, 3.3));
     manager.addComponent(id_test, std::move(placable));
-    manager.deleteEntity(second_id);
+    manager.addSystem(std::make_unique<Gravity>(Gravity()));
+    Placable *placable_test = (Placable *) manager.getEntity(id_test)->getComponents()[0];  
+    std::cout << "z: " << placable_test->getZ() << std::endl;
+    manager.applySystems();
+    placable_test = (Placable *) manager.getEntity(id_test)->getComponents()[0];
+    std::cout << "z: " << placable_test->getZ() << std::endl;
+    // manager.deleteEntity(id_test);
 }
