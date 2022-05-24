@@ -12,6 +12,7 @@
 #include <memory>
 #include <iostream>
 #include "../IComponent/IComponent.hpp"
+#include "../../Error.hpp"
 
 class Entity {
     public:
@@ -19,8 +20,7 @@ class Entity {
         ~Entity();
         int getId();
         std::vector<IComponent *> getComponents();
-        template <class T>
-        T getComponentsByType(COMPONENT_TYPES type);
+        IComponent  *getComponentsByType(COMPONENT_TYPES type);
         void addComponent(std::unique_ptr<IComponent> component);
 
     protected:

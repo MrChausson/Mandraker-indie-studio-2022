@@ -37,12 +37,12 @@ std::vector<IComponent *> Entity::getComponents()
 }
 
 
-template <class T>
-T Entity::getComponentsByType(COMPONENT_TYPES type)
+IComponent *Entity::getComponentsByType(COMPONENT_TYPES type)
 {
-    std::vector<T> components;
+    std::vector<IComponent *> components;
     for (auto &component : this->_components)
         if (component->getType() == type)
-            return(static_cast<T>(component.get()));
+            return(component.get());
+    throw(ComponentNotFound(type));
     return nullptr;
 }
