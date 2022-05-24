@@ -27,42 +27,64 @@ void Raylib::Windowsinit(int &screenWidth, int &screenHeight, std::string const 
     SetTargetFPS(fps);
 }
 
-void Raylib::GetScreenWidth(int &width) const noexcept
+void Raylib::GetScreenWidth() const noexcept
 {
-    x_y_screen.first = width
+    x_y_screen.first = GetScreenWidth()
 }
 
-void Raylib::GetScreenHeight(int &height) const noexcept
+void Raylib::GetScreenHeight()) const noexcept
 {
-    x_y_screen.second = height
+    x_y_screen.second = GetScreenHeight()
 }
 
-bool Raylib::WindowShouldClose() const noexcept
+bool Raylib::WindowShouldEnd() const noexcept
 {
     return !WindowShouldClose();
 }
 
-bool Raylib::isKeyPressed(int &button) const noexcept
+bool Raylib::isKeyPres(int &button) const noexcept
 {
     return (IsKeyPressed(button));
 }
 
-bool Raylib::isMousePressed() const noexcept
+bool Raylib::IsMouseBPressed() const noexcept
 {
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
 }
 
-float Raylib::GetFrameTime() noexcept
+float Raylib::GetFrameT() noexcept
 {
     return GetFrameTime();
 }
 
-int Raylib::GetKeyPressed() const noexcept
+char Raylib::GetCharPres() noexcept
 {
-
+    if (IsKeyPressed(KEY_BACKSPACE))
+        return (-1);
+    return (GetCharPressed);
 }
 
-char Raylib::GetCharPressed() noexcept
+bool Raylib::IsMouseBDown() const noexcept
 {
+    return IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+}
 
+bool Raylib::IsMouseBReleased() const noexcept
+{
+    return IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+}
+
+void Raylib::GetMX(void)
+{
+    x_y_mouse.first = GetMouseX()
+}
+
+void Raylib::GetMY(void)
+{
+    x_y_mouse.second = GetMouseY()
+}
+
+Vector2 Raylib::GetMousePos()
+{
+    return GetMousePosition();
 }

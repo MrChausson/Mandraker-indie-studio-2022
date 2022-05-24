@@ -15,19 +15,23 @@ class raylib
 {
 private:
     std::pair<int, int> x_y_screen;
+    std::pair<int, int> x_y_mouse;
 public:
     raylib();
     ~raylib();
     void Windowsinit(int &screenWidth, int &screenHeight, std::string const &title, std::size_t const &Fps) noexcept;
-    bool WindowShouldClose() const noexcept;
-    bool isKeyPressed(int &button) const noexcept;
-    bool isMousePressed() const noexcept;
-    void GetScreenWidth(int &width) const noexcept;
-    void GetScreenHeight(int &height) const noexcept;
-    static float getFrameTime() noexcept;
-    int GetKeyPressed() const noexcept;
-    char GetCharPressed() noexcept;
-
+    bool WindowShouldEnd() const noexcept;
+    bool isKeyPres(int &button) const noexcept;
+    void GetScreenWidth() const noexcept;
+    void GetScreenHeight() const noexcept;
+    static float getFrameT() noexcept;
+    char GetCharPres() noexcept;
+    bool IsMouseBDown() const noexcept;
+    bool IsMouseBReleased() const noexcept;
+    bool IsMouseBPressed() const noexcept;
+    void GetMX() noexcept;
+    void GetMY() noexcept;
+    Vector2 GetMousePos() noexcept;
 };
 
 
