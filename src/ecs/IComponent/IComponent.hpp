@@ -9,7 +9,8 @@
 #define ICOMPONENT_HPP_
 
 enum COMPONENT_TYPES {
-    PLACABLE
+    PLACABLE,
+    DRAWABLE
 };
 
 class IComponent {

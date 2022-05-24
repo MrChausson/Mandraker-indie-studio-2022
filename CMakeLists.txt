@@ -18,6 +18,7 @@ src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Components/Breakable/Breakable.cpp
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Placable/Placable.cpp
+src/ecs/Components/Drawable/Drawable.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #
