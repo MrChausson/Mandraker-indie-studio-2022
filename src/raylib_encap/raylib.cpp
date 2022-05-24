@@ -42,9 +42,24 @@ bool Raylib::WindowShouldEnd() const noexcept
     return !WindowShouldClose();
 }
 
-bool Raylib::isKeyPres(int &button) const noexcept
+bool Raylib::isKeyPres(int &key) const noexcept
 {
-    return (IsKeyPressed(button));
+    return (IsKeyPressed(key));
+}
+
+bool Raylib::IsKDown(int &key) const noexcept
+{
+    return (IsKeyDown(key));
+}
+
+bool Raylib::isKReleased(int &key) const noexcept
+{
+    return (IsKeyReleased(key));
+}
+
+void Raylib::SetExitK(int &key) const noexcept
+{
+    return (SetExitKey(key));
 }
 
 bool Raylib::IsMouseBPressed() const noexcept
@@ -89,7 +104,7 @@ Vector2 Raylib::GetMousePos() noexcept
     return GetMousePosition();
 }
 
-void Raylib::SetMousePos(int x, int y) noexcept
+void Raylib::SetMousePos(int x, int y) const noexcept
 {
     return SetMousePosition(x, y);
 }

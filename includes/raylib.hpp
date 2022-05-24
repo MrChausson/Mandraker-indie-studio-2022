@@ -21,7 +21,10 @@ public:
     ~raylib();
     void Windowsinit(int &screenWidth, int &screenHeight, std::string const &title, std::size_t const &Fps) noexcept;
     bool WindowShouldEnd() const noexcept;
-    bool isKeyPres(int &button) const noexcept;
+    bool isKeyPres(int &key) const noexcept;
+    bool IsKDown(int &key) const noexcept;
+    bool isKReleased(int &key) const noexcept;
+    void SetExitK(int key) const noexcept;
     void GetScreenWidth() const noexcept;
     void GetScreenHeight() const noexcept;
     static float getFrameT() noexcept;
@@ -32,7 +35,7 @@ public:
     void GetMX() noexcept;
     void GetMY() noexcept;
     Vector2 GetMousePos() noexcept;
-    void SetMousePos(int x, int y) noexcept;
+    void SetMousePos(int x, int y) const noexcept;
     int GetKeyPres(void) noexcept;
 };
 
