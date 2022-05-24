@@ -74,17 +74,27 @@ bool Raylib::IsMouseBReleased() const noexcept
     return IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
 }
 
-void Raylib::GetMX(void)
+void Raylib::GetMX() noexcept
 {
     x_y_mouse.first = GetMouseX()
 }
 
-void Raylib::GetMY(void)
+void Raylib::GetMY() noexcept
 {
     x_y_mouse.second = GetMouseY()
 }
 
-Vector2 Raylib::GetMousePos()
+Vector2 Raylib::GetMousePos() noexcept
 {
     return GetMousePosition();
+}
+
+void Raylib::SetMousePos(int x, int y) noexcept
+{
+    return SetMousePosition(x, y);
+}
+
+int GetKeyPres(void) noexcept
+{
+    return GetKeyPressed();
 }

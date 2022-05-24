@@ -32,6 +32,8 @@ public:
     void GetMX() noexcept;
     void GetMY() noexcept;
     Vector2 GetMousePos() noexcept;
+    void SetMousePos(int x, int y) noexcept;
+    int GetKeyPres(void) noexcept;
 };
 
 
