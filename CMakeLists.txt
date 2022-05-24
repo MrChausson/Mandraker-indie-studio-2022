@@ -22,6 +22,8 @@ src/ecs/Components/Placable/Placable.cpp
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #
 src/ecs/ECSManager/ECSManager.cpp
+# Engine #
+src/Engine/Engine.cpp
 )
 
 # foreach(i IN ITEMS raylib)
