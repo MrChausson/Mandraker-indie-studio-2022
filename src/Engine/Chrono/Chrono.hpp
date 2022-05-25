@@ -28,8 +28,9 @@ class Chrono {
     private:
         std::chrono::time_point<std::chrono::system_clock> _start;
         std::chrono::time_point<std::chrono::system_clock>  _end;
-        std::chrono::duration<double> _elapsed_seconds;
-        std::chrono::duration<double> _to_sleep;
+        std::chrono::duration<double> _elapsedSeconds;
+        std::chrono::duration<double> _toSleep;
+        std::chrono::duration<double> _saveStart;
         int fps;
 };
 

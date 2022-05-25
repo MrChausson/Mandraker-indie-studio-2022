@@ -7,11 +7,11 @@
 
 #include "Engine.hpp"
 
-Engine::Engine()
+Engine::Engine(int fps)
 {
     this->_ecsManager = std::make_unique<ECSManager>();
     std::cout << "Engine created" << std::endl;
-    this->_chrono = Chrono(1);
+    this->_chrono = Chrono(fps);
 }
 
 Engine::~Engine()
@@ -22,10 +22,10 @@ Engine::~Engine()
 void Engine::game_loop()
 {
     this->_chrono.init();
+    int i = 0;
     while (this->_loop) {
         this->_chrono.startLoop();
-        std::this_thread::sleep_for(std::chrono::milliseconds(15));
-        std::cout << "Here is one frame" << std::endl;
+        std::cout << i++ << std::endl;
         this->_chrono.sleepEndLoop();
     }
     // Start the clock

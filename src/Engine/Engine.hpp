@@ -14,7 +14,7 @@
 
 class Engine {
     public:
-        Engine();
+        Engine(int fps = 60);
         ~Engine();
         void game_loop();
         void getManager(ECSManager *manager);
