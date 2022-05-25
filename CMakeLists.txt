@@ -10,8 +10,8 @@ include(cmake/Findraylib.cmake)
 # add the executable
 add_executable(${PROJECT_NAME}
 # main #
-# src/main.cpp
-src/Example/Example.cpp
+src/main.cpp
+# src/Example/Example.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 # Components #
@@ -25,6 +25,8 @@ src/ecs/Entity/Entity.cpp
 src/ecs/ECSManager/ECSManager.cpp
 # Engine #
 src/Engine/Engine.cpp
+# Chrono #
+src/Engine/Chrono/Chrono.cpp
 )
 
 # foreach(i IN ITEMS raylib)

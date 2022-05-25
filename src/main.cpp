@@ -1,21 +1,13 @@
-#include "../_deps/raylib-src/src/raylib.h"
-#include "Example/Example.hpp"
-#include "../includes/ecs.hpp"
-#include "ecs/Components/Components.hpp"
-#include "ecs/System/System.hpp"
+#include "Engine/Engine.hpp"
 
 //TODO: save pointers to components in Entities
 //TODO: create a ECSManager to store everything
 
 int main()
 {
-    // Example testexample;
-    // Entities entities =  testexample.CreatingRemovingEntities();
-    // Entity entity = entities.getEntities()[6];
-    // std::cout << "Entity: " << entity << std::endl;
-    // Component component(entity);
-    // std::cout << component.entity() << std::endl;
-    // System System<component>();
+    Engine engine;
+    engine.game_loop();
+    return (0);
 }
 
 // int main(void)

@@ -8,17 +8,22 @@
 #ifndef ENGINE_HPP_
     #define ENGINE_HPP_
     #include <iostream>
+    #include <chrono>
     #include "../ecs/ECSManager/ECSManager.hpp"
+    #include "Chrono/Chrono.hpp"
 
 class Engine {
     public:
         Engine();
         ~Engine();
-        void loop();
+        void game_loop();
+        void getManager(ECSManager *manager);
 
     protected:
     private:
-        std::unique_ptr<ECSManager> ecsManager;
+        bool _loop = true;
+        Chrono _chrono;
+        std::unique_ptr<ECSManager> _ecsManager;
 };
 
 #endif /* !ENGINE_HPP_ */
