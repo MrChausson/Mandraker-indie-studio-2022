@@ -7,6 +7,11 @@
 
 #include "Drawable.hpp"
 
+Drawable::Drawable()
+{
+    this->_plan = 0;
+}
+
 Drawable::Drawable(int plan)
 {
     _plan = plan;

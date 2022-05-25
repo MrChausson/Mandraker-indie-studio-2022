@@ -9,16 +9,23 @@
     #define DRAWABLE_HPP_
     #include "../../IComponent/IComponent.hpp"
 
+enum DRAWABLE_TYPE {
+    DRAWABLE_TYPE_SPRITE,
+    DRAWABLE_TYPE_TEXT
+};
+
 class Drawable : public IComponent {
     public:
+        Drawable();
         Drawable(int plan);
         ~Drawable();
         COMPONENT_TYPES getType() override { return DRAWABLE; };
+        DRAWABLE_TYPE getComponentType () { return _type; };
         void setPlan(int plan);
         int getPlan();
 
-    protected:
     private:
+        DRAWABLE_TYPE _type;
         int _plan;
 };
 

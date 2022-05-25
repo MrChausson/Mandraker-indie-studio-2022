@@ -23,6 +23,7 @@ class Chrono {
         void init();
         void startLoop();
         void sleepEndLoop();
+        void setFps(int fps);
 
     protected:
     private:
@@ -31,7 +32,6 @@ class Chrono {
         std::chrono::duration<double> _elapsedSeconds;
         std::chrono::duration<double> _toSleep;
         std::chrono::duration<double> _saveStart;
-        int fps;
 };
 
 #endif /* !CHRONO_HPP_ */

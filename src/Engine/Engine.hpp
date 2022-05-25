@@ -10,6 +10,7 @@
     #include <iostream>
     #include <chrono>
     #include "../ecs/ECSManager/ECSManager.hpp"
+    #include "raylib.h"
     #include "Chrono/Chrono.hpp"
 
 class Engine {
@@ -18,12 +19,14 @@ class Engine {
         ~Engine();
         void game_loop();
         void getManager(ECSManager *manager);
+        void setFps(int fps);
 
     protected:
     private:
         bool _loop = true;
         Chrono _chrono;
         std::unique_ptr<ECSManager> _ecsManager;
+        int _fps;
 };
 
 #endif /* !ENGINE_HPP_ */

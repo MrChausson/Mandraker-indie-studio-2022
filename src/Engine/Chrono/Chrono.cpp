@@ -42,3 +42,8 @@ void Chrono::sleepEndLoop()
         usleep(sleep_here.count() * 1000000);
     #endif
 }
+
+void Chrono::setFps(int fps)
+{
+    this->_toSleep = std::chrono::duration<double>(1.0 / fps);
+}

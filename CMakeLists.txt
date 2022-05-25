@@ -28,6 +28,7 @@ src/Engine/Engine.cpp
 # Chrono #
 src/Engine/Chrono/Chrono.cpp
 )
+include_directories(./_deps/raylib-src/src)
 
 # foreach(i IN ITEMS raylib)
 #if(NOT TARGET raylib)
