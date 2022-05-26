@@ -7,12 +7,11 @@
 
 #ifndef DRAWABLE_HPP_
     #define DRAWABLE_HPP_
-    #include "raylib.h"
     #include "../../IComponent/IComponent.hpp"
 
 enum DRAWABLE_TYPE {
-    DRAWABLE_TYPE_TEXT,
-    DRAWABLE_TYPE_SPRITE
+    DRAWABLE_TYPE_SPRITE,
+    DRAWABLE_TYPE_TEXT
 };
 
 class Drawable : public IComponent {
@@ -28,6 +27,7 @@ class Drawable : public IComponent {
         int getX();
         void setY(int y);
         int getY();
+    protected:
         DRAWABLE_TYPE _type;
         int _plan;
         int _x;

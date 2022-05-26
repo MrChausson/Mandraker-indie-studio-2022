@@ -10,7 +10,10 @@
     #include <iostream>
     #include <chrono>
     #include "../ecs/ECSManager/ECSManager.hpp"
+    #include "../Scene/Menu/Menu.hpp"
+    #include "../Scene/Scene.hpp"
     #include "raylib.h"
+    #include "../ecs/Components/Drawable/DrawableText.hpp"
     #include "Chrono/Chrono.hpp"
 
 class Engine {
@@ -26,6 +29,7 @@ class Engine {
         bool _loop = true;
         Chrono _chrono;
         std::unique_ptr<ECSManager> _ecsManager;
+        //Scene *_current_scene;
         int _fps;
 };
 

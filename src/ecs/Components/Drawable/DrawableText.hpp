@@ -8,6 +8,7 @@
 #ifndef DRAWABLETEXT_HPP_
 #define DRAWABLETEXT_HPP_
     #include "Drawable.hpp"
+    #include "raylib.h"
     #include <iostream>
 
 class DrawableText : public Drawable {
@@ -24,7 +25,6 @@ class DrawableText : public Drawable {
     protected:
     private:
         std::string _text;
-        DRAWABLE_TYPE _type = DRAWABLE_TYPE_TEXT;
         int _fontsize;
         Color _color;
 };

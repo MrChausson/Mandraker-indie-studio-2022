@@ -5,6 +5,7 @@
 ** ECSManager
 */
 
+#include "raylib.h"
 #include "ECSManager.hpp"
 #include <iostream>
 
@@ -75,6 +76,8 @@ void ECSManager::addSystem(std::unique_ptr<ISystem> system)
 void ECSManager::applySystems()
 {
     int i = 0;
+    BeginDrawing();
+    ClearBackground(BLACK);
     for (auto &system : this->_systems)
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
@@ -83,4 +86,5 @@ void ECSManager::applySystems()
                 if (system->getType() == DRAW && component->getType() == DRAWABLE)
                     system->apply(component);
             }
+    EndDrawing();
 }

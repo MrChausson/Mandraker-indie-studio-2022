@@ -6,8 +6,6 @@
 */
 
 #include "Engine.hpp"
-#include "../ecs/Components/Drawable/DrawableText.hpp"
-#include "../ecs/Systems/Draw/Draw.hpp"
 
 Engine::Engine(int fps)
 {
@@ -22,26 +20,37 @@ Engine::~Engine()
     std::cout << "Engine destroyed" << std::endl;
 }
 
+
+//Engine std::vector<Scene> scenes;
+
+// Parent class "Scene" absctract or interface
+// .getECS() = gives ecs so Engine can applysystem
+// enum scene_type = Scene type
+// Child scene:
+// Menu, Game
+// .init() = add components, add systems and store an ECSManager
+// .
+
+
 void Engine::game_loop()
 {
     this->_chrono.init();
     int i = 0;
     InitWindow(800, 450, "Mandraker");
     this->setFps(this->_fps);
+    Scene *menu = new Menu();
 
-    int text_id = this->_ecsManager->createEntity();
-    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>(0, 190, 200 ,"Hello World", 30, Color{255, 255, 255, 255}));
-    int second_text = this->_ecsManager->createEntity();
-    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>(0, 190, 400 ,"Hello World Second", 10, Color{255, 255, 255, 255}));
-    
-    this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
+    menu->init();
+    this->_ecsManager = std::make_unique<ECSManager>(menu->getECS());
 
+    // this->_ecsManager->addSystem(std::make_unique<Event>(Event()));
+
+    //event 
     while (this->_loop) {
         this->_chrono.startLoop();
-        BeginDrawing();
-        ClearBackground(BLACK);
         this->_ecsManager.get()->applySystems();
-        EndDrawing();
+        if (WindowShouldClose() && !IsKeyDown(KEY_ESCAPE))
+            this->_loop = false;
         this->_chrono.sleepEndLoop();
     }
     // Start the clock

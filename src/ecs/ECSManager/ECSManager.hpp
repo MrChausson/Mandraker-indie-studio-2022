@@ -7,10 +7,13 @@
 
 #ifndef ECSMANAGER_HPP_
     #define ECSMANAGER_HPP_
-    #include "../Entity/Entity.hpp"
-    #include "../ISystem/ISystem.hpp"
     #include <vector>
     #include <memory>
+    #include "../Components/Drawable/Drawable.hpp"
+    #include "../Systems/Draw/Draw.hpp"
+    #include "../Entity/Entity.hpp"
+    #include "../ISystem/ISystem.hpp"
+    #include "raylib.h"
 
 class ECSManager {
     public:

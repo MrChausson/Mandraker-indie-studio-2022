@@ -12,6 +12,8 @@ add_executable(${PROJECT_NAME}
 # main #
 src/main.cpp
 # src/Example/Example.cpp
+# SCENE #
+src/Scene/Menu/Menu.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
