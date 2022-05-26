@@ -14,11 +14,13 @@ src/main.cpp
 # src/Example/Example.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
+src/ecs/Systems/Draw/Draw.cpp
 # Components #
 src/ecs/Components/Breakable/Breakable.cpp
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Placable/Placable.cpp
 src/ecs/Components/Drawable/Drawable.cpp
+src/ecs/Components/Drawable/DrawableText.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #

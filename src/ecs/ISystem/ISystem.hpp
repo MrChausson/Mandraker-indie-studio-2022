@@ -8,11 +8,12 @@
 #ifndef ISYSTEM_HPP_
 #define ISYSTEM_HPP_
 
-#include <memory>
+#include <vector> 
 #include "../IComponent/IComponent.hpp"
 
 enum SYSTEM_TYPES {
-    GRAVITY
+    GRAVITY,
+    DRAW
 };
 
 class ISystem {

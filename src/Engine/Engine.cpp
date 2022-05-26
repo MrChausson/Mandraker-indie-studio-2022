@@ -6,6 +6,7 @@
 */
 
 #include "Engine.hpp"
+#include "../ecs/Components/Drawable/DrawableText.hpp"
 
 Engine::Engine(int fps)
 {
@@ -28,6 +29,8 @@ void Engine::game_loop()
     this->setFps(this->_fps);
     Image icon = LoadImage("./assets/icon.png");
     SetWindowIcon(icon);
+    int text_id = this->_ecsManager->createEntity();
+    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>("Hello World", 50, Color{255, 255, 255, 255}));
     while (this->_loop) {
         this->_chrono.startLoop();
         BeginDrawing();
