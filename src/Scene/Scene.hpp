@@ -16,8 +16,8 @@ enum SCENE_TYPE {
 };
 class Scene {
     public:
-        Scene();
-        ~Scene();
+        Scene() = default;
+        ~Scene() = default;
         virtual void init() = 0;
         ECSManager *getECS() { return this->_ecsManager.get();};
 

@@ -28,7 +28,7 @@ class Engine {
     private:
         bool _loop = true;
         Chrono _chrono;
-        std::unique_ptr<ECSManager> _ecsManager;
+        ECSManager *_currentEcsManager;
         //Scene *_current_scene;
         int _fps;
 };

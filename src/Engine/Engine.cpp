@@ -9,7 +9,6 @@
 
 Engine::Engine(int fps)
 {
-    this->_ecsManager = std::make_unique<ECSManager>();
     std::cout << "Engine created" << std::endl;
     this->_chrono = Chrono(fps);
     this->_fps = fps;
@@ -41,14 +40,14 @@ void Engine::game_loop()
     Scene *menu = new Menu();
 
     menu->init();
-    this->_ecsManager = std::make_unique<ECSManager>(menu->getECS());
+    this->_currentEcsManager = menu->getECS();
 
     // this->_ecsManager->addSystem(std::make_unique<Event>(Event()));
 
     //event 
     while (this->_loop) {
         this->_chrono.startLoop();
-        this->_ecsManager.get()->applySystems();
+        this->_currentEcsManager->applySystems();
         if (WindowShouldClose() && !IsKeyDown(KEY_ESCAPE))
             this->_loop = false;
         this->_chrono.sleepEndLoop();
