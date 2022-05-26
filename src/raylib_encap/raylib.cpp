@@ -113,3 +113,48 @@ int GetKeyPres(void) noexcept
 {
     return GetKeyPressed();
 }
+
+Music Raylib::LoadMStream(std::string& fileName) const noexcept
+{
+    return LoadMusicStream(fileName.c_str());
+}
+
+void Raylib::UnloadMtream(Music music) noexcept
+{
+    return UnloadMusicStream(music);
+}
+
+void RAylib::PlayMStream(Music music) noexcept
+{
+    return PlayMusicStream(music);
+}
+
+bool IsMStreamPlaying(Music music) noexcept
+{
+    return IsMusicStreamPlaying(music);
+}
+
+void StopMStream(Music music) noexcept
+{
+    return StopMusicStream(music);
+}
+
+void PauseMStream(Music music) noexcept
+{
+    return PauseMusicStream(music);
+}
+
+void ResumeMStream(Music music) noexcept
+{
+    return ResumeMusicStream(music);
+}
+
+void SeekMStream(Music music, float position) noexcept
+{
+    return SeekMusicStream(music, position);
+}
+
+void SetMVolume(Music music, float volume) noexcept
+{
+    return SetMusicVolume(music, volume);
+}

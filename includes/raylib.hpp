@@ -9,7 +9,7 @@
 
 #include <string.h>
 #include <stddef.h>
-#include "../raylib/src/raylib.h"
+#include "../_deps/raylib-src/src/raylib.h"
 
 class raylib
 {
@@ -37,6 +37,15 @@ public:
     Vector2 GetMousePos() noexcept;
     void SetMousePos(int x, int y) const noexcept;
     int GetKeyPres(void) noexcept;
+    Music LoadMStream(std::string& fileName) const noexcept;
+    void UnloadMStream(Music music) noexcept;
+    void PlayMStream(Music music) noexcept;
+    bool IsMStreamPlaying(Music music) noexcept;
+    void StopMStream(Music music) noexcept;
+    void PauseMStream(Music music) noexcept;
+    void ResumeMStream(Music music) noexcept;
+    void SeekMStream(Music music, float position) noexcept;
+    void SetMVolume(Music music, float volume) noexcept;
 };
 
 
