@@ -74,9 +74,13 @@ void ECSManager::addSystem(std::unique_ptr<ISystem> system)
 
 void ECSManager::applySystems()
 {
+    int i = 0;
     for (auto &system : this->_systems)
         for (auto &entity : this->_entities)
-            for (auto &component : entity.get()->getComponents())
+            for (auto &component : entity.get()->getComponents()) {
                 if (system->getType() == GRAVITY && component->getType() == PLACABLE)
                     system->apply(component);
+                if (system->getType() == DRAW && component->getType() == DRAWABLE)
+                    system->apply(component);
+            }
 }

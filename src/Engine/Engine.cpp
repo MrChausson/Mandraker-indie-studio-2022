@@ -7,6 +7,7 @@
 
 #include "Engine.hpp"
 #include "../ecs/Components/Drawable/DrawableText.hpp"
+#include "../ecs/Systems/Draw/Draw.hpp"
 
 Engine::Engine(int fps)
 {
@@ -27,15 +28,19 @@ void Engine::game_loop()
     int i = 0;
     InitWindow(800, 450, "Mandraker");
     this->setFps(this->_fps);
-    Image icon = LoadImage("./assets/icon.png");
-    SetWindowIcon(icon);
+
     int text_id = this->_ecsManager->createEntity();
-    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>("Hello World", 50, Color{255, 255, 255, 255}));
+    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>(0, 190, 200 ,"Hello World", 30, Color{255, 255, 255, 255}));
+    int second_text = this->_ecsManager->createEntity();
+    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>(0, 190, 400 ,"Hello World Second", 10, Color{255, 255, 255, 255}));
+    
+    this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
+
     while (this->_loop) {
         this->_chrono.startLoop();
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawText("Congrats! You have finished the game!", 190, 200, 20 + i++, LIGHTGRAY);
+        this->_ecsManager.get()->applySystems();
         EndDrawing();
         this->_chrono.sleepEndLoop();
     }

@@ -12,7 +12,7 @@
 
 class DrawableText : public Drawable {
     public:
-        DrawableText(std::string text = "Default text", int fontsize = 30, Color color = WHITE);
+        DrawableText(int plan = 0, int x = 0 , int y = 0, std::string text = "Default text", int fontsize = 30, Color color = WHITE);
         ~DrawableText();
         void setText(std::string text);
         std::string getText();

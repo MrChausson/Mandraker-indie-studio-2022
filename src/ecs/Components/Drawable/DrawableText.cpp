@@ -7,11 +7,15 @@
 
 #include "DrawableText.hpp"
 
-DrawableText::DrawableText(std::string text, int fontsize, Color color)
+DrawableText::DrawableText(int plan, int x, int y, std::string text, int fontsize, Color color)
 {
     this->_text = text;
     this->_fontsize = fontsize;
     this->_color = color;
+    this->_plan = plan;
+    this->_x = x;
+    this->_y = y;
+    this->_type = DRAWABLE_TYPE_TEXT;
 }
 
 DrawableText::~DrawableText()

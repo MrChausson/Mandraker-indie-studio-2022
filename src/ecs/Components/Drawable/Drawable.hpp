@@ -11,8 +11,8 @@
     #include "../../IComponent/IComponent.hpp"
 
 enum DRAWABLE_TYPE {
-    DRAWABLE_TYPE_SPRITE,
-    DRAWABLE_TYPE_TEXT
+    DRAWABLE_TYPE_TEXT,
+    DRAWABLE_TYPE_SPRITE
 };
 
 class Drawable : public IComponent {
@@ -28,8 +28,6 @@ class Drawable : public IComponent {
         int getX();
         void setY(int y);
         int getY();
-
-    private:
         DRAWABLE_TYPE _type;
         int _plan;
         int _x;
