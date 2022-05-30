@@ -7,7 +7,7 @@
 
 #include "DrawableSprite.hpp"
 
-DrawableSprite::DrawableSprite(int plan, int x, int y, Texture2D *texture)
+DrawableSprite::DrawableSprite(int plan , int x, int y, Texture2D *texture)
 {
     this->_x = x;
     this->_y = y;

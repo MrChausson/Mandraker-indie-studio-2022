@@ -35,7 +35,8 @@ void Engine::game_loop()
 {
     this->_chrono.init();
     int i = 0;
-    InitWindow(800, 450, "Mandraker");
+    InitWindow(1920, 1080, "Mandraker");
+    ToggleFullscreen();
     this->setFps(this->_fps);
     Scene *menu = new Menu();
 
