@@ -15,9 +15,8 @@ class Gravity : public ISystem {
     public:
         Gravity();
         ~Gravity();
-        void apply(IComponent *component) override;
+        void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
-        std::vector<SYSTEM_TYPES> getAffectedComponents() override;
 
     protected:
     private:

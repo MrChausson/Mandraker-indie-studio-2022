@@ -21,7 +21,7 @@ int main(int ac, char **av)
 {
     int fps = getFps(ac, av);
     Engine engine(fps);
-    
+
     engine.game_loop();
     return (0); 
 }

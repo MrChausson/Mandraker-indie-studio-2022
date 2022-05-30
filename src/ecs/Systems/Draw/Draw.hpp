@@ -14,7 +14,6 @@ class Draw : public ISystem {
     public:
         Draw();
         ~Draw();
-        void apply(IComponent *component) override;
+        void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override { return DRAW; };
-        std::vector<SYSTEM_TYPES> getAffectedComponents() override { return {DRAW}; };
 };

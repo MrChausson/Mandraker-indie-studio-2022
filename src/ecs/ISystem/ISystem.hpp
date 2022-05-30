@@ -13,16 +13,17 @@
 
 enum SYSTEM_TYPES {
     GRAVITY,
-    DRAW
+    DRAW,
+    BOUND,
+    MOUSE_HOVER
 };
 
 class ISystem {
     public:
         ISystem() = default;
         ~ISystem() = default;
-        virtual void apply(IComponent *component) = 0;
+        virtual void apply(std::vector<IComponent *> component) = 0;
         virtual SYSTEM_TYPES getType() = 0;
-        virtual std::vector<SYSTEM_TYPES> getAffectedComponents() = 0;
 };
 
 #endif /* !ISYSTEM_HPP_ */

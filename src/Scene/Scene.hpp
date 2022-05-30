@@ -18,7 +18,6 @@ class Scene {
     public:
         Scene() = default;
         ~Scene() = default;
-        virtual void init() = 0;
         ECSManager *getECS() { return this->_ecsManager.get();};
 
     protected:

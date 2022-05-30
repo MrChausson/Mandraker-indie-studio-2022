@@ -13,10 +13,12 @@ class Menu : public Scene {
     public:
         Menu();
         ~Menu();
-        void init() override;
 
     protected:
     private:
+        Texture2D _background_texture;
+        Texture2D _btn_active_texture;
+        Texture2D _btn_inactive_texture;
 };
 
 #endif /* !MENU_HPP_ */

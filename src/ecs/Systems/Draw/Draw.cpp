@@ -15,19 +15,19 @@ Draw::~Draw()
 {
 }
 
-void Draw::apply(IComponent *component)
+void Draw::apply(std::vector<IComponent *> component)
 {
-    Drawable *drawable = static_cast<Drawable *>(component);
+    Drawable *drawable = static_cast<Drawable *>(component[0]);
     DrawableText *drawableText;
     DrawableSprite *drawableSprite;
 
     if (drawable->getComponentType() == DRAWABLE_TYPE_TEXT) {
-        drawableText = static_cast<DrawableText *>(component);
+        drawableText = static_cast<DrawableText *>(component[0]);
         drawableText->getText();
         DrawText(drawableText->getText().c_str(), drawable->getX(), drawable->getY(), drawableText->getFontsize(), drawableText->getColor());
     }
     if (drawable->getComponentType() == DRAWABLE_TYPE_SPRITE) {
-        drawableSprite = static_cast<DrawableSprite *>(component);
-        DrawTexture(*drawableSprite->getTexture(), drawableSprite->getX(), drawableSprite->getY(), WHITE);
+        drawableSprite = static_cast<DrawableSprite *>(component[0]);
+        DrawTexture(drawableSprite->getTexture(), drawableSprite->getX(), drawableSprite->getY(), WHITE);
     }
 }

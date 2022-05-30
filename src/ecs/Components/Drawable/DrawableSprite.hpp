@@ -14,15 +14,15 @@
 
 class DrawableSprite : public Drawable {
     public:
-        DrawableSprite(int plan = 0, int x = 0, int y = 0, Texture2D *texture = nullptr);
+        DrawableSprite(Texture2D texture, int plan = 0, int x = 0, int y = 0);
         ~DrawableSprite();
-        void setTexture(Texture2D *texture);
-        Texture2D *getTexture();
+        void setTexture(Texture2D texture);
+        Texture2D getTexture();
         Rectangle getBounds();
 
     protected:
     private:
-        Texture2D *_texture;
+        Texture2D _texture;
         Rectangle _bounds;
 };
 

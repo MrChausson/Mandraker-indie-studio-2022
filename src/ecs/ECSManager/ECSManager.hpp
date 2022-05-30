@@ -9,6 +9,8 @@
     #define ECSMANAGER_HPP_
     #include <vector>
     #include <memory>
+    #include "../Components/Hoverable/Hoverable.hpp"
+    #include "../Systems/MouseHover/MouseHover.hpp"
     #include "../Components/Drawable/Drawable.hpp"
     #include "../Systems/Draw/Draw.hpp"
     #include "../Entity/Entity.hpp"
@@ -29,6 +31,8 @@ class ECSManager {
         // Systems Functions //
         void addSystem(std::unique_ptr<ISystem> system);
         void applySystems();
+        bool entityHasComponent(Entity entity, COMPONENT_TYPES type);
+        IComponent *getComponent(std::unique_ptr<Entity> &entity, COMPONENT_TYPES type);
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};

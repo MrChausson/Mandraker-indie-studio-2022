@@ -17,13 +17,16 @@ src/Scene/Menu/Menu.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
+src/ecs/Systems/MouseHover/MouseHover.cpp
 # Components #
-src/ecs/Components/Breakable/Breakable.cpp
 src/ecs/IComponent/IComponent.cpp
+src/ecs/Components/Breakable/Breakable.cpp
 src/ecs/Components/Placable/Placable.cpp
 src/ecs/Components/Drawable/Drawable.cpp
+#src/ecs/Components/Boundable/Boundable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp
+src/ecs/Components/Hoverable/Hoverable.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #

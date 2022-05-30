@@ -73,18 +73,46 @@ void ECSManager::addSystem(std::unique_ptr<ISystem> system)
 }
 
 
+bool ECSManager::entityHasComponent(Entity entity, COMPONENT_TYPES type)
+{
+    for (auto &component : entity.getComponents())
+        if (component->getType() == type)
+            return true;
+    return false;
+}
+
+
+IComponent *ECSManager::getComponent(std::unique_ptr<Entity> &entity, COMPONENT_TYPES type)
+{
+    for (auto &component : entity.get()->getComponents())
+        if (component->getType() == type)
+            return (component);
+    return nullptr;
+}
+
 void ECSManager::applySystems()
 {
     int i = 0;
     BeginDrawing();
     ClearBackground(BLACK);
+    std::vector<IComponent *> components; // Let's create a vector that will store all the needed components by the system
     for (auto &system : this->_systems)
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
-                if (system->getType() == GRAVITY && component->getType() == PLACABLE)
-                    system->apply(component);
-                if (system->getType() == DRAW && component->getType() == DRAWABLE)
-                    system->apply(component);
+                components.clear();
+                if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
+                else if (system->getType() == DRAW && component->getType() == DRAWABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
+                else if (system->getType() == MOUSE_HOVER && component->getType() == HOVERABLE) {
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                }
             }
     EndDrawing();
 }

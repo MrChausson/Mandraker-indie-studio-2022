@@ -39,8 +39,6 @@ void Engine::game_loop()
     ToggleFullscreen();
     this->setFps(this->_fps);
     Scene *menu = new Menu();
-
-    menu->init();
     this->_currentEcsManager = menu->getECS();
 
     // this->_ecsManager->addSystem(std::make_unique<Event>(Event()));
