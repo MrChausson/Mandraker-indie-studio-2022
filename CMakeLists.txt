@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # set the project name
-project(FastBombing)
+project(Mandraker)
 
 include(cmake/Findraylib.cmake)
 # add the executable
