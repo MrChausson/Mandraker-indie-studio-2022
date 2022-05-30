@@ -1,7 +1,8 @@
 *.obj
-cross_platform/bomberman
-cross_platform/cmake_install.cmake
-cross_platform/CMakeCache.txt
-cross_platform/Makefile
-cross_platform/CMakeFiles
+Makefile
+Mandraker
+*cmake
 .vscode
+_deps
+CMakeFiles
+CMakeCache.txt
