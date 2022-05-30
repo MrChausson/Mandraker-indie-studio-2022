@@ -23,6 +23,7 @@ src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Placable/Placable.cpp
 src/ecs/Components/Drawable/Drawable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
+src/ecs/Components/Drawable/DrawableSprite.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #

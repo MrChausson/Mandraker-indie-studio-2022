@@ -8,6 +8,7 @@
 #include "raylib.h"
 #include "../../ISystem/ISystem.hpp"
 #include "../../Components/Drawable/DrawableText.hpp"
+#include "../../Components/Drawable/DrawableSprite.hpp"
 
 class Draw : public ISystem {
     public:
