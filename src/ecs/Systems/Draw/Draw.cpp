@@ -20,11 +20,12 @@ void Draw::apply(std::vector<IComponent *> component)
     Drawable *drawable = static_cast<Drawable *>(component[0]);
     DrawableText *drawableText;
     DrawableSprite *drawableSprite;
+    Vector2 vec;
 
     if (drawable->getComponentType() == DRAWABLE_TYPE_TEXT) {
         drawableText = static_cast<DrawableText *>(component[0]);
-        drawableText->getText();
-        DrawText(drawableText->getText().c_str(), drawable->getX(), drawable->getY(), drawableText->getFontsize(), drawableText->getColor());
+        vec = {static_cast<float>(drawableText->getX()), static_cast<float>(drawableText->getY())};
+        DrawTextEx(drawableText->getFont(), drawableText->getText().c_str(), vec, drawableText->getFontsize(), 2, drawableText->getColor());
     }
     if (drawable->getComponentType() == DRAWABLE_TYPE_SPRITE) {
         drawableSprite = static_cast<DrawableSprite *>(component[0]);

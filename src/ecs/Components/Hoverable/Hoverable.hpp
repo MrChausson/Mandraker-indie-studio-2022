@@ -13,9 +13,9 @@
 
 class Hoverable : public IComponent {
     public:
-        Hoverable(float x, float y, float width, float height, Texture2D texture);
+        Hoverable(float x, float y, Texture2D texture);
         ~Hoverable();
-        void setBound(float x, float y, float width, float height);
+        void setBound(float x, float y);
         bool isHovered(Vector2 mouse);
         COMPONENT_TYPES getType() override;
         Rectangle getBound();

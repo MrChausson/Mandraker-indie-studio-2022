@@ -7,11 +7,11 @@
 
 #include "Hoverable.hpp"
 
-Hoverable::Hoverable(float x, float y, float width, float height, Texture2D texture)
+Hoverable::Hoverable(float x, float y, Texture2D texture)
 {
     this->_type = HOVERABLE;
     this->_isHovered = false;
-    this->_bounds = {x, y, width, height};
+    this->_bounds = {x, y, static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureHover = texture;
 }
 
@@ -19,9 +19,9 @@ Hoverable::~Hoverable()
 {
 }
 
-void Hoverable::setBound(float x, float y, float width, float height)
+void Hoverable::setBound(float x, float y)
 {
-    this->_bounds = {x, y, width, height};
+    this->_bounds = {x, y,this->_bounds.width, this->_bounds.height};
 }
 
 bool Hoverable::isHovered(Vector2 mouse)

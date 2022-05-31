@@ -7,15 +7,19 @@
 
 #include "DrawableText.hpp"
 
-DrawableText::DrawableText(int plan, int x, int y, std::string text, int fontsize, Color color)
+DrawableText::DrawableText(int plan, int x, int y, std::string text, Color color, Font font, int fontsize)
 {
     this->_text = text;
-    this->_fontsize = fontsize;
+    if (fontsize == 0)
+        this->_fontsize = font.baseSize;
+    else
+        this->_fontsize = fontsize;
     this->_color = color;
     this->_plan = plan;
     this->_x = x;
     this->_y = y;
     this->_type = DRAWABLE_TYPE_TEXT;
+    this->_font = font;
 }
 
 DrawableText::~DrawableText()
@@ -50,4 +54,14 @@ void DrawableText::setFontsize(int fontsize)
 int DrawableText::getFontsize()
 {
     return this->_fontsize;
+}
+
+void DrawableText::setFont(Font font)
+{
+    this->_font = font;
+}
+
+Font DrawableText::getFont()
+{
+    return this->_font;
 }
