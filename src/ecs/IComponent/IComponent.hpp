@@ -12,7 +12,8 @@ enum COMPONENT_TYPES {
     PLACABLE,
     DRAWABLE,
     BOUNDABLE,
-    HOVERABLE
+    HOVERABLE,
+    CLICKABLE
 };
 
 class IComponent {
