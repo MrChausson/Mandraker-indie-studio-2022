@@ -10,7 +10,9 @@
     #include <vector>
     #include <memory>
     #include "../Components/Hoverable/Hoverable.hpp"
+    #include "../Components/Clickable/Clickable.hpp"
     #include "../Systems/MouseHover/MouseHover.hpp"
+    #include "../Systems/MouseClick/MouseClick.hpp"
     #include "../Components/Drawable/Drawable.hpp"
     #include "../Systems/Draw/Draw.hpp"
     #include "../Entity/Entity.hpp"

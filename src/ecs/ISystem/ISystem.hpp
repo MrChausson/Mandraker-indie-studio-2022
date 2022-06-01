@@ -15,7 +15,8 @@ enum SYSTEM_TYPES {
     GRAVITY,
     DRAW,
     BOUND,
-    MOUSE_HOVER
+    MOUSE_HOVER,
+    MOUSE_CLICK
 };
 
 class ISystem {

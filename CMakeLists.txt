@@ -18,11 +18,13 @@ src/Scene/Menu/Menu.cpp
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
 src/ecs/Systems/MouseHover/MouseHover.cpp
+src/ecs/Systems/MouseClick/MouseClick.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp
 src/ecs/Components/Placable/Placable.cpp
 src/ecs/Components/Drawable/Drawable.cpp
+src/ecs/Components/Clickable/Clickable.cpp
 #src/ecs/Components/Boundable/Boundable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp

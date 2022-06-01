@@ -113,6 +113,11 @@ void ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                 }
+                else if (system->getType() == MOUSE_CLICK && component->getType() == CLICKABLE) {
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                }
             }
     EndDrawing();
 }

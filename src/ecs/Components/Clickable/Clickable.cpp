@@ -24,17 +24,20 @@ void Clickable::setBound(float x, float y)
     this->_bounds = {x, y,this->_bounds.width, this->_bounds.height};
 }
 
-bool Clickable::isClicked(Vector2 mouse)
+bool Clickable::isClicked(Vector2 mouse, bool pressed)
 {
     bool res = CheckCollisionPointRec(mouse, this->_bounds);
-    return (res);
+    if (res && pressed)
+        return (true);
+    else
+        return (false);
 }
 
-bool Clickable::changedState(Vector2 mouse)
+bool Clickable::changedState(Vector2 mouse, bool pressed)
 {
     bool res = this->_isClicked;
 
-    if (this->isClicked(mouse))
+    if (this->isClicked(mouse, pressed))
         this->_isClicked = true;
     else
         this->_isClicked = false;

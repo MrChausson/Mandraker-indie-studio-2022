@@ -19,6 +19,7 @@ class Menu : public Scene {
         Texture2D _background_texture;
         Texture2D _btn_active_texture;
         Texture2D _btn_inactive_texture;
+        Texture2D _btn_clicked_texture;
 };
 
 #endif /* !MENU_HPP_ */
