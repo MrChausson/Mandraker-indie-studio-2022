@@ -11,6 +11,9 @@
 #include <vector> 
 #include "raylib.h"
 #include "../IComponent/IComponent.hpp"
+#include "../Components/Hoverable/Hoverable.hpp"
+#include "../Components/Drawable/DrawableSprite.hpp"
+#include "../Components/Clickable/Clickable.hpp"
 
 enum SYSTEM_TYPES {
     GRAVITY,

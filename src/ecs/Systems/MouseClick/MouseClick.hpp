@@ -9,8 +9,6 @@
 #define MOUSECLICK_HPP_
 
 #include "raylib.h"
-#include "../../Components/Clickable/Clickable.hpp"
-#include "../../Components/Drawable/DrawableSprite.hpp"
 #include "../../ISystem/ISystem.hpp"
 
 class MouseClick : public ISystem {

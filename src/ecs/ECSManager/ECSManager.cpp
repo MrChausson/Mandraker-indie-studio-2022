@@ -111,6 +111,7 @@ void ECSManager::applySystems()
                 else if (system->getType() == MOUSE_HOVER && component->getType() == HOVERABLE) {
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     components.push_back(component);
+                    components.push_back(entity->getComponentsByType(CLICKABLE));
                     system->apply(components);
                 }
                 else if (system->getType() == MOUSE_CLICK && component->getType() == CLICKABLE) {

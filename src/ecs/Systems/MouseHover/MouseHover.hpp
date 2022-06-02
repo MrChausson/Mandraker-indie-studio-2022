@@ -9,8 +9,6 @@
 #define MOUSEHOVER_HPP_
 
 #include "raylib.h"
-#include "../../Components/Hoverable/Hoverable.hpp"
-#include "../../Components/Drawable/DrawableSprite.hpp"
 #include "../../ISystem/ISystem.hpp"
 
 class MouseHover : public ISystem {
