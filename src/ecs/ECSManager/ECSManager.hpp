@@ -17,6 +17,9 @@
     #include "../Systems/Draw/Draw.hpp"
     #include "../Entity/Entity.hpp"
     #include "../ISystem/ISystem.hpp"
+    #include "../Components/Placable/Placable.hpp"
+    #include "../Systems/Move/Move.hpp"
+    #include "../Components/Movable/Movable.hpp"
     #include "raylib.h"
 
 class ECSManager {

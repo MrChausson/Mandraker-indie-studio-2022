@@ -19,6 +19,7 @@ src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
 src/ecs/Systems/MouseHover/MouseHover.cpp
 src/ecs/Systems/MouseClick/MouseClick.cpp
+src/ecs/Systems/Move/Move.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp
@@ -29,6 +30,7 @@ src/ecs/Components/Clickable/Clickable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp
 src/ecs/Components/Hoverable/Hoverable.cpp
+src/ecs/Components/Movable/Movable.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #

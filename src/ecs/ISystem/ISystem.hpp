@@ -9,6 +9,7 @@
 #define ISYSTEM_HPP_
 
 #include <vector> 
+#include "raylib.h"
 #include "../IComponent/IComponent.hpp"
 
 enum SYSTEM_TYPES {
@@ -16,7 +17,8 @@ enum SYSTEM_TYPES {
     DRAW,
     BOUND,
     MOUSE_HOVER,
-    MOUSE_CLICK
+    MOUSE_CLICK,
+    MOVE
 };
 
 class ISystem {

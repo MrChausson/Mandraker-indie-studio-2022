@@ -118,6 +118,11 @@ void ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                 }
+                else if (system->getType() == MOVE && component->getType() == MOVABLE) {
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                }
             }
     EndDrawing();
 }
