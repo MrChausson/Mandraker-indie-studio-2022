@@ -14,9 +14,10 @@ Menu::Menu()
     this->_ecsManager = std::make_unique<ECSManager>();
     //Create entities
     int bg_id = this->_ecsManager->createEntity();
-    int text_id = this->_ecsManager->createEntity();
-    int button_id = this->_ecsManager->createEntity();
-    int second_text = this->_ecsManager->createEntity();
+    int title_id = this->_ecsManager->createEntity();
+    int title_text = this->_ecsManager->createEntity();
+    int play_id = this->_ecsManager->createEntity();
+    int play_text = this->_ecsManager->createEntity();
     int player = this->_ecsManager->createEntity();
 
     this->_type = MENU;
@@ -24,18 +25,21 @@ Menu::Menu()
     this->_btn_active_texture = LoadTexture("assets/materials/buttons/btn_hover.png");
     this->_btn_inactive_texture = LoadTexture("assets/materials/buttons/btn_inactive.png");
     this->_btn_clicked_texture = LoadTexture("assets/materials/buttons/btn_clicked.png");
-    Font font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-    Vector2 playVector = {static_cast<float>(this->_btn_inactive_texture.width / 2 - font.baseSize),static_cast<float>(this->_btn_inactive_texture.height / 2 - font.baseSize / 2) };
+    this->_title_texture = LoadTexture("assets/materials/title_bar.png");
+    this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
+    this->_title_font = LoadFontEx("assets/fonts/wizarding.ttf", 200, 0, 0);
+    Vector2 playVector = {static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(300 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2)) };
 
     // add components
     // this->_ecsManager->addComponent(player, std::make_unique<Placable>(0, 0, 0));
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(1));
-    this->_ecsManager->addComponent(text_id, std::make_unique<DrawableText>(0, 190, 200 ,"Hello World", Color{255, 255, 255, 255}));
+    this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1, 800, 100));
+    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(0, 1000, 150 ,"Mandraker", Color{255, 255, 255, 255}, this->_btn_font));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0, 0, 0));
-    this->_ecsManager->addComponent(button_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1, 0, 0));
-    this->_ecsManager->addComponent(button_id, std::make_unique<Clickable>(0, 0, this->_btn_clicked_texture));
-    this->_ecsManager->addComponent(button_id, std::make_unique<Hoverable>(0, 0, this->_btn_active_texture));
-    this->_ecsManager->addComponent(second_text, std::make_unique<DrawableText>(0, playVector.x, playVector.y ,"play", Color{255, 255, 255, 255}, font));
+    this->_ecsManager->addComponent(play_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1, 100, 300));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(100, 300, this->_btn_clicked_texture));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(100, 300, this->_btn_active_texture));
+    this->_ecsManager->addComponent(play_text, std::make_unique<DrawableText>(0, playVector.x, playVector.y ,"play", Color{255, 255, 255, 255}, this->_btn_font));
 
     // add systems
     // this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
@@ -49,4 +53,6 @@ Menu::~Menu()
     UnloadTexture(this->_background_texture);
     UnloadTexture(this->_btn_active_texture);
     UnloadTexture(this->_btn_inactive_texture);
+    UnloadTexture(this->_btn_clicked_texture);
+    UnloadFont(this->_btn_font);
 }
