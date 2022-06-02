@@ -36,14 +36,12 @@ void Engine::game_loop()
     this->_chrono.init();
     int i = 0;
     InitWindow(1920, 1080, "Mandraker");
+    InitAudioDevice();
     ToggleFullscreen();
     this->setFps(this->_fps);
     Scene *menu = new Menu();
     this->_currentEcsManager = menu->getECS();
 
-    // this->_ecsManager->addSystem(std::make_unique<Event>(Event()));
-
-    //event 
     while (this->_loop) {
         this->_chrono.startLoop();
         this->_currentEcsManager->applySystems();
@@ -51,7 +49,8 @@ void Engine::game_loop()
             this->_loop = false;
         this->_chrono.sleepEndLoop();
     }
-    // Start the clock
+    CloseAudioDevice();
+    CloseWindow();
 }
 
 void Engine::setFps(int fps)

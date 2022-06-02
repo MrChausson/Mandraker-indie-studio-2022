@@ -23,6 +23,7 @@ class Menu : public Scene {
         Texture2D _title_texture;
         Font _btn_font;
         Font _title_font;
+        Music _music;
 };
 
 #endif /* !MENU_HPP_ */

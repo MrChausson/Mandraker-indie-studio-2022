@@ -19,7 +19,9 @@ Menu::Menu()
     int play_id = this->_ecsManager->createEntity();
     int play_text = this->_ecsManager->createEntity();
     int player = this->_ecsManager->createEntity();
+    int music_id = this->_ecsManager->createEntity();
 
+    this->_music = LoadMusicStream("assets/sounds/menu_bg.mp3");
     this->_type = MENU;
     this->_background_texture = LoadTexture("assets/materials/main_menu.png");
     this->_btn_active_texture = LoadTexture("assets/materials/buttons/btn_hover.png");
@@ -28,6 +30,9 @@ Menu::Menu()
     this->_title_texture = LoadTexture("assets/materials/title_bar.png");
     this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
     this->_title_font = LoadFontEx("assets/fonts/wizarding.ttf", 200, 0, 0);
+
+    // Adjust
+    PlayMusicStream(this->_music);
     Vector2 playVector = {static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(300 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2)) };
 
     // add components
@@ -40,12 +45,14 @@ Menu::Menu()
     this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(100, 300, this->_btn_clicked_texture));
     this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(100, 300, this->_btn_active_texture));
     this->_ecsManager->addComponent(play_text, std::make_unique<DrawableText>(0, playVector.x, playVector.y ,"play", Color{255, 255, 255, 255}, this->_btn_font));
+    this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
     // add systems
     // this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<MouseClick>(MouseClick()));
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));
+    this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
 }
 
 Menu::~Menu()
@@ -57,4 +64,5 @@ Menu::~Menu()
     UnloadTexture(this->_title_texture);
     UnloadFont(this->_btn_font);
     UnloadFont(this->_title_font);
+    UnloadMusicStream(this->_music);
 }

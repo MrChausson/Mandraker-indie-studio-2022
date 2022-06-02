@@ -123,6 +123,10 @@ void ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                 }
+                else if (system->getType() == MUSIC && component->getType() == MUSICABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
             }
     EndDrawing();
 }

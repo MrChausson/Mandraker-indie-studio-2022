@@ -21,7 +21,8 @@ enum SYSTEM_TYPES {
     BOUND,
     MOUSE_HOVER,
     MOUSE_CLICK,
-    MOVE
+    MOVE,
+    MUSIC
 };
 
 class ISystem {

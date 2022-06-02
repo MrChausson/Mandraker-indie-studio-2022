@@ -20,6 +20,8 @@
     #include "../Components/Placable/Placable.hpp"
     #include "../Systems/Move/Move.hpp"
     #include "../Components/Movable/Movable.hpp"
+    #include "../Components/Musicable/Musicable.hpp"
+    #include "../Systems/Music_sys/Music_sys.hpp"
     #include "raylib.h"
 
 class ECSManager {

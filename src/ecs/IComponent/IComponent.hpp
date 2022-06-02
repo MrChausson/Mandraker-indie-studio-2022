@@ -14,7 +14,8 @@ enum COMPONENT_TYPES {
     BOUNDABLE,
     HOVERABLE,
     CLICKABLE,
-    MOVABLE
+    MOVABLE,
+    MUSICABLE
 };
 
 class IComponent {
