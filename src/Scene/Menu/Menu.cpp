@@ -54,5 +54,7 @@ Menu::~Menu()
     UnloadTexture(this->_btn_active_texture);
     UnloadTexture(this->_btn_inactive_texture);
     UnloadTexture(this->_btn_clicked_texture);
+    UnloadTexture(this->_title_texture);
     UnloadFont(this->_btn_font);
+    UnloadFont(this->_title_font);
 }
