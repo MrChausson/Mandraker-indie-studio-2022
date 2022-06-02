@@ -5,6 +5,7 @@
 ** MouseClick
 */
 
+#include <iostream>
 #include "MouseClick.hpp"
 
 MouseClick::MouseClick()
@@ -25,9 +26,8 @@ void MouseClick::apply(std::vector<IComponent *> component)
 {
     Clickable *click = static_cast<Clickable *>(component[1]);
     Vector2 mouse = GetMousePosition();
-    bool pressed = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    bool pressed = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
 
-    
     //Drawable first, clickable second
     if (click->changedState(mouse, pressed))
         if (pressed) {
