@@ -19,25 +19,14 @@ Engine::~Engine()
     std::cout << "Engine destroyed" << std::endl;
 }
 
-
-//Engine std::vector<Scene> scenes;
-
-// Parent class "Scene" absctract or interface
-// .getECS() = gives ecs so Engine can applysystem
-// enum scene_type = Scene type
-// Child scene:
-// Menu, Game
-// .init() = add components, add systems and store an ECSManager
-// .
-
-
 void Engine::game_loop()
 {
     this->_chrono.init();
     int i = 0;
+
+    SetConfigFlags(FLAG_FULLSCREEN_MODE);
     InitWindow(1920, 1080, "Mandraker");
     InitAudioDevice();
-    ToggleFullscreen();
     this->setFps(this->_fps);
     Scene *scene = new Menu();
     this->_currentEcs = scene->getECS();
@@ -57,7 +46,7 @@ void Engine::game_loop()
     }
     CloseAudioDevice();
     CloseWindow();
-    delete(static_cast<Menu *>(scene));
+    // delete(static_cast<Menu *>(scene));
 }
 
 void Engine::setFps(int fps)

@@ -128,9 +128,8 @@ ECSManager *ECSManager::applySystems()
                 }
             }
 
-    //loop in all the entities
     this->applyDraw();
-    
+
     return (nullptr);
 }
 

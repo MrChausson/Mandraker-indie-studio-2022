@@ -7,9 +7,10 @@
 
 #include "Movable.hpp"
 
-Movable::Movable(float speed)
+Movable::Movable(float speed, MOVABLE_TYPE type)
 {
     this->_speed = speed;
+    this->_type = type;
 }
 
 Movable::~Movable()
@@ -24,4 +25,9 @@ float Movable::getSpeed()
 void Movable::setSpeed(float speed)
 {
     this->_speed = speed;
+}
+
+MOVABLE_TYPE Movable::getMovableType()
+{
+    return _type;
 }
