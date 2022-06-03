@@ -12,7 +12,7 @@ Drawable::Drawable()
     this->_plan = 0;
 }
 
-Drawable::Drawable(int plan, int x, int y)
+Drawable::Drawable(int plan)
 {
     _plan = plan;
 }
@@ -29,24 +29,4 @@ int Drawable::getPlan()
 void Drawable::setPlan(int plan)
 {
     _plan = plan;
-}
-
-void Drawable::setX(int x)
-{
-    this->_x = x;
-}
-
-int Drawable::getX()
-{
-    return this->_x;
-}
-
-void Drawable::setY(int y)
-{
-    this->_y = y;
-}
-
-int Drawable::getY()
-{
-    return this->_y;
 }

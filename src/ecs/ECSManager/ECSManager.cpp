@@ -141,6 +141,8 @@ void ECSManager::applyDraw()
     bool found = true;
     ISystem *system = this->getSystemByType(DRAW);
     std::vector<IComponent *> components;
+    Drawable *draw;
+    Placable *place;
 
     BeginDrawing();
     ClearBackground(BLACK);
@@ -148,9 +150,11 @@ void ECSManager::applyDraw()
         found = false;
         for (auto &entity : this->_entities) {
             components.clear();
-            Drawable *draw = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
             if (draw != nullptr && draw->getPlan() == current_plan) {
+                draw = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
+                place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
                 found = true;
+                components.push_back(place);
                 components.push_back(draw);
                 system->apply(components);
             }

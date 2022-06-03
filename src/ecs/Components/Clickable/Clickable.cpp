@@ -7,11 +7,11 @@
 
 #include "Clickable.hpp"
 
-Clickable::Clickable(float x, float y, Texture2D texture, ECSManager *ecsToChangeTo)
+Clickable::Clickable(Texture2D texture, ECSManager *ecsToChangeTo)
 {
     this->_type = CLICKABLE;
     this->_isClicked = false;
-    this->_bounds = {x, y, static_cast<float>(texture.width), static_cast<float>(texture.height)};
+    this->_bounds = {0, 0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureClick = texture;
     this->_tmpEcs = ecsToChangeTo;
 }

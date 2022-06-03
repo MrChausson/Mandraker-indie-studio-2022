@@ -14,7 +14,7 @@
 
 class DrawableSprite : public Drawable {
     public:
-        DrawableSprite(Texture2D texture, int plan = 0, int x = 0, int y = 0);
+        DrawableSprite(Texture2D texture, int plan = 0);
         ~DrawableSprite();
         void setTexture(Texture2D texture);
         Texture2D getTexture();

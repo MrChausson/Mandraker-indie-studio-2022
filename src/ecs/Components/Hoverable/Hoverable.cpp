@@ -7,11 +7,11 @@
 
 #include "Hoverable.hpp"
 
-Hoverable::Hoverable(float x, float y, Texture2D texture)
+Hoverable::Hoverable(Texture2D texture)
 {
     this->_type = HOVERABLE;
     this->_isHovered = false;
-    this->_bounds = {x, y, static_cast<float>(texture.width), static_cast<float>(texture.height)};
+    this->_bounds = {0, 0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureHover = texture;
 }
 

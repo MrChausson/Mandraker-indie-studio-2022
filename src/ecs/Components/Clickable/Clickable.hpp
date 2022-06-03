@@ -14,7 +14,7 @@
 
 class Clickable : public IComponent {
     public:
-        Clickable(float x, float y, Texture2D texture, ECSManager *ecsToChangeTo = nullptr);
+        Clickable(Texture2D texture, ECSManager *ecsToChangeTo = nullptr);
         ~Clickable();
         void setBound(float x, float y);
         bool isClicked(Vector2 mouse, bool pressed);

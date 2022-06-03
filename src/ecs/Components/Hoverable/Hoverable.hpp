@@ -13,7 +13,7 @@
 
 class Hoverable : public IComponent {
     public:
-        Hoverable(float x, float y, Texture2D texture);
+        Hoverable(Texture2D texture);
         ~Hoverable();
         void setBound(float x, float y);
         bool isHovered(Vector2 mouse);
