@@ -43,6 +43,5 @@ IComponent *Entity::getComponentsByType(COMPONENT_TYPES type)
     for (auto &component : this->_components)
         if (component->getType() == type)
             return(component.get());
-    throw(ComponentNotFound(type));
     return nullptr;
 }

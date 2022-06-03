@@ -34,11 +34,15 @@ class ECSManager {
         // updateEntity
         // Components Functions //
         void addComponent(int entityId, std::unique_ptr<IComponent> component);
-        // Systems Functions //
-        void addSystem(std::unique_ptr<ISystem> system);
-        ECSManager *applySystems();
         bool entityHasComponent(Entity entity, COMPONENT_TYPES type);
         IComponent *getComponent(std::unique_ptr<Entity> &entity, COMPONENT_TYPES type);
+        // Systems Functions //
+        void addSystem(std::unique_ptr<ISystem> system);
+        ISystem *getSystemByType(SYSTEM_TYPES type);
+        // Apply
+        ECSManager *applySystems();
+        void applyDraw();
+
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};

@@ -13,6 +13,7 @@ DrawableSprite::DrawableSprite(Texture2D texture, int plan , int x, int y)
     this->_y = y;
     this->_texture = texture;
     this->_type = DRAWABLE_TYPE_SPRITE;
+    this->_plan = plan;
     this->_bounds = {(float)x, (float)y, (float)texture.width, (float)texture.height};
 }
 

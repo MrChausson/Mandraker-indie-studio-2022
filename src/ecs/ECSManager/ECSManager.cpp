@@ -94,18 +94,12 @@ IComponent *ECSManager::getComponent(std::unique_ptr<Entity> &entity, COMPONENT_
 ECSManager *ECSManager::applySystems()
 {
     int i = 0;
-    BeginDrawing();
-    ClearBackground(BLACK);
     std::vector<IComponent *> components; // Let's create a vector that will store all the needed components by the system
     for (auto &system : this->_systems)
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
                 components.clear();
                 if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
-                    components.push_back(component);
-                    system->apply(components);
-                }
-                else if (system->getType() == DRAW && component->getType() == DRAWABLE) {
                     components.push_back(component);
                     system->apply(components);
                 }
@@ -133,6 +127,43 @@ ECSManager *ECSManager::applySystems()
                     system->apply(components);
                 }
             }
-    EndDrawing();
+
+    //loop in all the entities
+    this->applyDraw();
+    
     return (nullptr);
+}
+
+
+void ECSManager::applyDraw()
+{
+    int current_plan = 0;
+    bool found = true;
+    ISystem *system = this->getSystemByType(DRAW);
+    std::vector<IComponent *> components;
+
+    BeginDrawing();
+    ClearBackground(BLACK);
+    for (; found == true; current_plan++) {
+        found = false;
+        for (auto &entity : this->_entities) {
+            components.clear();
+            Drawable *draw = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
+            if (draw != nullptr && draw->getPlan() == current_plan) {
+                found = true;
+                components.push_back(draw);
+                system->apply(components);
+            }
+        }
+    }
+    EndDrawing();
+}
+
+ISystem *ECSManager::getSystemByType(SYSTEM_TYPES type)
+{
+    std::vector<IComponent *> components;
+    for (auto &system : this->_systems)
+        if (system->getType() == type)
+            return(system.get());
+    return nullptr;
 }
