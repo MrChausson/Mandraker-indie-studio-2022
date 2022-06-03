@@ -24,6 +24,7 @@ class Menu : public Scene {
         Font _btn_font;
         Font _title_font;
         Music _music;
+        Scene *_scene;
 };
 
 #endif /* !MENU_HPP_ */
