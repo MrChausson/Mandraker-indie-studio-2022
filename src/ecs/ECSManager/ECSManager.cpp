@@ -7,6 +7,7 @@
 
 #include "raylib.h"
 #include "ECSManager.hpp"
+#include "../Components/Clickable/Clickable.hpp"
 #include <iostream>
 
 ECSManager::ECSManager()
@@ -90,7 +91,7 @@ IComponent *ECSManager::getComponent(std::unique_ptr<Entity> &entity, COMPONENT_
     return nullptr;
 }
 
-Scene *ECSManager::applySystems()
+ECSManager *ECSManager::applySystems()
 {
     int i = 0;
     BeginDrawing();
@@ -118,9 +119,9 @@ Scene *ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                     Clickable *click = static_cast<Clickable *>(component);
-                    Scene *scene = click->getScene();
-                    if (scene != nullptr)
-                        return scene;
+                    ECSManager *ecs = click->getEcs();
+                    if (ecs != nullptr)
+                        return ecs;
                 }
                 else if (system->getType() == MOVE && component->getType() == MOVABLE) {
                     components.push_back(entity->getComponentsByType(PLACABLE));

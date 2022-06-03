@@ -7,13 +7,13 @@
 
 #include "Clickable.hpp"
 
-Clickable::Clickable(float x, float y, Texture2D texture, Scene *sceneToChangeTo)
+Clickable::Clickable(float x, float y, Texture2D texture, ECSManager *ecsToChangeTo)
 {
     this->_type = CLICKABLE;
     this->_isClicked = false;
     this->_bounds = {x, y, static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureClick = texture;
-    this->_tmpScene = sceneToChangeTo;
+    this->_tmpEcs = ecsToChangeTo;
 }
 
 Clickable::~Clickable()
@@ -65,7 +65,12 @@ COMPONENT_TYPES Clickable::getType()
     return (CLICKABLE);
 }
 
-Scene *Clickable::getScene()
+ECSManager *Clickable::getEcs()
 {
-    return (this->_sceneToChangeTo);
+    return (this->_ecsToChangeTo);
+}
+
+void Clickable::setEcs(ECSManager *ecs)
+{
+    this->_ecsToChangeTo = ecs;
 }

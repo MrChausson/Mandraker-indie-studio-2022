@@ -39,16 +39,17 @@ void Engine::game_loop()
     InitAudioDevice();
     ToggleFullscreen();
     this->setFps(this->_fps);
-    this->_currentScene = new Menu();
-    Scene *tmp;
+    Scene *scene = new Menu();
+    this->_currentEcs = scene->getECS();
+    ECSManager *tmp;
 
     while (this->_loop) {
         this->_chrono.startLoop();
-        tmp = this->_currentScene->getECS()->applySystems();
+        tmp = this->_currentEcs->applySystems();
         if (tmp != nullptr)
             {
-                delete (this->_currentScene);
-                this->_currentScene = tmp;
+                delete (this->_currentEcs);
+                this->_currentEcs = tmp;
             }
         if (WindowShouldClose() && !IsKeyDown(KEY_ESCAPE))
             this->_loop = false;

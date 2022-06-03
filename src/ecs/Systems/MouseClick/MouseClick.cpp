@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "MouseClick.hpp"
+#include "../../Components/Clickable/Clickable.hpp"
 
 MouseClick::MouseClick()
 {
@@ -36,7 +37,7 @@ void MouseClick::apply(std::vector<IComponent *> component)
             click->_textureSaved = draw->getTexture();
             draw->setTexture(click->getTexture());
         } else if (released) {
-            click->setScene(click->_tmpScene);
+            click->setEcs(click->_tmpEcs);
         } else {
             DrawableSprite *draw = static_cast<DrawableSprite *>(component[0]);
             draw->setTexture(click->_textureSaved);

@@ -9,12 +9,12 @@
 #define Clickable_HPP_
 
 #include "raylib.h"
-#include "../../ECSManager/ECSManager.hpp" 
-#include "../../../Scene/Scene.hpp"
+#include "../../IComponent/IComponent.hpp"
+#include "../../ECSManager/ECSManager.hpp"
 
 class Clickable : public IComponent {
     public:
-        Clickable(float x, float y, Texture2D texture, Scene *sceneToChangeTo);
+        Clickable(float x, float y, Texture2D texture, ECSManager *ecsToChangeTo = nullptr);
         ~Clickable();
         void setBound(float x, float y);
         bool isClicked(Vector2 mouse, bool pressed);
@@ -27,13 +27,13 @@ class Clickable : public IComponent {
         Texture2D _textureSaved;
         Texture2D _textureClick;
         Texture2D _tmp;
-        Scene *getScene();
-        void setScene(Scene *scene);
-        Scene *_tmpScene;
+        ECSManager *getEcs();
+        void setEcs(ECSManager *ecs);
+        ECSManager *_tmpEcs;
 
     protected:
     private:
-        Scene *_sceneToChangeTo;
+        ECSManager *_ecsToChangeTo = nullptr;
         COMPONENT_TYPES _type;
         bool _isClicked;
         Rectangle _bounds;

@@ -21,14 +21,13 @@ class Engine {
         Engine(int fps = 60);
         ~Engine();
         void game_loop();
-        void getManager(ECSManager *manager);
         void setFps(int fps);
 
     protected:
     private:
         bool _loop = true;
         Chrono _chrono;
-        Scene *_currentScene;
+        ECSManager *_currentEcs;
         int _fps;
 };
 
