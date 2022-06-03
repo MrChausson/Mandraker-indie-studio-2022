@@ -57,6 +57,7 @@ void Engine::game_loop()
     }
     CloseAudioDevice();
     CloseWindow();
+    delete(scene);
 }
 
 void Engine::setFps(int fps)

@@ -13,6 +13,7 @@
 
 Menu::Menu()
 {
+    std::cout << "Menu creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
     //Create entities
     int bg_id = this->_ecsManager->createEntity();
@@ -67,4 +68,5 @@ Menu::~Menu()
     UnloadFont(this->_title_font);
     UnloadMusicStream(this->_music);
     delete(this->_scene);
+    std::cout << "Menu destroyed" << std::endl;
 }

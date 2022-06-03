@@ -9,6 +9,7 @@
 
 Game::Game()
 {
+    std::cout << "Game created" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
     
     int text = this->_ecsManager->createEntity();
@@ -18,4 +19,5 @@ Game::Game()
 
 Game::~Game()
 {
+    std::cout << "Game destructor" << std::endl;
 }
