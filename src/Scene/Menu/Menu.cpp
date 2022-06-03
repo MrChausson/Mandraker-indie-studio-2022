@@ -46,8 +46,8 @@ Menu::Menu()
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2, 1000, 150 ,"Mandraker", Color{255, 255, 255, 255}, this->_btn_font));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0, 0, 0));
     this->_ecsManager->addComponent(play_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1, 100, 300));
-    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(100, 300, this->_btn_clicked_texture, this->_scene->getECS()));
-    this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(100, 300, this->_btn_active_texture));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(play_id) ,this->_btn_clicked_texture, this->_scene->getECS()));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(play_id), this->_btn_active_texture));
     this->_ecsManager->addComponent(play_text, std::make_unique<DrawableText>(2, playVector.x, playVector.y ,"play", Color{255, 255, 255, 255}, this->_btn_font));
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 

@@ -23,9 +23,10 @@ void Engine::game_loop()
 {
     this->_chrono.init();
     int i = 0;
+
+    SetConfigFlags(FLAG_FULLSCREEN_MODE);
     InitWindow(1920, 1080, "Mandraker");
     InitAudioDevice();
-    ToggleFullscreen();
     this->setFps(this->_fps);
     Scene *scene = new Menu();
     this->_currentEcs = scene->getECS();
