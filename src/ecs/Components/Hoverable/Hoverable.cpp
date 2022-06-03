@@ -7,11 +7,14 @@
 
 #include "Hoverable.hpp"
 
-Hoverable::Hoverable(Texture2D texture)
+#include "../Placable/Placable.hpp"
+
+Hoverable::Hoverable(Entity *entity, Texture2D texture)
 {
+    Placable *test = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
     this->_type = HOVERABLE;
     this->_isHovered = false;
-    this->_bounds = {0, 0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
+    this->_bounds = {static_cast<float>(test->getX()), static_cast<float>(test->getY()), static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureHover = texture;
 }
 

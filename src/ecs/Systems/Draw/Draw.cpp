@@ -24,12 +24,12 @@ void Draw::apply(std::vector<IComponent *> component)
     Vector2 vec;
 
     if (drawable->getComponentType() == DRAWABLE_TYPE_TEXT) {
-        drawableText = static_cast<DrawableText *>(component[0]);
+        drawableText = static_cast<DrawableText *>(component[1]);
         vec = {static_cast<float>(placable->getX()), static_cast<float>(placable->getY())};
         DrawTextEx(drawableText->getFont(), drawableText->getText().c_str(), vec, drawableText->getFontsize(), 2, drawableText->getColor());
     }
     if (drawable->getComponentType() == DRAWABLE_TYPE_SPRITE) {
-        drawableSprite = static_cast<DrawableSprite *>(component[0]);
+        drawableSprite = static_cast<DrawableSprite *>(component[1]);
         DrawTexture(drawableSprite->getTexture(), placable->getX(), placable->getY(), WHITE);
     }
 }

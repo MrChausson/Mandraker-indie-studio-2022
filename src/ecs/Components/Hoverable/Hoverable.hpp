@@ -10,10 +10,12 @@
 
 #include "raylib.h"
 #include "../../IComponent/IComponent.hpp"
+#include "../../Entity/Entity.hpp"
+#include "../Drawable/Drawable.hpp"
 
 class Hoverable : public IComponent {
     public:
-        Hoverable(Texture2D texture);
+        Hoverable(Entity *entity, Texture2D texture);
         ~Hoverable();
         void setBound(float x, float y);
         bool isHovered(Vector2 mouse);

@@ -41,25 +41,28 @@ Menu::Menu()
 
     // add components
     // this->_ecsManager->addComponent(player, std::make_unique<Placable>(0, 0, 0));
+
+
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(1));
 
-    this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(800, 100));
+    this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
-    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"Mandraker", Color{255, 255, 255, 255}, this->_btn_font));
     this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(1000, 150));
+    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"Mandraker", Color{255, 255, 255, 255}, this->_btn_font));
 
-    this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
+    this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    this->_ecsManager->addComponent(play_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
-    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(this->_btn_clicked_texture, this->_scene->getECS()));
-    this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(this->_btn_active_texture));
     this->_ecsManager->addComponent(play_id, std::make_unique<Placable>(100, 300));
+    this->_ecsManager->addComponent(play_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(play_id) ,this->_btn_clicked_texture, this->_scene->getECS()));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(play_id), this->_btn_active_texture));
 
-    this->_ecsManager->addComponent(play_text, std::make_unique<DrawableText>(2 ,"play", Color{255, 255, 255, 255}, this->_btn_font));
     this->_ecsManager->addComponent(play_text, std::make_unique<Placable>(playVector.x, playVector.y));
+    this->_ecsManager->addComponent(play_text, std::make_unique<DrawableText>(2 ,"play", Color{255, 255, 255, 255}, this->_btn_font));
     
+
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
     // add systems

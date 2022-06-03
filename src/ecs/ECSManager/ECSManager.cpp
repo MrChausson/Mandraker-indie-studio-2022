@@ -150,8 +150,8 @@ void ECSManager::applyDraw()
         found = false;
         for (auto &entity : this->_entities) {
             components.clear();
+            draw = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
             if (draw != nullptr && draw->getPlan() == current_plan) {
-                draw = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
                 place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
                 found = true;
                 components.push_back(place);
