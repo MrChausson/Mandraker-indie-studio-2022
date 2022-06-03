@@ -90,7 +90,7 @@ IComponent *ECSManager::getComponent(std::unique_ptr<Entity> &entity, COMPONENT_
     return nullptr;
 }
 
-void ECSManager::applySystems()
+Scene *ECSManager::applySystems()
 {
     int i = 0;
     BeginDrawing();
@@ -117,6 +117,10 @@ void ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     components.push_back(component);
                     system->apply(components);
+                    Clickable *click = static_cast<Clickable *>(component);
+                    Scene *scene = click->getScene();
+                    if (scene != nullptr)
+                        return scene;
                 }
                 else if (system->getType() == MOVE && component->getType() == MOVABLE) {
                     components.push_back(entity->getComponentsByType(PLACABLE));
@@ -129,4 +133,5 @@ void ECSManager::applySystems()
                 }
             }
     EndDrawing();
+    return (nullptr);
 }

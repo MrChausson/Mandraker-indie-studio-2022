@@ -10,7 +10,6 @@
     #include <vector>
     #include <memory>
     #include "../Components/Hoverable/Hoverable.hpp"
-    #include "../Components/Clickable/Clickable.hpp"
     #include "../Systems/MouseHover/MouseHover.hpp"
     #include "../Systems/MouseClick/MouseClick.hpp"
     #include "../Components/Drawable/Drawable.hpp"
@@ -37,7 +36,7 @@ class ECSManager {
         void addComponent(int entityId, std::unique_ptr<IComponent> component);
         // Systems Functions //
         void addSystem(std::unique_ptr<ISystem> system);
-        void applySystems();
+        Scene *applySystems();
         bool entityHasComponent(Entity entity, COMPONENT_TYPES type);
         IComponent *getComponent(std::unique_ptr<Entity> &entity, COMPONENT_TYPES type);
 

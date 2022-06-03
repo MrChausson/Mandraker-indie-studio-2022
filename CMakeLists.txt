@@ -14,6 +14,7 @@ src/main.cpp
 # src/Example/Example.cpp
 # SCENE #
 src/Scene/Menu/Menu.cpp
+src/Scene/Game/Game.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp

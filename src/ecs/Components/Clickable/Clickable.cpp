@@ -7,12 +7,13 @@
 
 #include "Clickable.hpp"
 
-Clickable::Clickable(float x, float y, Texture2D texture)
+Clickable::Clickable(float x, float y, Texture2D texture, Scene *sceneToChangeTo)
 {
     this->_type = CLICKABLE;
     this->_isClicked = false;
     this->_bounds = {x, y, static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureClick = texture;
+    this->_tmpScene = sceneToChangeTo;
 }
 
 Clickable::~Clickable()
@@ -64,3 +65,7 @@ COMPONENT_TYPES Clickable::getType()
     return (CLICKABLE);
 }
 
+Scene *Clickable::getScene()
+{
+    return (this->_sceneToChangeTo);
+}

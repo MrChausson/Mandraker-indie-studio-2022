@@ -28,8 +28,7 @@ class Engine {
     private:
         bool _loop = true;
         Chrono _chrono;
-        ECSManager *_currentEcsManager;
-        //Scene *_current_scene;
+        Scene *_currentScene;
         int _fps;
 };
 
