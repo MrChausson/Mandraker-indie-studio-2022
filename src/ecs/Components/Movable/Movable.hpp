@@ -10,17 +10,24 @@
 
 #include "../../IComponent/IComponent.hpp"
 
+enum MOVABLE_TYPE {
+    MOVABLE_PLAYER,
+    MOVABLE_AI
+};
+
 class Movable : public IComponent {
     public:
-        Movable(float speed = 1);
+        Movable(float speed = 1, MOVABLE_TYPE type = MOVABLE_AI);
         ~Movable();
         COMPONENT_TYPES getType() override { return MOVABLE; }
         void setSpeed(float speed);
         float getSpeed();
+        MOVABLE_TYPE getMovableType();
 
     protected:
     private:
         float _speed = 1;
+        MOVABLE_TYPE _type;
 };
 
 #endif /* !MOVABLE_HPP_ */

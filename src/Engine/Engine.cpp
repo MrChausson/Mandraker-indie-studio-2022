@@ -19,18 +19,6 @@ Engine::~Engine()
     std::cout << "Engine destroyed" << std::endl;
 }
 
-
-//Engine std::vector<Scene> scenes;
-
-// Parent class "Scene" absctract or interface
-// .getECS() = gives ecs so Engine can applysystem
-// enum scene_type = Scene type
-// Child scene:
-// Menu, Game
-// .init() = add components, add systems and store an ECSManager
-// .
-
-
 void Engine::game_loop()
 {
     this->_chrono.init();
@@ -57,7 +45,7 @@ void Engine::game_loop()
     }
     CloseAudioDevice();
     CloseWindow();
-    delete(scene);
+    // delete(scene);
 }
 
 void Engine::setFps(int fps)
