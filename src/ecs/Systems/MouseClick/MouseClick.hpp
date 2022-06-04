@@ -10,6 +10,7 @@
 
 #include "raylib.h"
 #include "../../ISystem/ISystem.hpp"
+#include "../../Components/Clickable/ClickableActionType.hpp"
 
 class MouseClick : public ISystem {
     public:
@@ -20,6 +21,7 @@ class MouseClick : public ISystem {
 
     protected:
     private:
+        void clickAction(ClickableActionType actionType, IComponent *component);
 };
 
 #endif /* !MOUSECLICK_HPP_ */

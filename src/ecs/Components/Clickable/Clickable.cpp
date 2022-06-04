@@ -7,7 +7,8 @@
 
 #include "Clickable.hpp"
 
-Clickable::Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeTo)
+
+Clickable::Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeTo, ClickableActionType actionType)
 {
     Placable *test = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
     this->_type = CLICKABLE;
@@ -15,6 +16,7 @@ Clickable::Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeT
     this->_bounds = {static_cast<float>(test->getX()), static_cast<float>(test->getY()), static_cast<float>(texture.width), static_cast<float>(texture.height)};
     this->_textureClick = texture;
     this->_tmpEcs = ecsToChangeTo;
+    this->_actionType = actionType;
 }
 
 Clickable::~Clickable()
@@ -74,4 +76,9 @@ ECSManager *Clickable::getEcs()
 void Clickable::setEcs(ECSManager *ecs)
 {
     this->_ecsToChangeTo = ecs;
+}
+
+ClickableActionType Clickable::getActionType()
+{
+    return (this->_actionType);
 }

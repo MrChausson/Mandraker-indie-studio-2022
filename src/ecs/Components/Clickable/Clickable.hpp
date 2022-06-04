@@ -11,10 +11,12 @@
 #include "raylib.h"
 #include "../../IComponent/IComponent.hpp"
 #include "../../ECSManager/ECSManager.hpp"
+#include "ClickableActionType.hpp"
+
 
 class Clickable : public IComponent {
     public:
-        Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeTo = nullptr);
+        Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeTo = nullptr, ClickableActionType actionType = CLICKABLE_ACTION_NONE);
         ~Clickable();
         void setBound(float x, float y);
         bool isClicked(Vector2 mouse, bool pressed);
@@ -30,6 +32,7 @@ class Clickable : public IComponent {
         ECSManager *getEcs();
         void setEcs(ECSManager *ecs);
         ECSManager *_tmpEcs;
+        ClickableActionType getActionType();
 
     protected:
     private:
@@ -37,6 +40,7 @@ class Clickable : public IComponent {
         COMPONENT_TYPES _type;
         bool _isClicked;
         Rectangle _bounds;
+        ClickableActionType _actionType;
 };
 
 #endif /* !Clickable_HPP_ */

@@ -56,7 +56,7 @@ Menu::Menu()
 
     this->_ecsManager->addComponent(play_id, std::make_unique<Placable>(100, 300));
     this->_ecsManager->addComponent(play_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
-    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(play_id) ,this->_btn_clicked_texture, this->_scene->getECS()));
+    this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(play_id) ,this->_btn_clicked_texture, this->_scene->getECS(), CLICKABLE_ACTION_CHANGE_ECS));
     this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(play_id), this->_btn_active_texture));
 
     this->_ecsManager->addComponent(play_text, std::make_unique<Placable>(playVector.x, playVector.y));
