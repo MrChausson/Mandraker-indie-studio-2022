@@ -7,6 +7,7 @@
 
 #ifndef PLACABLE_HPP_
     #define PLACABLE_HPP_
+    #include "raylib.h"
     #include "../../IComponent/IComponent.hpp"
 
 class Placable : public IComponent {
@@ -20,6 +21,7 @@ class Placable : public IComponent {
         float getX();
         void setY(float y);
         float getY();
+        Vector3 getPosition();
 
     protected:
         COMPONENT_TYPES _type = PLACABLE;

@@ -9,6 +9,7 @@
 #include "../../ISystem/ISystem.hpp"
 #include "../../Components/Drawable/DrawableText.hpp"
 #include "../../Components/Drawable/DrawableSprite.hpp"
+#include "../../Components/Drawable/DrawableCube.hpp"
 #include "../../Components/Placable/Placable.hpp"
 
 class Draw : public ISystem {

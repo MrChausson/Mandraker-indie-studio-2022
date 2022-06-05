@@ -11,7 +11,8 @@
 
 enum DRAWABLE_TYPE {
     DRAWABLE_TYPE_SPRITE,
-    DRAWABLE_TYPE_TEXT
+    DRAWABLE_TYPE_TEXT,
+    DRAWABLE_TYPE_CUBE
 };
 
 class Drawable : public IComponent {

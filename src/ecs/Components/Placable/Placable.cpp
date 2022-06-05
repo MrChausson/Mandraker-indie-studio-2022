@@ -52,3 +52,8 @@ COMPONENT_TYPES Placable::getType()
 {
     return this->_type;
 }
+
+Vector3 Placable::getPosition()
+{
+    return {this->_x, this->_y, this->_z};
+}
