@@ -18,9 +18,7 @@ class Menu : public Scene {
     protected:
     private:
         Texture2D _background_texture;
-        Texture2D _btn_active_texture;
-        Texture2D _btn_inactive_texture;
-        Texture2D _btn_clicked_texture;
+        Texture2D _textures[3];
         Texture2D _title_texture;
         Font _btn_font;
         Font _title_font;

@@ -38,6 +38,8 @@ src/ecs/Components/Hoverable/Hoverable.cpp
 src/ecs/Components/Movable/Movable.cpp
 src/ecs/Components/Musicable/Musicable.cpp
 src/ecs/Components/CameraComponent/CameraComponent.cpp
+# Tools #
+src/Tools/Button.cpp
 # Entity #
 src/ecs/Entity/Entity.cpp
 # ECS MANAGER #
