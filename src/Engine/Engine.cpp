@@ -6,6 +6,8 @@
 */
 
 #include "Engine.hpp"
+#include "../Scene/Scene.hpp"
+#include "../Scene/Menu/Menu.hpp"
 
 Engine::Engine(int fps)
 {
@@ -28,7 +30,8 @@ void Engine::game_loop()
     InitWindow(1920, 1080, "Mandraker");
     InitAudioDevice();
     this->setFps(this->_fps);
-    Scene *scene = new Menu();
+    Engine *engine = this;
+    Scene *scene = new Menu(engine);
     this->_currentEcs = scene->getECS();
     ECSManager *tmp;
 

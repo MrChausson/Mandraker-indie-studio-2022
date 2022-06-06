@@ -11,7 +11,7 @@
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 
 
-Menu::Menu()
+Menu::Menu(Engine *engine)
 {
     std::cout << "Menu creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();

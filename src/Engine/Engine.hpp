@@ -10,8 +10,6 @@
     #include <iostream>
     #include <chrono>
     #include "../ecs/ECSManager/ECSManager.hpp"
-    #include "../Scene/Menu/Menu.hpp"
-    #include "../Scene/Scene.hpp"
     #include "raylib.h"
     #include "../ecs/Components/Drawable/DrawableText.hpp"
     #include "Chrono/Chrono.hpp"

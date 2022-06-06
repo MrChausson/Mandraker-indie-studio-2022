@@ -12,7 +12,7 @@
 
 class Game : public Scene {
     public:
-        Game();
+        Game(Engine *engine = nullptr);
         ~Game();
 
     protected:
