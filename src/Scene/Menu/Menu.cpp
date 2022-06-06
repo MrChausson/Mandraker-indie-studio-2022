@@ -47,10 +47,10 @@ Menu::Menu(Engine *engine)
 
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(1));
 
-    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(800, 100));
+    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(1000, 100));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(1000, 150));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(1200, 150));
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"Mandraker", Color{255, 255, 255, 255}, this->_btn_font));
 
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
