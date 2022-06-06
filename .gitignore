@@ -1,4 +1,3 @@
-*.obj
 Makefile
 Mandraker
 *cmake
