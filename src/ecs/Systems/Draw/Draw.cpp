@@ -23,6 +23,7 @@ void Draw::apply(std::vector<IComponent *> component)
     DrawableText *drawableText;
     DrawableSprite *drawableSprite;
     DrawableCube *drawableCube;
+    DrawableCubeTexture *drawableCubeTexture;
     Vector2 vec;
     DRAWABLE_TYPE component_type = drawable->getComponentType();
 
@@ -44,6 +45,18 @@ void Draw::apply(std::vector<IComponent *> component)
         BeginMode3D(camera->getCamera());
         SetCameraMode(camera->getCamera(), CAMERA_FREE);
         DrawCube(placable->getPosition(), drawableCube->getWidth(), drawableCube->getHeight(), drawableCube->getLength(), drawableCube->getColor());
+        EndMode3D();
+    } else if (component_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
+        if (component.size() < 3)
+            throw CameraNotFound();
+        if (placable == nullptr)
+            throw PlacableNotFound();
+        CameraComponent *camera = static_cast<CameraComponent *>(component[2]); 
+        drawableCubeTexture = static_cast<DrawableCubeTexture *>(component[1]);
+        //TODO begin mode with camera
+        BeginMode3D(camera->getCamera());
+        SetCameraMode(camera->getCamera(), CAMERA_FREE);
+        DrawCubeTexture(drawableCubeTexture->getTexture(), placable->getPosition(), drawableCubeTexture->getWidth(), drawableCubeTexture->getHeight(), drawableCubeTexture->getLength(), drawableCubeTexture->getColor());
         EndMode3D();
     }
 }

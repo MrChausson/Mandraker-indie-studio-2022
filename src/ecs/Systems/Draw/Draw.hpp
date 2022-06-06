@@ -13,6 +13,7 @@
 #include "../../Components/Placable/Placable.hpp"
 #include "../../Components/CameraComponent/CameraComponent.hpp"
 #include "DrawMode.hpp"
+#include "../../Components/Drawable/DrawableCubeTexture.hpp"
 
 class Draw : public ISystem {
     public:
