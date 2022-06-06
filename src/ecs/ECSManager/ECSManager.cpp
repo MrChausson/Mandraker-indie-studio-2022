@@ -146,6 +146,7 @@ void ECSManager::applyDraw()
 
     BeginDrawing();
     ClearBackground(BLACK);
+
     for (; found == true; current_plan++) {
         found = false;
         for (auto &entity : this->_entities) {
@@ -163,6 +164,7 @@ void ECSManager::applyDraw()
             }
         }
     }
+    EndMode3D();
     EndDrawing();
 }
 

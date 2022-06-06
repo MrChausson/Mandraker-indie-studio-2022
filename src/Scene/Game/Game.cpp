@@ -26,9 +26,9 @@ Game::Game()
     int test_cube = this->_ecsManager->createEntity();
 
     // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, up, target, 70.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 70.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
-    this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(-7.0f, 0.01f, 7.0f ));
+    this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     // this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     // this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player

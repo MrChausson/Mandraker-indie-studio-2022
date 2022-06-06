@@ -11,6 +11,9 @@ DrawableCube::DrawableCube(Color color, float width, float height, float length)
 {
     this->_color = color;
     this->_type = DRAWABLE_TYPE_CUBE;
+    this->_width = width;
+    this->_height = height;
+    this->_length = length;
 }
 
 DrawableCube::~DrawableCube()
