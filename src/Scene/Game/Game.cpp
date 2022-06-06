@@ -31,8 +31,8 @@ Game::Game()
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 70.0f, CAMERA_PERSPECTIVE));
-    this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
-    this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
+    // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
+    // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(texture_cube, std::make_unique<Placable>(1.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(texture_cube, std::make_unique<DrawableCubeTexture>(LoadTexture("assets/materials/brique.png")));
     // this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
