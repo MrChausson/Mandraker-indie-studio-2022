@@ -14,7 +14,7 @@
 Menu::Menu(Engine *engine)
 {
     std::cout << "Menu creating" << std::endl;
-    this->_ecsManager = std::make_unique<ECSManager>();
+    this->_ecsManager = std::make_unique<ECSManager>(engine);
     //Create entities
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
@@ -41,11 +41,9 @@ Menu::Menu(Engine *engine)
 
     // Adjust
     PlayMusicStream(this->_music);
-    Vector2 playVector = {static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(300 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2)) };
 
     // add components
     // this->_ecsManager->addComponent(player, std::make_unique<Placable>(0, 0, 0));
-
 
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(1));
 
@@ -78,7 +76,6 @@ Menu::Menu(Engine *engine)
     this->_ecsManager->addComponent(quit_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(quit_id), this->_btn_active_texture));
     this->_ecsManager->addComponent(quit_text, std::make_unique<Placable>(static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(700 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2))));
     this->_ecsManager->addComponent(quit_text, std::make_unique<DrawableText>(2 ,"quit", Color{255, 255, 255, 255}, this->_btn_font));
-    
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 

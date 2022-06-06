@@ -8,6 +8,7 @@
 #include <iostream>
 #include "MouseClick.hpp"
 #include "../../Components/Clickable/Clickable.hpp"
+#include "../../../Engine/Engine.hpp"
 
 
 MouseClick::MouseClick()
@@ -35,8 +36,11 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (click->_tmpEcs != nullptr)
             click->setEcs(click->_tmpEcs);
         break;
-    case CLICKABLE_ACTION_TEST:
-        std::cout << "This is a test action made by the click, now we can do anything we want with the ECS" << std::endl;
+    case CLICKABLE_ACTION_OPEN_OPTIONS:
+        std::cout << "OPEN OPTIONS" << std::endl;
+        break;
+    case CLICKABLE_ACTION_QUIT_GAME:
+        static_cast<Engine *>(ecs->getEngine())->_loop = false;
         break;
     default:
         break;

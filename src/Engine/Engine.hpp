@@ -20,10 +20,10 @@ class Engine {
         ~Engine();
         void game_loop();
         void setFps(int fps);
+        bool _loop = true;
 
     protected:
     private:
-        bool _loop = true;
         Chrono _chrono;
         ECSManager *_currentEcs;
         int _fps;

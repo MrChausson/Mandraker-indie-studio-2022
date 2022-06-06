@@ -8,10 +8,13 @@
 #include "raylib.h"
 #include "ECSManager.hpp"
 #include "../Components/Clickable/Clickable.hpp"
+#include "../../Engine/Engine.hpp"
 #include <iostream>
 
-ECSManager::ECSManager()
+ECSManager::ECSManager(void *engine)
 {
+    if (engine != nullptr)
+    this->_engine = static_cast<Engine *>(engine);
 }
 
 ECSManager::~ECSManager()
@@ -186,4 +189,9 @@ IComponent *ECSManager::getCamera()
             if (component->getType() == CAMERA)
                 return (component);
     return nullptr;
+}
+
+void *ECSManager::getEngine()
+{
+    return (this->_engine);
 }
