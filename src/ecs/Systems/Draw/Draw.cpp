@@ -56,6 +56,7 @@ void Draw::apply(std::vector<IComponent *> component)
         BeginMode3D(camera->getCamera());
         SetCameraMode(camera->getCamera(), CAMERA_FREE);
         DrawCubeTexture(drawableCubeTexture->getTexture(), placable->getPosition(), drawableCubeTexture->getWidth(), drawableCubeTexture->getHeight(), drawableCubeTexture->getLength(), drawableCubeTexture->getColor());
+        EndMode3D();
     }
 }
 

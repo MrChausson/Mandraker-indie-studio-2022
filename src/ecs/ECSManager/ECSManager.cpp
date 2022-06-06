@@ -167,7 +167,6 @@ void ECSManager::applyDraw()
             }
         }
     }
-    EndMode3D();
     EndDrawing();
 }
 
