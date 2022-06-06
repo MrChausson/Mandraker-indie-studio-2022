@@ -9,6 +9,9 @@
 #include "../Scene/Scene.hpp"
 #include "../Scene/Menu/Menu.hpp"
 
+
+bool loop_status = 1;
+
 Engine::Engine(int fps)
 {
     std::cout << "Engine created" << std::endl;
@@ -35,7 +38,7 @@ void Engine::game_loop()
     this->_currentEcs = scene->getECS();
     ECSManager *tmp;
 
-    while (this->_loop) {
+    while (loop_status) {
         this->_chrono.startLoop();
         tmp = this->_currentEcs->applySystems();
         if (tmp != nullptr)
@@ -44,7 +47,7 @@ void Engine::game_loop()
                 this->_currentEcs = tmp;
             }
         if (WindowShouldClose() && !IsKeyDown(KEY_ESCAPE))
-            this->_loop = false;
+            loop_status = false;
         this->_chrono.sleepEndLoop();
     }
     CloseAudioDevice();

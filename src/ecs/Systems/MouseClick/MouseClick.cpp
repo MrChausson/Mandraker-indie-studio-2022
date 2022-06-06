@@ -40,7 +40,10 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         std::cout << "OPEN OPTIONS" << std::endl;
         break;
     case CLICKABLE_ACTION_QUIT_GAME:
-        static_cast<Engine *>(ecs->getEngine())->_loop = false;
+        std::cout << "Goodbye!" << std::endl;
+        loop_status = false;
+        // exit(0);
+        // static_cast<Engine *>(ecs->getEngine())->_loop = false;
         break;
     default:
         break;

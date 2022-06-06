@@ -72,7 +72,7 @@ Menu::Menu(Engine *engine)
 
     this->_ecsManager->addComponent(quit_id, std::make_unique<Placable>(100, 700));
     this->_ecsManager->addComponent(quit_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
-    this->_ecsManager->addComponent(quit_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(quit_id) ,this->_btn_clicked_texture, this->getECS(), CLICKABLE_ACTION_QUIT_GAME));
+    this->_ecsManager->addComponent(quit_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(quit_id) ,this->_btn_clicked_texture, this->_ecsManager.get(), CLICKABLE_ACTION_QUIT_GAME));
     this->_ecsManager->addComponent(quit_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(quit_id), this->_btn_active_texture));
     this->_ecsManager->addComponent(quit_text, std::make_unique<Placable>(static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(700 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2))));
     this->_ecsManager->addComponent(quit_text, std::make_unique<DrawableText>(2 ,"quit", Color{255, 255, 255, 255}, this->_btn_font));

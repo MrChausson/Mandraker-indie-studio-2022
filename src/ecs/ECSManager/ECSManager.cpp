@@ -13,8 +13,7 @@
 
 ECSManager::ECSManager(void *engine)
 {
-    if (engine != nullptr)
-    this->_engine = static_cast<Engine *>(engine);
+    this->_engine = engine;
 }
 
 ECSManager::~ECSManager()
@@ -129,6 +128,8 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                 }
+                if (!loop_status)
+                    return nullptr;
             }
 
     this->applyDraw();

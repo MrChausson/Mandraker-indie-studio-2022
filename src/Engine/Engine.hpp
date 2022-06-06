@@ -29,4 +29,6 @@ class Engine {
         int _fps;
 };
 
+extern bool loop_status;
+
 #endif /* !ENGINE_HPP_ */
