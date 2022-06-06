@@ -32,6 +32,7 @@ src/ecs/Components/Clickable/Clickable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp
 src/ecs/Components/Drawable/DrawableCube.cpp
+src/ecs/Components/Drawable/DrawableCubeTexture.cpp
 src/ecs/Components/Hoverable/Hoverable.cpp
 src/ecs/Components/Movable/Movable.cpp
 src/ecs/Components/Musicable/Musicable.cpp
