@@ -50,6 +50,7 @@ class ECSManager {
         std::vector<int> _deletedEntityIds;
         unsigned int current_id = 0;
     private:
+        IComponent *getCamera();
 };
 
 #endif /* !ECSMANAGER_HPP_ */

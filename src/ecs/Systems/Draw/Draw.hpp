@@ -11,11 +11,17 @@
 #include "../../Components/Drawable/DrawableSprite.hpp"
 #include "../../Components/Drawable/DrawableCube.hpp"
 #include "../../Components/Placable/Placable.hpp"
+#include "../../Components/CameraComponent/CameraComponent.hpp"
+#include "DrawMode.hpp"
 
 class Draw : public ISystem {
     public:
-        Draw();
+        Draw(DRAWMODE mode = DRAW_MODE_2D);
         ~Draw();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override { return DRAW; };
+        void setMode(DRAWMODE mode);
+        DRAWMODE getMode();
+    private:
+        DRAWMODE _mode;
 };

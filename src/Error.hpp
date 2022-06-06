@@ -28,4 +28,15 @@ class ComponentNotFound : public AError {
         ComponentNotFound(int type) {this->_msg = "Component not found of type " + std::to_string(type) ; };
         ComponentNotFound() {this->_msg = "Component not found"; };
 };
+
+class CameraNotFound : public AError {
+    public:
+        CameraNotFound() {this->_msg = "CameraComponent not found"; };
+};
+
+class PlacableNotFound : public AError {
+    public:
+        PlacableNotFound() {this->_msg = "Placable Component not found"; };
+};
+
 #endif /* !ERROR_HPP_ */

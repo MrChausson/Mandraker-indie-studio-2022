@@ -142,6 +142,7 @@ void ECSManager::applyDraw()
     std::vector<IComponent *> components;
     Drawable *draw;
     Placable *place;
+    IComponent *camera;
 
     BeginDrawing();
     ClearBackground(BLACK);
@@ -155,6 +156,9 @@ void ECSManager::applyDraw()
                 found = true;
                 components.push_back(place);
                 components.push_back(draw);
+                camera = this->getCamera();
+                if (camera != nullptr)
+                    components.push_back(camera);
                 system->apply(components);
             }
         }
@@ -168,5 +172,14 @@ ISystem *ECSManager::getSystemByType(SYSTEM_TYPES type)
     for (auto &system : this->_systems)
         if (system->getType() == type)
             return(system.get());
+    return nullptr;
+}
+
+IComponent *ECSManager::getCamera()
+{
+    for (auto &entity : this->_entities)
+        for (auto &component : entity->getComponents())
+            if (component->getType() == CAMERA)
+                return (component);
     return nullptr;
 }
