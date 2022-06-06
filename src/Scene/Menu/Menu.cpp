@@ -21,6 +21,10 @@ Menu::Menu()
     int title_text = this->_ecsManager->createEntity();
     int play_id = this->_ecsManager->createEntity();
     int play_text = this->_ecsManager->createEntity();
+    int settings_id = this->_ecsManager->createEntity();
+    int settings_text = this->_ecsManager->createEntity();
+    int quit_id = this->_ecsManager->createEntity();
+    int quit_text = this->_ecsManager->createEntity();
     int player = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
     this->_scene = new Game();
@@ -58,9 +62,22 @@ Menu::Menu()
     this->_ecsManager->addComponent(play_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
     this->_ecsManager->addComponent(play_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(play_id) ,this->_btn_clicked_texture, this->_scene->getECS(), CLICKABLE_ACTION_CHANGE_ECS));
     this->_ecsManager->addComponent(play_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(play_id), this->_btn_active_texture));
-
-    this->_ecsManager->addComponent(play_text, std::make_unique<Placable>(playVector.x, playVector.y));
+    this->_ecsManager->addComponent(play_text, std::make_unique<Placable>(static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(300 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2))));
     this->_ecsManager->addComponent(play_text, std::make_unique<DrawableText>(2 ,"play", Color{255, 255, 255, 255}, this->_btn_font));
+
+    this->_ecsManager->addComponent(settings_id, std::make_unique<Placable>(100, 500));
+    this->_ecsManager->addComponent(settings_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
+    this->_ecsManager->addComponent(settings_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(settings_id) ,this->_btn_clicked_texture, this->getECS(), CLICKABLE_ACTION_OPEN_OPTIONS));
+    this->_ecsManager->addComponent(settings_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(settings_id), this->_btn_active_texture));
+    this->_ecsManager->addComponent(settings_text, std::make_unique<Placable>(static_cast<float>((this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(500 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2))));
+    this->_ecsManager->addComponent(settings_text, std::make_unique<DrawableText>(2 ,"settings", Color{255, 255, 255, 255}, this->_btn_font));
+
+    this->_ecsManager->addComponent(quit_id, std::make_unique<Placable>(100, 700));
+    this->_ecsManager->addComponent(quit_id, std::make_unique<DrawableSprite>(this->_btn_inactive_texture, 1));
+    this->_ecsManager->addComponent(quit_id, std::make_unique<Clickable>(this->_ecsManager->getEntity(quit_id) ,this->_btn_clicked_texture, this->getECS(), CLICKABLE_ACTION_QUIT_GAME));
+    this->_ecsManager->addComponent(quit_id, std::make_unique<Hoverable>(this->_ecsManager->getEntity(quit_id), this->_btn_active_texture));
+    this->_ecsManager->addComponent(quit_text, std::make_unique<Placable>(static_cast<float>(100 + (this->_btn_inactive_texture.width / 2 - this->_btn_font.baseSize)),static_cast<float>(700 + (this->_btn_inactive_texture.height / 2 - this->_btn_font.baseSize / 2))));
+    this->_ecsManager->addComponent(quit_text, std::make_unique<DrawableText>(2 ,"quit", Color{255, 255, 255, 255}, this->_btn_font));
     
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
