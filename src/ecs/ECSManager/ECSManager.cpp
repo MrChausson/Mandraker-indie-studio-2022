@@ -149,12 +149,15 @@ void ECSManager::applyDraw()
 
     for (; found == true; current_plan++) {
         found = false;
+
         for (auto &entity : this->_entities) {
             components.clear();
             draw = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
-            if (draw != nullptr && draw->getPlan() == current_plan) {
+            if (draw != nullptr && (draw->getPlan() == current_plan ||
+            draw->getComponentType() == DRAWABLE_TYPE_CUBE || draw->getComponentType() == DRAWABLE_TYPE_TEXTURE_CUBE )) {
                 place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
-                found = true;
+                if (!(draw->getComponentType() == DRAWABLE_TYPE_CUBE || draw->getComponentType() == DRAWABLE_TYPE_TEXTURE_CUBE))
+                    found = true;
                 components.push_back(place);
                 components.push_back(draw);
                 camera = this->getCamera();
