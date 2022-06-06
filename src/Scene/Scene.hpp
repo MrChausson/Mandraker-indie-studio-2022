@@ -9,6 +9,7 @@
     #define SCENE_HPP_
     #include <memory>
     #include "../ecs/ECSManager/ECSManager.hpp"
+    #include "../Engine/Engine.hpp"
 
 enum SCENE_TYPE {
     MENU,
@@ -23,6 +24,7 @@ class Scene {
     protected:
         SCENE_TYPE _type;
         std::unique_ptr<ECSManager> _ecsManager;
+        Engine *_engine;
 };
 
 #endif /* !SCENE_HPP_ */

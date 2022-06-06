@@ -10,9 +10,10 @@
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
 
-Game::Game()
+Game::Game(Engine *engine)
 {
     this->_ecsManager = std::make_unique<ECSManager>();
+    this->_engine = engine;
 
     // Create camera vectors
     Vector3 position = { 0.0f, 15.0f, 5.0f };
