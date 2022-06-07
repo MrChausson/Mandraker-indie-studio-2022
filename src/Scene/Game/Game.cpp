@@ -68,6 +68,9 @@ Game::Game(Engine *engine)
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){2.0f, 0.0f, 0.0f}, -90.0f, (Vector3){0.02f, 0.02f, 0.02f}));
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, "assets/models/mcg/mcg.iqm", meshOrder));
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
+    // Configuring bag
+    this->_ecsManager->addComponent(test_pot, std::make_unique<Placable>(3.0f, 0.0f, 0.0f, (Vector3){0.0f, 0.0f, 0.0f}));
+    this->_ecsManager->addComponent(test_pot, std::make_unique<DrawableModel>(textures_pot, "assets/models/bag/bag.obj", texture_po_mesh_order));
     // // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
