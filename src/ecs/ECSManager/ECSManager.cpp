@@ -128,6 +128,11 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                 }
+                else if (system->getType() == ANIMATION && component->getType() == ANIMABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    system->apply(components);
+                }
                 if (!loop_status)
                     return nullptr;
             }

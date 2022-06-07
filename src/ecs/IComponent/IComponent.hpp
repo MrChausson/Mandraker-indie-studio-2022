@@ -16,7 +16,8 @@ enum COMPONENT_TYPES {
     CLICKABLE,
     MOVABLE,
     MUSICABLE,
-    CAMERA
+    CAMERA,
+    ANIMABLE
 };
 
 class IComponent {
