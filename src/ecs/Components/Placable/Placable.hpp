@@ -12,7 +12,7 @@
 
 class Placable : public IComponent {
     public:
-        Placable(float x = 0, float y = 0, float z = 0, Vector3 rotationAxis = {1.0f, 0.0f, 0.0f});
+        Placable(float x = 0, float y = 0, float z = 0, Vector3 rotationAxis = {1.0f, 0.0f, 0.0f}, float rotationAngle = 0.0f);
         ~Placable();
         COMPONENT_TYPES getType() override;
         void setZ(float z);
@@ -24,6 +24,8 @@ class Placable : public IComponent {
         Vector3 getPosition();
         void setRotationAxis(Vector3 rotationAxis);
         Vector3 getRotationAxis();
+        void setRotationAngle(float angle);
+        float getRotationAngle();
 
 
     protected:
@@ -31,6 +33,7 @@ class Placable : public IComponent {
         float _x;
         float _y;
         float _z;
+        float _rotationAngle;
         Vector3 _rotationAxis;
     private:
 };
