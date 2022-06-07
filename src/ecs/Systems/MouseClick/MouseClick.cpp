@@ -38,12 +38,11 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         break;
     case CLICKABLE_ACTION_OPEN_OPTIONS:
         std::cout << "OPEN OPTIONS" << std::endl;
+        //TODO: change ECS
         break;
     case CLICKABLE_ACTION_QUIT_GAME:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
-        // exit(0);
-        // static_cast<Engine *>(ecs->getEngine())->_loop = false;
         break;
     default:
         break;
