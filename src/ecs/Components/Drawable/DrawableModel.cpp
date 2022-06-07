@@ -7,9 +7,9 @@
 
 #include "DrawableModel.hpp"
 
-DrawableModel::DrawableModel(std::vector<Texture2D> textures, std::string modelPath, std::vector<int> meshOrder)
+DrawableModel::DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder)
 {
-    this->_model = LoadModel(modelPath.c_str());
+    this->_model = model;
     this->_type = DRAWABLE_TYPE_MODEL;
 
     for (int i = 0; i < textures.size(); i++) {
