@@ -10,11 +10,12 @@
 
 #include "../ecs/ECSManager/ECSManager.hpp"
 #include "../ecs/Components/Clickable/Clickable.hpp"
+#include "../Scene/Scene.hpp"
 
 
 class Button {
     public:
-        Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], ECSManager *ecsToChangeTo, ClickableActionType actionType);
+        Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], Scene *scene, ClickableActionType actionType);
         ~Button();
 
     protected:

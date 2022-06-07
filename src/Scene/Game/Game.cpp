@@ -11,6 +11,8 @@
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
+#include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Systems/Animation/Animation.hpp"
 
 int i = 0;
 
@@ -34,7 +36,7 @@ Game::Game(Engine *engine)
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
 
-    // Creating vector textur for mcg 
+    // Creating vector texture and the mesh order for mcg 
     std::vector<Texture2D> textures = {
         LoadTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
         LoadTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
@@ -55,7 +57,7 @@ Game::Game(Engine *engine)
 
 
     // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 70.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 20.0f, CAMERA_PERSPECTIVE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(texture_cube, std::make_unique<Placable>(1.0f, 0.0f, 0.0f ));
@@ -65,13 +67,15 @@ Game::Game(Engine *engine)
     // Configuring player
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){2.0f, 0.0f, 0.0f}));
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, "assets/models/mcg/mcg.iqm", meshOrder));
+    this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
     // // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
 
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>());
-    // this->_ecsManager->addSystem(std::make_unique<Move>(map_objects));
+    this->_ecsManager->addSystem(std::make_unique<Animation>());
+    // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;
 }
 
