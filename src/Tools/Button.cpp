@@ -8,14 +8,14 @@
 #include "Button.hpp"
 
 
-Button::Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], ECSManager *ecsToChangeTo, ClickableActionType actionType)
+Button::Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], Scene *scene, ClickableActionType actionType)
 {
     int button_id = ecsManager->createEntity();
     int button_text = ecsManager->createEntity();
 
     ecsManager->addComponent(button_id, std::make_unique<Placable>(x, y));
     ecsManager->addComponent(button_id, std::make_unique<DrawableSprite>(textures[1], 1));
-    ecsManager->addComponent(button_id, std::make_unique<Clickable>(ecsManager->getEntity(button_id) ,textures[2], ecsToChangeTo, actionType));
+    ecsManager->addComponent(button_id, std::make_unique<Clickable>(ecsManager->getEntity(button_id) ,textures[2], scene->getECS(), actionType));
     ecsManager->addComponent(button_id, std::make_unique<Hoverable>(ecsManager->getEntity(button_id), textures[0]));
     if (text.length() > 6) {
         x = x - 100;
