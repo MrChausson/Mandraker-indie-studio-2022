@@ -12,8 +12,10 @@
     #include "../Engine/Engine.hpp"
 
 enum SCENE_TYPE {
-    MENU,
-    GAME
+    SCENE_MENU,
+    SCENE_SETTINGS,
+    SCENE_GAME,
+    SCENE_NONE
 };
 class Scene {
     public:

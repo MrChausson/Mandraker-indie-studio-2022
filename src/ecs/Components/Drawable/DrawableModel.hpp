@@ -15,7 +15,7 @@
 
 class DrawableModel : public Drawable{
     public:
-        DrawableModel(std::vector<Texture2D> textures, std::string modelPath, std::vector<int> meshOrder);
+        DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder);
         ~DrawableModel();
         Model getModel();
 
