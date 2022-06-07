@@ -1,19 +1,19 @@
 /*
 ** EPITECH PROJECT, 2022
-** Visual Studio Live Share (Workspace)
+** B-YEP-400-LIL-4-1-indiestudio-clement.chausson
 ** File description:
-** Menu
+** Settings
 */
 
-#ifndef MENU_HPP_
-#define MENU_HPP_
+#ifndef SETTINGS_HPP_
+#define SETTINGS_HPP_
     #include "../Scene.hpp"
     #include "../../Engine/Engine.hpp"
 
-class Menu : public Scene {
+class Settings : public Scene {
     public:
-        Menu(Engine *engine = nullptr);
-        ~Menu();
+        Settings(Engine *engine = nullptr);
+        ~Settings();
 
     protected:
     private:
@@ -25,4 +25,4 @@ class Menu : public Scene {
         Music _music;
 };
 
-#endif /* !MENU_HPP_ */
+#endif /* !SETTINGS_HPP_ */

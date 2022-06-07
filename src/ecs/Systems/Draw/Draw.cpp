@@ -44,7 +44,7 @@ void Draw::apply(std::vector<IComponent *> component)
         drawableCube = static_cast<DrawableCube *>(component[1]);
         //TODO begin mode with camera
         BeginMode3D(camera->getCamera());
-        SetCameraMode(camera->getCamera(), CAMERA_ORBITAL);
+        SetCameraMode(camera->getCamera(), CAMERA_FREE);
         DrawCube(placable->getPosition(), drawableCube->getWidth(), drawableCube->getHeight(), drawableCube->getLength(), drawableCube->getColor());
     } else if (component_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
         if (component.size() < 3)
@@ -55,7 +55,7 @@ void Draw::apply(std::vector<IComponent *> component)
         drawableCubeTexture = static_cast<DrawableCubeTexture *>(component[1]);
         //TODO begin mode with camera
         BeginMode3D(camera->getCamera());
-        SetCameraMode(camera->getCamera(), CAMERA_ORBITAL);
+        SetCameraMode(camera->getCamera(), CAMERA_FREE);
         DrawCubeTexture(drawableCubeTexture->getTexture(), placable->getPosition(), drawableCubeTexture->getWidth(), drawableCubeTexture->getHeight(), drawableCubeTexture->getLength(), drawableCubeTexture->getColor());
         EndMode3D();
     } else if (component_type == DRAWABLE_TYPE_MODEL) {
@@ -66,9 +66,9 @@ void Draw::apply(std::vector<IComponent *> component)
         camera = static_cast<CameraComponent *>(component[2]); 
         DrawableModel *drawableModel = static_cast<DrawableModel *>(component[1]);
         BeginMode3D(camera->getCamera());
-        SetCameraMode(camera->getCamera(), CAMERA_ORBITAL);
+        SetCameraMode(camera->getCamera(), CAMERA_FREE);
 
-        DrawModelEx(drawableModel->getModel(), placable->getPosition(), placable->getRotationAxis(), placable->getRotationAngle(), (Vector3){ 0.02f, 0.02f, 0.02f }, WHITE);
+        DrawModelEx(drawableModel->getModel(), placable->getPosition(), placable->getRotationAxis(), placable->getRotationAngle(), placable->getScale(), WHITE);
         EndMode3D();
     }
 }
