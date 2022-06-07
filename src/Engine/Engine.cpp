@@ -9,7 +9,6 @@
 #include "../Scene/Scene.hpp"
 #include "../Scene/Menu/Menu.hpp"
 
-
 bool loop_status = 1;
 
 Engine::Engine(int fps)
@@ -50,6 +49,8 @@ void Engine::game_loop()
             loop_status = false;
         this->_chrono.sleepEndLoop();
     }
+    if (this->_currentEcs != nullptr)
+        delete (this->_currentEcs);
     CloseAudioDevice();
     CloseWindow();
     // delete(static_cast<Menu *>(scene));
