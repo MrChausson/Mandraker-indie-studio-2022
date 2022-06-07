@@ -14,6 +14,7 @@
 #include "../../Components/CameraComponent/CameraComponent.hpp"
 #include "DrawMode.hpp"
 #include "../../Components/Drawable/DrawableCubeTexture.hpp"
+#include "../../Components/Drawable/DrawableModel.hpp"
 
 class Draw : public ISystem {
     public:

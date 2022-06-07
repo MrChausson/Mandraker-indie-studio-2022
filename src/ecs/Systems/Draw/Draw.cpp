@@ -24,6 +24,7 @@ void Draw::apply(std::vector<IComponent *> component)
     DrawableSprite *drawableSprite;
     DrawableCube *drawableCube;
     DrawableCubeTexture *drawableCubeTexture;
+    CameraComponent *camera;
     Vector2 vec;
     DRAWABLE_TYPE component_type = drawable->getComponentType();
 
@@ -39,7 +40,7 @@ void Draw::apply(std::vector<IComponent *> component)
             throw CameraNotFound();
         if (placable == nullptr)
             throw PlacableNotFound();
-        CameraComponent *camera = static_cast<CameraComponent *>(component[2]); 
+        camera = static_cast<CameraComponent *>(component[2]); 
         drawableCube = static_cast<DrawableCube *>(component[1]);
         //TODO begin mode with camera
         SetCameraMode(camera->getCamera(), CAMERA_FREE);
@@ -50,12 +51,23 @@ void Draw::apply(std::vector<IComponent *> component)
             throw CameraNotFound();
         if (placable == nullptr)
             throw PlacableNotFound();
-        CameraComponent *camera = static_cast<CameraComponent *>(component[2]); 
+        camera = static_cast<CameraComponent *>(component[2]); 
         drawableCubeTexture = static_cast<DrawableCubeTexture *>(component[1]);
         //TODO begin mode with camera
         BeginMode3D(camera->getCamera());
         SetCameraMode(camera->getCamera(), CAMERA_FREE);
         DrawCubeTexture(drawableCubeTexture->getTexture(), placable->getPosition(), drawableCubeTexture->getWidth(), drawableCubeTexture->getHeight(), drawableCubeTexture->getLength(), drawableCubeTexture->getColor());
+        EndMode3D();
+    } else if (component_type == DRAWABLE_TYPE_MODEL) {
+        if (component.size() < 3)
+            throw CameraNotFound();
+        if (placable == nullptr)
+            throw PlacableNotFound();
+        camera = static_cast<CameraComponent *>(component[2]); 
+        DrawableModel *drawableModel = static_cast<DrawableModel *>(component[1]);
+        BeginMode3D(camera->getCamera());
+        SetCameraMode(camera->getCamera(), CAMERA_FREE);
+        DrawModelEx(drawableModel->getModel(), placable->getPosition(), (Vector3){ 1.0f, 0.0f, 0.0f }, -90.0f, (Vector3){ 1.0f, 1.0f, 1.0f }, WHITE);
         EndMode3D();
     }
 }
