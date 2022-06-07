@@ -14,8 +14,6 @@
 #include "../../Components/Movable/Movable.hpp"
 #include "../../Components/Placable/Placable.hpp"
 
-
-
 class Move : public ISystem {
     public:
         Move();

@@ -85,9 +85,9 @@ bool ECSManager::entityHasComponent(Entity entity, COMPONENT_TYPES type)
 }
 
 
-IComponent *ECSManager::getComponent(std::unique_ptr<Entity> &entity, COMPONENT_TYPES type)
+IComponent *ECSManager::getComponent(Entity *entity, COMPONENT_TYPES type)
 {
-    for (auto &component : entity.get()->getComponents())
+    for (auto &component : entity->getComponents())
         if (component->getType() == type)
             return (component);
     return nullptr;

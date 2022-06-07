@@ -5,6 +5,8 @@
 ** Game
 */
 
+#include <iostream>
+#include <fstream>
 #include "Game.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
@@ -47,7 +49,6 @@ Game::Game(Engine *engine)
     };
 
 
-
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 20.0f, CAMERA_PERSPECTIVE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
@@ -74,4 +75,25 @@ Game::Game(Engine *engine)
 Game::~Game()
 {
     std::cout << "Game destructor" << std::endl;
+}
+
+void Game::loadMap(std::string map_src)
+{
+    //load map from file
+    std::ifstream myfile (map_src);
+    std::string line;
+    int i = 0;
+
+    if (!myfile.is_open())
+        throw Error_file("Error while opening map file");
+    while (std::getline(myfile, line)) {
+        for (int j = 0; j < line.size(); j++)
+            if (line[j] == 's') {
+                Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                entity->addComponent(std::make_unique<Placable>(j, i));
+                this->_mapEntities->push_back(entity);
+            }
+        i++;
+    }
+    myfile.close();
 }
