@@ -10,6 +10,8 @@
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
 
+int i = 0;
+
 Game::Game(Engine *engine)
 {
     this->_ecsManager = std::make_unique<ECSManager>();

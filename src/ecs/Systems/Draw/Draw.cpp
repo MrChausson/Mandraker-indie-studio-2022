@@ -67,7 +67,7 @@ void Draw::apply(std::vector<IComponent *> component)
         DrawableModel *drawableModel = static_cast<DrawableModel *>(component[1]);
         BeginMode3D(camera->getCamera());
         SetCameraMode(camera->getCamera(), CAMERA_FREE);
-        DrawModelEx(drawableModel->getModel(), placable->getPosition(), (Vector3){ 1.0f, 0.0f, 0.0f }, -90.0f, (Vector3){ 1.0f, 1.0f, 1.0f }, WHITE);
+        DrawModelEx(drawableModel->getModel(), placable->getPosition(), (Vector3){ 1.0f, 0.0f, 0.0f}, 180.0f, (Vector3){ 0.08f, 0.08f, 0.08f }, WHITE);
         EndMode3D();
     }
 }
