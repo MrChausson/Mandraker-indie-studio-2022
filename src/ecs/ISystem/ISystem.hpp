@@ -22,7 +22,8 @@ enum SYSTEM_TYPES {
     MOUSE_CLICK,
     MOVE,
     MUSIC,
-    ANIMATION
+    ANIMATION,
+    LOADING
 };
 
 class ISystem {

@@ -8,6 +8,7 @@
 #include "raylib.h"
 #include "ECSManager.hpp"
 #include "../Components/Clickable/Clickable.hpp"
+#include "../Components/Loadable/Loadable.hpp"
 #include "../../Engine/Engine.hpp"
 #include <iostream>
 
@@ -97,6 +98,9 @@ ECSManager *ECSManager::applySystems()
 {
     int i = 0;
     std::vector<IComponent *> components; // Let's create a vector that will store all the needed components by the system
+
+    BeginDrawing();
+    ClearBackground(BLACK);
     for (auto &system : this->_systems)
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
@@ -133,6 +137,14 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     system->apply(components);
                 }
+                else if (system->getType() == LOADING && component->getType() == LOADABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    system->apply(components);
+                    Loadable *load = static_cast<Loadable *>(component);
+                    if (load->isLoaded())
+                        return load->getEcs();
+                }
                 if (!loop_status)
                     return nullptr;
             }
@@ -152,9 +164,6 @@ void ECSManager::applyDraw()
     Drawable *draw;
     Placable *place;
     IComponent *camera;
-
-    BeginDrawing();
-    ClearBackground(BLACK);
 
     for (; found == true; current_plan++) {
         found = false;

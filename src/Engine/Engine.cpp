@@ -8,6 +8,7 @@
 #include "Engine.hpp"
 #include "../Scene/Scene.hpp"
 #include "../Scene/Menu/Menu.hpp"
+#include "../Scene/SplashScreen/SplashScreen.hpp"
 
 bool loop_status = 1;
 
@@ -33,7 +34,7 @@ void Engine::game_loop()
     InitAudioDevice();
     this->setFps(this->_fps);
     Engine *engine = this;
-    Scene *scene = new Menu(engine);
+    Scene *scene = new SplashScreen(engine);
     this->_currentEcs = scene->getECS();
     ECSManager *tmp;
 

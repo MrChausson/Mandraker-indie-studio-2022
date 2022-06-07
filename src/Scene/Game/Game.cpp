@@ -14,8 +14,6 @@
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 
-int i = 0;
-
 Game::Game(Engine *engine)
 {
     this->_ecsManager = std::make_unique<ECSManager>();
