@@ -8,7 +8,7 @@
 #include "Clickable.hpp"
 
 
-Clickable::Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeTo, ClickableActionType actionType)
+Clickable::Clickable(Entity *entity, Texture2D texture, std::string ecsToChangeTo, ClickableActionType actionType)
 {
     Placable *test = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
     this->_type = CLICKABLE;

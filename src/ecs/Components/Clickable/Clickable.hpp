@@ -16,7 +16,7 @@
 
 class Clickable : public IComponent {
     public:
-        Clickable(Entity *entity, Texture2D texture, ECSManager *ecsToChangeTo = nullptr, ClickableActionType actionType = CLICKABLE_ACTION_NONE);
+        Clickable(Entity *entity, Texture2D texture, std::string ecsToChangeTo, ClickableActionType actionType = CLICKABLE_ACTION_NONE);
         ~Clickable();
         void setBound(float x, float y);
         bool isClicked(Vector2 mouse, bool pressed);
@@ -31,7 +31,7 @@ class Clickable : public IComponent {
         Texture2D _tmp;
         ECSManager *getEcs();
         void setEcs(ECSManager *ecs);
-        ECSManager *_tmpEcs;
+        std::string _tmpEcs;
         ClickableActionType getActionType();
 
     protected:

@@ -54,9 +54,9 @@ Menu::Menu(Engine *engine)
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_textures, new Game(), CLICKABLE_ACTION_CHANGE_ECS);
-    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_textures, this, CLICKABLE_ACTION_CHANGE_ECS);
-    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_textures, this, CLICKABLE_ACTION_QUIT_GAME);
+    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_textures, "game", CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_textures, "settings", CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_textures, "none", CLICKABLE_ACTION_QUIT_GAME);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 

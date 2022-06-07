@@ -9,7 +9,8 @@
 #include "MouseClick.hpp"
 #include "../../Components/Clickable/Clickable.hpp"
 #include "../../../Engine/Engine.hpp"
-
+#include "../../../Scene/Game/Game.hpp"
+#include "../../../Scene/Menu/Menu.hpp"
 
 MouseClick::MouseClick()
 {
@@ -33,8 +34,18 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     switch (actionType)
     {
     case CLICKABLE_ACTION_CHANGE_ECS:
-        if (click->_tmpEcs != nullptr)
-            click->setEcs(click->_tmpEcs);
+        if (click->_tmpEcs.compare("game") == 0) {
+            Game *game = new Game();
+            click->setEcs(game->getECS());
+        }
+        else if (click->_tmpEcs.compare("menu") == 0) {
+            Menu *menu = new Menu();
+            click->setEcs(menu->getECS());
+        }
+        // else if (click->_tmpEcs.compare("settings") == 0) {
+        //     Settings *settings = new Settings();
+        //     click->setEcs(settings);
+        // }
         break;
     case CLICKABLE_ACTION_OPEN_OPTIONS:
         std::cout << "OPEN OPTIONS" << std::endl;
