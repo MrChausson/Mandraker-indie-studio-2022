@@ -32,6 +32,7 @@ Game::Game(Engine *engine)
     int test_cube = this->_ecsManager->createEntity();
     int texture_cube = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
+    int test_pot = this->_ecsManager->createEntity();
 
     // Creating vector textur for mcg 
     std::vector<Texture2D> textures = {
@@ -41,6 +42,12 @@ Game::Game(Engine *engine)
         LoadTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
         LoadTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
         LoadTexture("assets/models/mcg/glass.png")
+    };
+    std::vector<Texture2D> textures_pot = {
+        LoadTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
+    };
+    std::vector<int> texture_po_mesh_order = {
+        0
     };
     std::vector<int> meshOrder = {
         1, 2, 3, 5, 0, 4
@@ -84,7 +91,7 @@ void Game::loadMap(std::string map_src)
         throw Error_file("Error while opening map file");
     while (std::getline(myfile, line)) {
         for (int j = 0; j < line.size(); j++)
-            if (line[j] == 's') {
+            if (line[j] == 'r') {
                 Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, i));
                 this->_mapEntities->push_back(entity);
