@@ -42,10 +42,10 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
         }
-        else if (click->_tmpEcs.compare("settings") == 0) {
-            Settings *settings = new Settings();
-            click->setEcs(settings);
-        }
+        // else if (click->_tmpEcs.compare("settings") == 0) {
+        //     Settings *settings = new Settings();
+        //     click->setEcs(settings);
+        // }
         break;
     case CLICKABLE_ACTION_QUIT_GAME:
         std::cout << "Goodbye!" << std::endl;
