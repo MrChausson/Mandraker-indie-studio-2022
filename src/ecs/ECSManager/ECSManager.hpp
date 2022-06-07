@@ -35,7 +35,7 @@ class ECSManager {
         // Components Functions //
         void addComponent(int entityId, std::unique_ptr<IComponent> component);
         bool entityHasComponent(Entity entity, COMPONENT_TYPES type);
-        IComponent *getComponent(std::unique_ptr<Entity> &entity, COMPONENT_TYPES type);
+        IComponent *getComponent(Entity *entity, COMPONENT_TYPES type);
         // Systems Functions //
         void addSystem(std::unique_ptr<ISystem> system);
         ISystem *getSystemByType(SYSTEM_TYPES type);

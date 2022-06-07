@@ -14,9 +14,11 @@ class Game : public Scene {
     public:
         Game(Engine *engine = nullptr);
         ~Game();
+        void loadMap(std::string map);
 
     protected:
     private:
+        std::unique_ptr<std::vector <Entity *>> _mapEntities;
 };
 
 #endif /* !GAME_HPP_ */
