@@ -11,6 +11,8 @@
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
+#include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Systems/Animation/Animation.hpp"
 
 int i = 0;
 
@@ -32,8 +34,9 @@ Game::Game(Engine *engine)
     int test_cube = this->_ecsManager->createEntity();
     int texture_cube = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
+    int test_pot = this->_ecsManager->createEntity();
 
-    // Creating vector textur for mcg 
+    // Creating vector texture and the mesh order for mcg 
     std::vector<Texture2D> textures = {
         LoadTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
         LoadTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
@@ -42,13 +45,19 @@ Game::Game(Engine *engine)
         LoadTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
         LoadTexture("assets/models/mcg/glass.png")
     };
+    std::vector<Texture2D> textures_pot = {
+        LoadTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
+    };
+    std::vector<int> texture_po_mesh_order = {
+        0
+    };
     std::vector<int> meshOrder = {
         1, 2, 3, 5, 0, 4
     };
 
 
     // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 70.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 20.0f, CAMERA_PERSPECTIVE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(texture_cube, std::make_unique<Placable>(1.0f, 0.0f, 0.0f ));
@@ -56,15 +65,20 @@ Game::Game(Engine *engine)
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player
-    this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){2.0f, 0.0f, 0.0f}));
+    this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){2.0f, 0.0f, 0.0f}, -90.0f, (Vector3){0.02f, 0.02f, 0.02f}));
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, "assets/models/mcg/mcg.iqm", meshOrder));
+    this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
+    // Configuring bag
+    this->_ecsManager->addComponent(test_pot, std::make_unique<Placable>(3.0f, 0.0f, 0.0f, (Vector3){0.0f, 0.0f, 0.0f}));
+    this->_ecsManager->addComponent(test_pot, std::make_unique<DrawableModel>(textures_pot, "assets/models/bag/bag.obj", texture_po_mesh_order));
     // // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
 
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>());
-    // this->_ecsManager->addSystem(std::make_unique<Move>(map_objects));
+    this->_ecsManager->addSystem(std::make_unique<Animation>());
+    // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;
 }
 
@@ -84,7 +98,7 @@ void Game::loadMap(std::string map_src)
         throw Error_file("Error while opening map file");
     while (std::getline(myfile, line)) {
         for (int j = 0; j < line.size(); j++)
-            if (line[j] == 's') {
+            if (line[j] == 'r') {
                 Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, i));
                 this->_mapEntities->push_back(entity);

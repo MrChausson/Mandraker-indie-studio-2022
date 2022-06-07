@@ -7,12 +7,14 @@
 
 #include "Placable.hpp"
 
-Placable::Placable(float x, float y, float z, Vector3 rotationAxis)
+Placable::Placable(float x, float y, float z, Vector3 rotationAxis, float rotationAngle, Vector3 scale)
 {
     this->_x = x;
     this->_y = y;
     this->_z = z;
     this->_rotationAxis = rotationAxis;
+    this->_rotationAngle = rotationAngle;
+    this->_scale = scale;
 }
 
 Placable::~Placable()
@@ -68,4 +70,24 @@ void Placable::setRotationAxis(Vector3 rotationAxis)
 Vector3 Placable::getRotationAxis()
 {
     return this->_rotationAxis;
+}
+
+void Placable::setRotationAngle(float rotationAngle)
+{
+    this->_rotationAngle = rotationAngle;
+}
+
+float Placable::getRotationAngle()
+{
+    return this->_rotationAngle;
+}
+
+void Placable::setScale(Vector3 scale)
+{
+    this->_scale = scale;
+}
+
+Vector3 Placable::getScale()
+{
+    return this->_scale;
 }
