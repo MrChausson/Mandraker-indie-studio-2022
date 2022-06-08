@@ -12,10 +12,11 @@
 #include <string>
 
 
-Menu::Menu(Engine *engine)
+Menu::Menu()
 {
     std::cout << "Menu creating" << std::endl;
-    this->_ecsManager = std::make_unique<ECSManager>(engine);
+    this->_ecsManager = std::make_unique<ECSManager>();
+    this->_ecsManager->setScene(this);
 
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
@@ -50,7 +51,7 @@ Menu::Menu(Engine *engine)
     Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
-    
+
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<MouseClick>(MouseClick()));
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));

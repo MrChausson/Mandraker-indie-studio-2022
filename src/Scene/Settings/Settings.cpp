@@ -11,10 +11,11 @@
 #include "../../Tools/Button.hpp"
 #include <string>
 
-Settings::Settings(Engine *engine)
+Settings::Settings()
 {
     std::cout << "Options creating" << std::endl;
-    this->_ecsManager = std::make_unique<ECSManager>(engine);
+    this->_ecsManager = std::make_unique<ECSManager>();
+    this->_ecsManager->setScene(this);
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
@@ -25,9 +26,9 @@ Settings::Settings(Engine *engine)
     this->_background_texture = LoadTexture("assets/materials/main_menu.png");
     this->_title_texture = LoadTexture("assets/materials/title_bar.png");
     this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-    this->_textures[0] = LoadTexture("assets/materials/buttons/btn_hover.png");
-    this->_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
-    this->_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
+    this->_btn_textures[0] = LoadTexture("assets/materials/buttons/btn_hover.png");
+    this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
+    this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
     PlayMusicStream(this->_music);
 
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(1000, 100));
@@ -39,7 +40,7 @@ Settings::Settings(Engine *engine)
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
