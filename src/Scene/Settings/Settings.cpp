@@ -25,7 +25,7 @@ Settings::Settings()
     this->_background_texture = LoadTexture("assets/materials/main_menu.png");
     this->_title_texture = LoadTexture("assets/materials/title_bar.png");
     this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-    this->_btn_textures[0] = LoadTexture("assets/materials/buttons/btn_hover.png");
+    this->_btn_textures[0] = LoadTexture("assets/materials/buttons/btn_hovered.png");
     this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
     this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
     PlayMusicStream(this->_music);

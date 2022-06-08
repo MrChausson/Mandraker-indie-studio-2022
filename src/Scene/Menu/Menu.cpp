@@ -27,9 +27,9 @@ Menu::Menu()
     this->_background_texture = LoadTexture("assets/materials/main_menu.png");
     this->_title_texture = LoadTexture("assets/materials/title_bar.png");
     this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-    this->_textures[0] = LoadTexture("assets/materials/buttons/btn_hover.png");
-    this->_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
-    this->_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
+    this->_btn_textures[0] = LoadTexture("assets/materials/buttons/btn_hovered.png");
+    this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
+    this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
 
     PlayMusicStream(this->_music);
 
@@ -42,9 +42,9 @@ Menu::Menu()
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_textures, SCENE_CHARACTER_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS);
-    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS);
-    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME);
+    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_btn_textures, SCENE_CHARACTER_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_btn_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
@@ -57,9 +57,9 @@ Menu::Menu()
 Menu::~Menu()
 {
     UnloadTexture(this->_background_texture);
-    UnloadTexture(this->_textures[0]);
-    UnloadTexture(this->_textures[1]);
-    UnloadTexture(this->_textures[2]);
+    UnloadTexture(this->_btn_textures[0]);
+    UnloadTexture(this->_btn_textures[1]);
+    UnloadTexture(this->_btn_textures[2]);
     UnloadTexture(this->_title_texture);
     UnloadFont(this->_btn_font);
     UnloadFont(this->_title_font);
