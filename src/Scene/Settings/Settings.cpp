@@ -15,7 +15,6 @@ Settings::Settings()
 {
     std::cout << "Options creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
-    this->_ecsManager->setScene(this);
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();

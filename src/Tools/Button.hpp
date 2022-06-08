@@ -14,7 +14,7 @@
 
 class Button {
     public:
-        Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], SCENE_TYPE, ClickableActionType actionType);
+        Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], SCENE_TYPE type, ClickableActionType actionType);
         ~Button();
 
     protected:
