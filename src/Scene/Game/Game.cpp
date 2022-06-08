@@ -40,11 +40,8 @@ Game::Game()
     int snape = this->_ecsManager->createEntity();
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
-<<<<<<< HEAD
     int gryf_infos = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
-=======
->>>>>>> 6c80293de16b0fa889b0aa468ab0cc7e6e5172e1
 
     // Creating Model , vector texture and the mesh order for mcg 
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
