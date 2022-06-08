@@ -14,7 +14,7 @@
 CharacterSelector::CharacterSelector(Engine *engine)
 {
     std::cout << "Options creating" << std::endl;
-    this->_ecsManager = std::make_unique<ECSManager>(engine);
+    this->_ecsManager = std::make_unique<ECSManager>();
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
