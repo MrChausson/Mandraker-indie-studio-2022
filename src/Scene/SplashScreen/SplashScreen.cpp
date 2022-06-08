@@ -27,7 +27,7 @@ SplashScreen::SplashScreen()
     PlayMusicStream(music);
     
     this->_ecsManager->addComponent(load_bar, std::make_unique<Placable>(back.width/2, (back.height/20) * 17));
-    this->_ecsManager->addComponent(load_bar, std::make_unique<Loadable>(load, back, 0.0f, menu->getECS(), 0.1));
+    this->_ecsManager->addComponent(load_bar, std::make_unique<Loadable>(load, back, 0.0f, menu->getECS(), 2));
     this->_ecsManager->addComponent(music_id , std::make_unique<Musicable>(music));
 
     this->_ecsManager->addSystem(std::make_unique<Loading>());

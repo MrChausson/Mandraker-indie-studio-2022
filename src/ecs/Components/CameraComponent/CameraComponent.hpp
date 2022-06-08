@@ -17,6 +17,7 @@ class CameraComponent : public IComponent {
         ~CameraComponent();
         COMPONENT_TYPES getType() override;
         Camera3D getCamera();
+        Camera getCameraRaw();
 
     protected:
     private:
