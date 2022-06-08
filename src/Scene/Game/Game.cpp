@@ -5,6 +5,7 @@
 ** Game
 */
 
+#include "raylib.hpp"
 #include "Game.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
@@ -16,6 +17,7 @@ Game::Game(Engine *engine)
 {
     this->_ecsManager = std::make_unique<ECSManager>();
     this->_engine = engine;
+    Raylib::Raylib_encap Raylib_encp;
 
     // Create camera vectors
     Vector3 position = { 0.0f, 15.0f, 5.0f };
@@ -31,14 +33,14 @@ Game::Game(Engine *engine)
     int texture_cube = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
 
-    // Creating vector textur for mcg 
+    // Creating vector textur for mcg
     std::vector<Texture2D> textures = {
-        LoadTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/glass.png")
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/glass.png")
     };
     std::vector<int> meshOrder = {
         1, 2, 3, 5, 0, 4

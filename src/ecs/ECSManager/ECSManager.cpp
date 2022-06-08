@@ -5,7 +5,7 @@
 ** ECSManager
 */
 
-#include "raylib.h"
+#include "raylib.hpp"
 #include "ECSManager.hpp"
 #include "../Components/Clickable/Clickable.hpp"
 #include "../../Engine/Engine.hpp"
@@ -41,11 +41,11 @@ void ECSManager::deleteEntity(int id)
 int ECSManager::createEntity()
 {
     int id;
-    
+
     if (this->_deletedEntityIds.size() != 0) {
         id = this->_deletedEntityIds.back();
         this->_deletedEntityIds.pop_back();
-    } else 
+    } else
         id = this->current_id++;
     this->_entities.push_back(std::make_unique<Entity>(id));
     return (id);
@@ -147,9 +147,10 @@ void ECSManager::applyDraw()
     Drawable *draw;
     Placable *place;
     IComponent *camera;
+    Raylib::Raylib_encap Raylib_encp;
 
-    BeginDrawing();
-    ClearBackground(BLACK);
+    Raylib_encp.BgDrawing();
+    Raylib_encp.ClearBkground(BLACK);
 
     for (; found == true; current_plan++) {
         found = false;
@@ -171,7 +172,7 @@ void ECSManager::applyDraw()
             }
         }
     }
-    EndDrawing();
+    Raylib_encp.EDrawing();
 }
 
 ISystem *ECSManager::getSystemByType(SYSTEM_TYPES type)

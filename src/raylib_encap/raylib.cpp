@@ -9,290 +9,361 @@
 #include <fstream>
 #include "raylib.hpp"
 
-raylib::raylib()
+Raylib::Raylib_encap::Raylib_encap()
 {
 }
 
-raylib::~raylib()
+Raylib::Raylib_encap::~Raylib_encap()
 {
 }
 
-void Raylib::Windowsinit(int &screenWidth, int &screenHeight, std::string const &title, std::size_t const &fps) noexcept
+void Raylib::Raylib_encap::Windowsinit(std::string const &title, std::size_t const &fps) noexcept
 {
-    GetScreenWidth(screenWidth);
-    GetScreenHeight(screenHeight);
+    GetScreenWidth();
+    GetScreenHeight();
     InitWindow(x_y_screen.first, x_y_screen.second, title.c_str());
     SetExitKey(KEY_NULL);
     SetTargetFPS(fps);
 }
 
-void Raylib::GetScreenWidth() const noexcept
+void Raylib::Raylib_encap::InitWind(int width, int height, std::string title) noexcept
 {
-    x_y_screen.first = GetScreenWidth()
+    return InitWindow(width, height, title.c_str());
 }
 
-void Raylib::GetScreenHeight() const noexcept
+
+int Raylib::Raylib_encap::GetScreenWidth() noexcept
 {
-    x_y_screen.second = GetScreenHeight()
+    x_y_screen.first = GetScreenWidth();
+    return GetScreenWidth();
 }
 
-bool Raylib::WindowShouldEnd() const noexcept
+int Raylib::Raylib_encap::GetScreenHeight() noexcept
 {
-    return !WindowShouldClose();
+    x_y_screen.second = GetScreenHeight();
+    return GetScreenHeight();
 }
 
-bool Raylib::isKeyPres(int &key) const noexcept
+bool Raylib::Raylib_encap::WindowShouldEnd() const noexcept
+{
+    return WindowShouldClose();
+}
+
+bool Raylib::Raylib_encap::isKeyPres(int key) const noexcept
 {
     return (IsKeyPressed(key));
 }
 
-bool Raylib::IsKDown(int &key) const noexcept
+bool Raylib::Raylib_encap::IsKDown(int key) const noexcept
 {
     return (IsKeyDown(key));
 }
 
-bool Raylib::isKReleased(int &key) const noexcept
+bool Raylib::Raylib_encap::isKReleased(int &key) const noexcept
 {
     return (IsKeyReleased(key));
 }
 
-void Raylib::SetExitK(int &key) const noexcept
+void Raylib::Raylib_encap::SetExitK(int &key) const noexcept
 {
     return (SetExitKey(key));
 }
 
-bool Raylib::IsMouseBPressed() const noexcept
+bool Raylib::Raylib_encap::IsMouseBPressed() const noexcept
 {
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
 }
 
-float Raylib::GetFrameT() noexcept
+float Raylib::Raylib_encap::GetFrameT() noexcept
 {
     return GetFrameTime();
 }
 
-char Raylib::GetCharPres() noexcept
+int Raylib::Raylib_encap::GetCharPres() const noexcept
 {
+    int i = GetCharPressed();
+
     if (IsKeyPressed(KEY_BACKSPACE))
         return (-1);
-    return (GetCharPressed);
+    return i;
 }
 
-bool Raylib::IsMouseBDown() const noexcept
+bool Raylib::Raylib_encap::IsMouseBDown(int button) const noexcept
 {
-    return IsMouseButtonDown(MOUSE_BUTTON_LEFT)
+    return IsMouseButtonDown(MOUSE_BUTTON_LEFT);
 }
 
-bool Raylib::IsMouseBReleased() const noexcept
+bool Raylib::Raylib_encap::IsMouseBReleased(int button) const noexcept
 {
-    return IsMouseButtonReleased(MOUSE_BUTTON_LEFT)
+    return IsMouseButtonReleased(MOUSE_BUTTON_LEFT);
 }
 
-void Raylib::GetMX() noexcept
+void Raylib::Raylib_encap::GetMX() noexcept
 {
-    x_y_mouse.first = GetMouseX()
+    x_y_mouse.first = GetMouseX();
 }
 
-void Raylib::GetMY() noexcept
+void Raylib::Raylib_encap::GetMY() noexcept
 {
-    x_y_mouse.second = GetMouseY()
+    x_y_mouse.second = GetMouseY();
 }
 
-Vector2 Raylib::GetMousePos() noexcept
+Vector2 Raylib::Raylib_encap::GetMousePos() noexcept
 {
     return GetMousePosition();
 }
 
-void Raylib::SetMousePos(std::pair<int, int> const &pos) const noexcept
+void Raylib::Raylib_encap::SetMousePos(std::pair<int, int> const &pos) const noexcept
 {
     return SetMousePosition(pos.first, pos.second);
 }
 
-int GetKeyPres(void) noexcept
+int Raylib::Raylib_encap::GetKeyPres(void) noexcept
 {
     return GetKeyPressed();
 }
 
-Music Raylib::LoadMStream(std::string& fileName) const noexcept
+Music Raylib::Raylib_encap::LoadMStream(std::string fileName) const noexcept
 {
     return LoadMusicStream(fileName.c_str());
 }
 
-void Raylib::UnloadMtream(Music music) noexcept
+void Raylib::Raylib_encap::UnloadMtream(Music music) noexcept
 {
     return UnloadMusicStream(music);
 }
 
-void RAylib::PlayMStream(Music music) noexcept
+void Raylib::Raylib_encap::PlayMStream(Music music) noexcept
 {
     return PlayMusicStream(music);
 }
 
-bool IsMStreamPlaying(Music music) noexcept
+bool Raylib::Raylib_encap::IsMStreamPlaying(Music music) noexcept
 {
     return IsMusicStreamPlaying(music);
 }
 
-void StopMStream(Music music) noexcept
+void Raylib::Raylib_encap::StopMStream(Music music) noexcept
 {
     return StopMusicStream(music);
 }
 
-void PauseMStream(Music music) noexcept
+void Raylib::Raylib_encap::PauseMStream(Music music) noexcept
 {
     return PauseMusicStream(music);
 }
 
-void ResumeMStream(Music music) noexcept
+void Raylib::Raylib_encap::ResumeMStream(Music music) noexcept
 {
     return ResumeMusicStream(music);
 }
 
-void SeekMStream(Music music, float position) noexcept
+void Raylib::Raylib_encap::SeekMStream(Music music, float position) noexcept
 {
     return SeekMusicStream(music, position);
 }
 
-void SetMVolume(Music music, float volume) noexcept
+void Raylib::Raylib_encap::SetMVolume(Music music, float volume) noexcept
 {
     return SetMusicVolume(music, volume);
 }
 
-void BeginM3D(Camera3D camera) noexcept
+void Raylib::Raylib_encap::BeginM3D(Camera3D camera) noexcept
 {
     return BeginMode3D(camera);
 }
 
-void EndM3D(void) noexcept
+void Raylib::Raylib_encap::EndM3D(void) noexcept
 {
     return EndMode3D();
 }
 
-void BeginTextMode(RenderTexture2D target) noexcept
+void Raylib::Raylib_encap::BeginTextMode(RenderTexture2D target) noexcept
 {
     return BeginTextureMode(target);
 }
 
-void EndTextMode(void) noexcept
+void Raylib::Raylib_encap::EndTextMode(void) noexcept
 {
     return EndTextureMode();
 }
 
-void BeginShadMode(Shader shader) noexcept
+void Raylib::Raylib_encap::BeginShadMode(Shader shader) noexcept
 {
     return BeginShaderMode(shader);
 }
 
-void EndShadMode(void) noexcept
+void Raylib::Raylib_encap::EndShadMode(void) noexcept
 {
     return EndShaderMode();
 }
 
-void BeginBMode(int mode) noexcept
+void Raylib::Raylib_encap::BeginBMode(int mode) noexcept
 {
     return BeginBlendMode(mode);
 }
 
-void EndBMode(void) noexcept
+void Raylib::Raylib_encap::EndBMode(void) noexcept
 {
     return EndBlendMode();
 }
 
-bool Raylib::checkCollision(std::pair<float, float> mouse_xy, float width, float height, float X, float Y)
+bool Raylib::Raylib_encap::checkCollPointRec(Vector2 vec, Rectangle rect) noexcept
 {
-    Rectangle rect = {posX, posY, width, height};
-    Vector2 vec = {pos.first, pos.second};
-
     return (CheckCollisionPointRec(vec, rect));
 }
 
-Sound Rayib::LSound(std::string fileName) noexcept
+Sound Raylib::Raylib_encap::LSound(std::string fileName) noexcept
 {
-    return Loadsound(fileName.c_str());
+    return LoadSound(fileName.c_str());
 }
 
-Font Rayib::LFontEx(std::string fileName, int fontSize, int *fontChars, int glyphCount) noexcept
+Font Raylib::Raylib_encap::LFontEx(std::string fileName, int fontSize, int *fontChars, int glyphCount) noexcept
 {
     return LoadFontEx(fileName.c_str(), fontSize, fontChars, glyphCount);
 }
 
-Texture2D Rayib::LTexture(std::string fileName) noexcept
+Texture2D Raylib::Raylib_encap::LTexture(std::string fileName) noexcept
 {
-    return LoadTexture(filename.c_str());
+    return LoadTexture(fileName.c_str());
 }
 
-void Rayib::PlayS(Sound sound) noexcept
+void Raylib::Raylib_encap::PlayS(Sound sound) noexcept
 {
     return PlaySound(sound);
 }
 
-void Rayib::StopS(Sound sound) noexcept
+void Raylib::Raylib_encap::StopS(Sound sound) noexcept
 {
     return StopSound(sound);
 }
 
-void Rayib::PauseS(Sound sound) noexcept
+void Raylib::Raylib_encap::PauseS(Sound sound) noexcept
 {
-    return PaueSound(sound);
+    return PauseSound(sound);
 }
 
-void Rayib::ResumeS(Sound sound) noexcept
+void Raylib::Raylib_encap::ResumeS(Sound sound) noexcept
 {
     return ResumeSound(sound);
 }
 
-void Rayib::ClearBkground(Color color) noexcept
+void Raylib::Raylib_encap::ClearBkground(Color color) noexcept
 {
     return ClearBackground(color);
 }
 
-void Rayib::BgDrawing(void) noexcept
+void Raylib::Raylib_encap::BgDrawing(void) noexcept
 {
     return BeginDrawing();
 }
 
-void Rayib::EDrawing(void) noexcept
+void Raylib::Raylib_encap::EDrawing(void) noexcept
 {
     return EndDrawing();
 }
 
-void Rayib::DwTexture(Texture2D texture, std::pair<int, int> conts &pos, Color tint) noexcept
+void Raylib::Raylib_encap::DwTexture(Texture2D texture, int X, int Y, Color tint) noexcept
 {
-    return DrawTexture(texture, pos.first, pos.second, tint);
+    return DrawTexture(texture, X, Y, tint);
 }
 
-void Rayib::DwFPS(std::pair<int, int> const &pos) noexcept
+void Raylib::Raylib_encap::DwFPS(std::pair<int, int> const &pos) noexcept
 {
     return DrawFPS(pos.first, pos.second);
 }
 
-void Rayib::DwText(std::string text, std::pair<int, int> const &pos, float fontSize, Color color) noexcept
+void Raylib::Raylib_encap::DwText(std::string text, std::pair<int, int> const &pos, float fontSize, Color color) noexcept
 {
     return DrawText(text.c_str(), pos.first, pos.second, fontSize, color);
 }
 
-void Rayib::DwTextEx(Font font, std::string text, Vector2 position, float fontSize, float spacing, Color tint) noexcept
+void Raylib::Raylib_encap::DwTextEx(Font font, std::string text, Vector2 position, float fontSize, float spacing, Color tint) noexcept
 {
     return DrawTextEx(font, text.c_str(), position, fontSize, spacing, tint);
 }
 
-
-void Rayib::UpdtMusicStream(Music music) noexcept
+void Raylib::Raylib_encap::UpdtMusicStream(Music music) noexcept
 {
     return UpdateMusicStream(music);
 }
 
-void Rayib::UnlTexture(Texture2D texture) noexcept
+void Raylib::Raylib_encap::UnlTexture(Texture2D texture) noexcept
 {
     return UnloadTexture(texture);
 }
 
-void Rayib::UnlFont(Font font) noexcept
+void Raylib::Raylib_encap::UnlFont(Font font) noexcept
 {
     return UnloadFont(font);
 }
 
-void Rayib::UnlSound(Sound sound) noexcept
+void Raylib::Raylib_encap::UnlSound(Sound sound) noexcept
 {
     return UnloadSound(sound);
+}
+
+void Raylib::Raylib_encap::SetCamMode(Camera camera, int mode) noexcept
+{
+    return SetCameraMode(camera, mode);
+}
+
+void Raylib::Raylib_encap::DwCube(Vector3 position, float width, float height, float length, Color color) noexcept
+{
+    return DrawCube(position, width, height, length, color);
+}
+
+void Raylib::Raylib_encap::DwCubeTexture(Texture2D texture, Vector3 position, float width, float height, float length, Color color) noexcept
+{
+    return DrawCubeTexture(texture, position, width, height, length, color);
+}
+
+void Raylib::Raylib_encap::DwModelEx(Model model, Vector3 position, Vector3 rotationAxis, float rotationAngle, Vector3 scale, Color tint) noexcept
+{
+    return DrawModelEx(model, position, rotationAxis, rotationAngle, scale, tint);
+}
+
+Model Raylib::Raylib_encap::LModel(std::string fileName) noexcept
+{
+    return LoadModel(fileName.c_str());
+}
+
+ModelAnimation *Raylib::Raylib_encap::LoadMAnimations(std::string fileName, unsigned int *animCount) noexcept
+{
+    return LoadModelAnimations(fileName.c_str(), animCount);
+}
+
+void Raylib::Raylib_encap::SetMTexture(Material *material, int mapType, Texture2D texture) noexcept
+{
+    return SetMaterialTexture(material, mapType, texture);
+}
+
+void Raylib::Raylib_encap::SetMMeshMaterial(Model *model, int meshId, int materialId) noexcept
+{
+    return SetModelMeshMaterial(model, meshId, materialId);
+}
+
+void Raylib::Raylib_encap::SetConfFlags(unsigned int flags) noexcept
+{
+    return SetConfigFlags(flags);
+}
+
+void Raylib::Raylib_encap::InitAudioDev(void) noexcept
+{
+    return InitAudioDevice();
+}
+
+void Raylib::Raylib_encap::CloseAudioDev(void) noexcept
+{
+    return CloseAudioDevice();
+}
+
+void Raylib::Raylib_encap::CloseWind(void) noexcept
+{
+    return CloseWindow();
+}
+
+void Raylib::Raylib_encap::SetTargFPS(int fps) noexcept
+{
+    return SetTargetFPS(fps);
 }

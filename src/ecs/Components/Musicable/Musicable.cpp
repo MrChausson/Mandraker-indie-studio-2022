@@ -6,6 +6,7 @@
 */
 
 #include "Musicable.hpp"
+#include "raylib.hpp"
 
 Musicable::Musicable(Music music)
 {
@@ -25,12 +26,13 @@ COMPONENT_TYPES Musicable::getType()
 
 void Musicable::updatePause()
 {
+    Raylib::Raylib_encap Raylib_encp;
     this->_pause = !this->_pause;
 
     if (this->_pause)
-        PauseMusicStream(this->_music);
+        Raylib_encp.PauseMStream(this->_music);
     else
-        ResumeMusicStream(this->_music);
+        Raylib_encp.ResumeMStream(this->_music);
 }
 
 bool Musicable::isPaused()

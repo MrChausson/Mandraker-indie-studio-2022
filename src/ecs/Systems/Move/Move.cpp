@@ -6,6 +6,7 @@
 */
 
 #include "Move.hpp"
+#include "raylib.hpp"
 
 Move::Move()
 {
@@ -23,6 +24,7 @@ SYSTEM_TYPES Move::getType()
 
 void Move::apply(std::vector<IComponent *> component)
 {
+    Raylib::Raylib_encap Raylib_encp;
     Placable *placable = static_cast<Placable *> (component[0]);
     Movable *movable = static_cast<Movable *> (component[1]);
 
@@ -32,13 +34,13 @@ void Move::apply(std::vector<IComponent *> component)
     MOVABLE_TYPE type = movable->getMovableType();
 
     if (type == MOVABLE_PLAYER) {
-        if (IsKeyDown(KEY_RIGHT))
+        if (Raylib_encp.IsKDown(KEY_RIGHT))
             placable->setX(placable->getX() + to_move);
-        if (IsKeyDown(KEY_LEFT))
+        if (Raylib_encp.IsKDown(KEY_LEFT))
             placable->setX(placable->getX() - to_move);
-        if (IsKeyDown(KEY_UP))
+        if (Raylib_encp.IsKDown(KEY_UP))
             placable->setY(placable->getY() - to_move);
-        if (IsKeyDown(KEY_DOWN))
+        if (Raylib_encp.IsKDown(KEY_DOWN))
             placable->setY(placable->getY() + to_move);
     }
     else if (type == MOVABLE_AI) {

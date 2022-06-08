@@ -6,7 +6,7 @@
 */
 
 #include "Hoverable.hpp"
-
+#include "raylib.hpp"
 #include "../Placable/Placable.hpp"
 
 Hoverable::Hoverable(Entity *entity, Texture2D texture)
@@ -29,7 +29,9 @@ void Hoverable::setBound(float x, float y)
 
 bool Hoverable::isHovered(Vector2 mouse)
 {
-    bool res = CheckCollisionPointRec(mouse, this->_bounds);
+    Raylib::Raylib_encap Raylib_encp;
+    bool res = Raylib_encp.checkCollPointRec(mouse, this->_bounds);
+
     return (res);
 }
 
