@@ -46,7 +46,7 @@ Menu::Menu()
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_textures, SCENE_CHARACTER_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS);
     Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS);
     Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME);
 

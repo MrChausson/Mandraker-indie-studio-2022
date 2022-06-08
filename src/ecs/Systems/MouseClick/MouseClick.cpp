@@ -11,7 +11,8 @@
 #include "../../../Engine/Engine.hpp"
 #include "../../../Scene/Game/Game.hpp"
 #include "../../../Scene/Menu/Menu.hpp"
-#include "../../../Scene/Settings/Settings.hpp"
+#include "../../../Scene/Settings/Settings.hpp" 
+#include "../../../Scene/CharacterSelector/CharacterSelector.hpp"
 
 MouseClick::MouseClick()
 {
@@ -48,6 +49,10 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         else if (click->_tmpEcs == SCENE_SETTINGS) {
             Settings *settings = new Settings();
             click->setEcs(settings->getECS());
+        }
+        else if (click->_tmpEcs == SCENE_CHARACTER_SELECTOR) {
+            CharacterSelector *characterSelector = new CharacterSelector();
+            click->setEcs(characterSelector->getECS());
         }
         break;
     case CLICKABLE_ACTION_QUIT_GAME:
