@@ -16,8 +16,8 @@
 
 CharacterSelector::CharacterSelector(Engine *engine)
 {
-    Vector3 position = { 90.0f, 1.0f, 0.0f };
-    Vector3 target = { 0.0f, 0.0f, 0.0f }; //  Gauche-Droite|Haut-bas|??
+    Vector3 position = { 0.0f, 10.0f, 180.0f };
+    Vector3 target = { 32.0f, 25.0f, 0.0f }; //  Gauche-Droite|Haut-bas|??
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 0.5, 0.5, 0.5 };
 
@@ -32,6 +32,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     int bg_perso3 = this->_ecsManager->createEntity(); 
     int bg_perso4 = this->_ecsManager->createEntity(); 
     int character_mcg = this->_ecsManager->createEntity();
+    int character_sprout = this->_ecsManager->createEntity();
     int camera = this->_ecsManager->createEntity();
 
     int total = 420 * 4;
@@ -61,6 +62,21 @@ CharacterSelector::CharacterSelector(Engine *engine)
     };
     Vector3 rotationAxis = {2.0f, 0.0f, 0.0f};
 
+    //sprout
+        std::vector<Texture2D> textures_sprout = {
+        LoadTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
+        LoadTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
+        LoadTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
+        LoadTexture("assets/models/sprout/Sprout_face_diffuse_v1@4x.png"),
+        LoadTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
+        LoadTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
+        LoadTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
+
+    };
+    std::vector<int> meshOrder_sprout = {
+        1, 5, 4, 0, 6, 3, 2
+    };
+
     PlayMusicStream(this->_music);
 
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(347.5, 0));
@@ -75,16 +91,27 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
     this ->_ecsManager->addComponent(bg_perso1, std::make_unique<Placable>(start_pos, 260));
     this->_ecsManager->addComponent(bg_perso1, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-
     this ->_ecsManager->addComponent(bg_perso2, std::make_unique<Placable>(start_pos + (420*1), 260));
     this->_ecsManager->addComponent(bg_perso2, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-    
     this ->_ecsManager->addComponent(bg_perso3, std::make_unique<Placable>(start_pos + (420*2), 260));
     this->_ecsManager->addComponent(bg_perso3, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-    
     this ->_ecsManager->addComponent(bg_perso4, std::make_unique<Placable>(start_pos + (420*3), 260));
     this->_ecsManager->addComponent(bg_perso4, std::make_unique<DrawableSprite>(this->_box_texture, 1));
 
+//mcg
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
+    Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
+    this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(textures_mcg, mgmModel, meshOrder_mcg, 2));
+    this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
+
+//sprout
+    this->_ecsManager->addComponent(character_sprout, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
+    Model sproutModel = LoadModel("assets/models/sprout/sprout.iqm");
+    this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(textures_sprout, sproutModel, meshOrder_sprout, 2));
+    this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
+
+//button play
     Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
@@ -93,6 +120,8 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addSystem(std::make_unique<MouseClick>(MouseClick()));
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
+    this->_ecsManager->addSystem(std::make_unique<Animation>());
+
 }
 
 CharacterSelector::~CharacterSelector()
