@@ -22,6 +22,7 @@ Menu::Menu()
     int title_text = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
 
+    // Loading Assets for the menu
     this->_music = LoadMusicStream("assets/sounds/menu_bg.mp3");
     this->_type = SCENE_MENU;
     this->_background_texture = LoadTexture("assets/materials/main_menu.png");
@@ -31,8 +32,10 @@ Menu::Menu()
     this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
     this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
 
+    // Play Music
     PlayMusicStream(this->_music);
 
+    // Adding components
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(1000, 100));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
@@ -48,6 +51,7 @@ Menu::Menu()
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
+    // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<MouseClick>(MouseClick()));
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));

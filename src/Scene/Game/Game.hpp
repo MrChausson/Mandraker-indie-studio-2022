@@ -19,6 +19,7 @@ class Game : public Scene {
     protected:
     private:
         std::unique_ptr<std::vector <Entity *>> _mapEntities;
+        Texture2D _gryf_infos_texture;
 };
 
 #endif /* !GAME_HPP_ */

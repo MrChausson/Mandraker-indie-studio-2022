@@ -19,6 +19,7 @@ Game::Game()
 {
     this->_ecsManager = std::make_unique<ECSManager>();
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
+    this->_gryf_infos_texture = LoadTexture("assets/materials/game/gryffindor.png");
 
     // Create camera vectors
     Vector3 position = { 10.0f, 60.0f, 25.0f };
@@ -38,6 +39,7 @@ Game::Game()
     int flitwick = this->_ecsManager->createEntity();
     int snape = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
+    int gryf_infos = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
 
     // Creating Model , vector texture and the mesh order for mcg 
@@ -103,6 +105,8 @@ Game::Game()
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 100));
+    this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     
