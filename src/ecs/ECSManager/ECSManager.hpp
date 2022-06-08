@@ -25,7 +25,7 @@
 
 class ECSManager {
     public:
-        ECSManager(void *engine = nullptr);
+        ECSManager();
         ~ECSManager();
         // Entities Functions //
         int createEntity();
@@ -42,15 +42,16 @@ class ECSManager {
         // Apply
         ECSManager *applySystems();
         void applyDraw();
-        void *getEngine();
-
+        void setScene(void *scene);
+        void *getScene();
+        void deleteScene();
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};
         std::vector<std::unique_ptr<ISystem>> _systems = {};
         std::vector<int> _deletedEntityIds;
         unsigned int current_id = 0;
-        void *_engine;
+        void *_scene;
     private:
         IComponent *getCamera();
 };

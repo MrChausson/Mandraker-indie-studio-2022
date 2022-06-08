@@ -14,11 +14,11 @@
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 
-Game::Game(Engine *engine)
+Game::Game()
 {
     this->_ecsManager = std::make_unique<ECSManager>();
+    this->_ecsManager->setScene(this);
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
-    this->_engine = engine;
 
     // Create camera vectors
     Vector3 position = { 0.0f, 60.0f, 20.0f };

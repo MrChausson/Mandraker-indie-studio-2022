@@ -12,7 +12,7 @@
 
 class SplashScreen : public Scene {
     public:
-        SplashScreen(Engine *engine = nullptr);
+        SplashScreen();
         ~SplashScreen();
 
     protected:
