@@ -42,8 +42,11 @@ Game::Game()
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
     int gryf_infos = this->_ecsManager->createEntity();
+    int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
 
+    // Load Music 
+    Music music = LoadMusicStream("assets/sounds/game_bg.mp3");
     // Creating Model , vector texture and the mesh order for mcg 
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
     std::vector<Texture2D> texturesMgm = {
@@ -105,6 +108,10 @@ Game::Game()
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
 
+    //Configure Music
+    PlayMusicStream(music);
+    this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(music));
+
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 100));
@@ -146,9 +153,10 @@ Game::Game()
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
 
     // Adding systems
-    this->_ecsManager->addSystem(std::make_unique<Draw>());
-    this->_ecsManager->addSystem(std::make_unique<Move>());
-    this->_ecsManager->addSystem(std::make_unique<Animation>());
+    this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
+    this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
+    this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
+    this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->loadMap("assets/map/map.txt");
     // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;
@@ -201,9 +209,6 @@ void Game::loadMap(std::string map_src)
             } else if (line[j] == 'B') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.5f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
-            } else if (line[j] == 'W') {
-                entity->addComponent(std::make_unique<Placable>(j, 0.5f, i, zeroVector3));
-                entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModelRotate, texture_table_mesh_order));
             } else if (line[j] == '*') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawablePlane>(size));
