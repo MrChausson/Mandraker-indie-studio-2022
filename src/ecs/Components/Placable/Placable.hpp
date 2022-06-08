@@ -12,7 +12,7 @@
 
 class Placable : public IComponent {
     public:
-        Placable(float x = 0, float y = 0, float z = 0, Vector3 rotationAxis = {1.0f, 0.0f, 0.0f}, float rotationAngle = 0.0f, Vector3 scale = {1.0f, 1.0f, 1.0f});
+        Placable(float x = 0, float y = 0, float z = 0, Vector3 rotationAxis = {1.0f, 0.0f, 0.0f}, float rotationAngle = 0.0f, Vector3 scale = {0.02f, 0.02f, 0.02f});
         ~Placable();
         COMPONENT_TYPES getType() override;
         void setZ(float z);
