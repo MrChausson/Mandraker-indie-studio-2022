@@ -7,6 +7,7 @@
 
 #include "CharacterSelector.hpp"
 #include "raylib.h"
+#include "raymath.h"
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../Tools/Button.hpp"
 #include <string>
@@ -34,6 +35,8 @@ CharacterSelector::CharacterSelector(Engine *engine)
     int character_mcg = this->_ecsManager->createEntity();
     int character_sprout = this->_ecsManager->createEntity();
     int camera = this->_ecsManager->createEntity();
+    int character_flit = this->_ecsManager->createEntity();
+    int character_snape = this->_ecsManager->createEntity();
 
     int total = 420 * 4;
     int start_pos = (1920/2 - total/2);
@@ -71,10 +74,33 @@ CharacterSelector::CharacterSelector(Engine *engine)
         LoadTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
         LoadTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
         LoadTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
-
     };
     std::vector<int> meshOrder_sprout = {
         1, 5, 4, 0, 6, 3, 2
+    };
+
+       // Creating Model , vector texture and the mesh order for FLitwick
+    std::vector<Texture2D> textures_flit = {
+        LoadTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
+        LoadTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
+        LoadTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
+        LoadTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
+        LoadTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+    };
+    std::vector<int> meshOrderFlitwick = {
+        2, 4, 5, 1, 3
+    };
+
+    // Creating Model , vector texture and the mesh order for Snape
+    std::vector<Texture2D> textures_snape = {
+        LoadTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
+        LoadTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
+        LoadTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
+        LoadTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
+        LoadTexture("assets/models/snape/EyesBW_v169@4x.png")
+    };
+    std::vector<int> meshOrderSnape = {
+       4, 3, 0, 2, 1
     };
 
     PlayMusicStream(this->_music);
@@ -102,6 +128,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
+    mgmModel.transform = MatrixRotateZ(-0.1);
     this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(textures_mcg, mgmModel, meshOrder_mcg, 2));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
@@ -110,6 +137,20 @@ CharacterSelector::CharacterSelector(Engine *engine)
     Model sproutModel = LoadModel("assets/models/sprout/sprout.iqm");
     this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(textures_sprout, sproutModel, meshOrder_sprout, 2));
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
+
+//flitwick
+    this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
+    Model flitwickModel = LoadModel("assets/models/flitwick/flitwick.iqm");
+    flitwickModel.transform = MatrixRotateZ(0.2);
+    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(textures_flit, flitwickModel, meshOrderFlitwick, 2));
+    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
+
+//Snape
+    this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
+    Model snapeModel = LoadModel("assets/models/snape/snape.iqm");
+    snapeModel.transform = MatrixRotateZ(0.6);
+    this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(textures_snape, snapeModel, meshOrderSnape, 2));
+    this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
 //button play
     Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS);
