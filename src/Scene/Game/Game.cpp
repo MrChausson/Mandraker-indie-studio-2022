@@ -27,7 +27,7 @@ Game::Game()
     Vector3 up = { 0.0f, 1.0f, 0.0f };
 
     // Createing plane vectors
-    Vector2 size = { 12.0f, 8.0f };
+    Vector2 size = { 128.0f, 128.0f };
 
     // Creating entities
     int camera = this->_ecsManager->createEntity();
@@ -38,9 +38,13 @@ Game::Game()
     int test_pot = this->_ecsManager->createEntity();
     int flitwick = this->_ecsManager->createEntity();
     int snape = this->_ecsManager->createEntity();
+    int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
+<<<<<<< HEAD
     int gryf_infos = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
+=======
+>>>>>>> 6c80293de16b0fa889b0aa468ab0cc7e6e5172e1
 
     // Creating Model , vector texture and the mesh order for mcg 
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
@@ -129,16 +133,17 @@ Game::Game()
     this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
     this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
+    //Drawing the plane
+    this->_ecsManager->addComponent(plane, std::make_unique<Placable>(0, -1, 0));
+    this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size, DARKBROWN));
+
     // Configuring player SPROUT
     this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
     this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
-
-
-
-    // // Configuring ai
+    // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
 
@@ -162,6 +167,7 @@ void Game::loadMap(std::string map_src)
     std::ifstream myfile (map_src);
     std::string line;
     int i = 0;
+    Texture2D grass_texture = LoadTexture("assets/materials/grass.png");
     std::vector<Texture2D> textures_pot = {
         LoadTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
     };
@@ -188,6 +194,7 @@ void Game::loadMap(std::string map_src)
     while (std::getline(myfile, line)) {
         for (int j = 0; j < line.size(); j++) {
             Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+            Entity *grass_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
             if (line[j] == 'r') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3 , -45, bag_scale));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_pot, bagModel, texture_po_mesh_order));
@@ -198,6 +205,9 @@ void Game::loadMap(std::string map_src)
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawablePlane>(size));
             }
+            // we have to push grass also
+            grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+            grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
             this->_mapEntities->push_back(entity);
         }
         i++;
