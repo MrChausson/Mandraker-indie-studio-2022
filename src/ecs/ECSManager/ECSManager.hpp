@@ -42,16 +42,12 @@ class ECSManager {
         // Apply
         ECSManager *applySystems();
         void applyDraw();
-        void setScene(void *scene);
-        void *getScene();
-        void deleteScene();
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};
         std::vector<std::unique_ptr<ISystem>> _systems = {};
         std::vector<int> _deletedEntityIds;
         unsigned int current_id = 0;
-        void *_scene;
     private:
         IComponent *getCamera();
 };

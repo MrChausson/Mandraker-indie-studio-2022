@@ -16,12 +16,10 @@ Menu::Menu()
 {
     std::cout << "Menu creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
-    this->_ecsManager->setScene(this);
 
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
-    int player = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
 
     this->_music = LoadMusicStream("assets/sounds/menu_bg.mp3");
@@ -34,8 +32,6 @@ Menu::Menu()
     this->_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
 
     PlayMusicStream(this->_music);
-
-    this->_ecsManager->addComponent(player, std::make_unique<Movable>(1));
 
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(1000, 100));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));

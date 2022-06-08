@@ -17,12 +17,11 @@
 Game::Game()
 {
     this->_ecsManager = std::make_unique<ECSManager>();
-    this->_ecsManager->setScene(this);
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
 
     // Create camera vectors
-    Vector3 position = { 0.0f, 60.0f, 20.0f };
-    Vector3 target = { 0.0f, -25.0f, 0.0f };
+    Vector3 position = { 10.0f, 60.0f, 25.0f };
+    Vector3 target = { 10.0f, -25.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
 
     // Createing plane vectors
@@ -52,11 +51,9 @@ Game::Game()
 
 
     // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 30.0f, CAMERA_PERSPECTIVE));
-    // Plane
-    // this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size));
-    // this->_ecsManager->addComponent(plane, std::make_unique<Placable>(12, 8, 0));
-    // 
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
+    // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
+    // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player
