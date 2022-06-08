@@ -9,7 +9,6 @@
 #define DRAWABLESPRITE_HPP_
 
 #include "raylib.h"
-#include <string>
 #include "Drawable.hpp"
 
 class DrawableSprite : public Drawable {

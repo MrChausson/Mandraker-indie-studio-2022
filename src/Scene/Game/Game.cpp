@@ -30,8 +30,6 @@ Game::Game(Engine *engine)
     int text = this->_ecsManager->createEntity();
     int player = this->_ecsManager->createEntity();
     int ai = this->_ecsManager->createEntity();
-    int test_cube = this->_ecsManager->createEntity();
-    int texture_cube = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
 
@@ -53,8 +51,6 @@ Game::Game(Engine *engine)
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 30.0f, CAMERA_PERSPECTIVE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
-    this->_ecsManager->addComponent(texture_cube, std::make_unique<Placable>(1.0f, 0.0f, 0.0f ));
-    this->_ecsManager->addComponent(texture_cube, std::make_unique<DrawableCubeTexture>(LoadTexture("assets/materials/brique.png")));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player
@@ -113,8 +109,7 @@ void Game::loadMap(std::string map_src)
             if (line[j] == 'r') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zero_vector3 , -45, bag_scale));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_pot, bagModel, texture_po_mesh_order));
-            }
-            else if (line[j] == 'B') {
+            } else if (line[j] == 'B') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zero_vector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
             }

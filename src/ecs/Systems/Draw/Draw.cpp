@@ -70,6 +70,18 @@ void Draw::apply(std::vector<IComponent *> component)
 
         DrawModelEx(drawableModel->getModel(), placable->getPosition(), placable->getRotationAxis(), placable->getRotationAngle(), placable->getScale(), WHITE);
         EndMode3D();
+    } else if (component_type == DRAWABLE_TYPE_PLANE) {
+        if (component.size() < 3)
+            throw CameraNotFound();
+        if (placable == nullptr)
+            throw PlacableNotFound();
+        camera = static_cast<CameraComponent *>(component[2]);
+        DrawablePlane *drawablePlane = static_cast<DrawablePlane *>(component[1]);
+        BeginMode3D(camera->getCamera());
+        SetCameraMode(camera->getCamera(), CAMERA_FREE);
+
+        DrawPlane(placable->getPosition(), drawablePlane->getSize(), drawablePlane->getColor());
+        EndMode3D();
     }
 }
 
