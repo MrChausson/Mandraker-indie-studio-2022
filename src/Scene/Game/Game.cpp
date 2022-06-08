@@ -17,7 +17,6 @@
 Game::Game()
 {
     this->_ecsManager = std::make_unique<ECSManager>();
-    this->_ecsManager->setScene(this);
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
 
     // Create camera vectors

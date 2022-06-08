@@ -36,8 +36,6 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     switch (actionType)
     {
     case CLICKABLE_ACTION_CHANGE_ECS:
-        if (0 == 1)
-            ecs->deleteScene();
         if (click->_tmpEcs == SCENE_GAME) {
             Game *game = new Game();
             click->setEcs(game->getECS());

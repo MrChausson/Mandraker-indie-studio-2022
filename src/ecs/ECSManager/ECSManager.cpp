@@ -204,18 +204,3 @@ IComponent *ECSManager::getCamera()
                 return (component);
     return nullptr;
 }
-
-void ECSManager::setScene(void *scene)
-{
-    this->_scene = scene;
-}
-
-void ECSManager::deleteScene()
-{
-    delete static_cast<Scene *>(this->_scene);
-}
-
-void *ECSManager::getScene()
-{
-    return (this->_scene);
-}
