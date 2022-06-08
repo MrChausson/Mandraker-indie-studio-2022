@@ -12,7 +12,7 @@
 
 class Game : public Scene {
     public:
-        Game(Engine *engine = nullptr);
+        Game();
         ~Game();
         void loadMap(std::string map);
 

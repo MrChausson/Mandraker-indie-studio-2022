@@ -8,11 +8,10 @@
 #ifndef MENU_HPP_
 #define MENU_HPP_
     #include "../Scene.hpp"
-    #include "../../Engine/Engine.hpp"
 
 class Menu : public Scene {
     public:
-        Menu(Engine *engine = nullptr);
+        Menu();
         ~Menu();
 
     protected:

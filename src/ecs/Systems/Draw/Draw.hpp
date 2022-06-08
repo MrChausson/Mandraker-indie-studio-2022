@@ -15,6 +15,7 @@
 #include "DrawMode.hpp"
 #include "../../Components/Drawable/DrawableCubeTexture.hpp"
 #include "../../Components/Drawable/DrawableModel.hpp"
+#include "../../Components/Drawable/DrawablePlane.hpp"
 
 class Draw : public ISystem {
     public:
