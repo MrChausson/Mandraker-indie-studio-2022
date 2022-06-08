@@ -35,6 +35,8 @@ Game::Game()
     int ai = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
+    int flitwick = this->_ecsManager->createEntity();
+    int snape = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
 
     // Creating Model , vector texture and the mesh order for mcg 
@@ -51,6 +53,33 @@ Game::Game()
         1, 2, 3, 5, 0, 4
     };
 
+
+    // Creating Model , vector texture and the mesh order for FLitwick
+    Model flitwickModel = LoadModel("assets/models/flitwick/flitwick.iqm");
+    std::vector<Texture2D> textures_flit = {
+        LoadTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
+        LoadTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
+        LoadTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
+        LoadTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
+        LoadTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+    };
+    std::vector<int> meshOrderFlitwick = {
+        2, 4, 5, 1, 3
+    };
+
+    // Creating Model , vector texture and the mesh order for FLitwick
+    Model snapeModel = LoadModel("assets/models/snape/snape.iqm");
+    std::vector<Texture2D> textures_snape = {
+        LoadTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
+        LoadTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
+        LoadTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
+        LoadTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
+        LoadTexture("assets/models/snape/EyesBW_v169@4x.png")
+    };
+    std::vector<int> meshOrderSnape = {
+       4, 3, 0, 2, 1
+    };
+
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
 
@@ -58,11 +87,28 @@ Game::Game()
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
-    // Configuring player
+    
+    // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, mgmModel, meshOrder));
-    this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
+    this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
+
+
+    // Configuring player FLITWICK
+    this->_ecsManager->addComponent(flitwick, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<DrawableModel>(textures_flit, flitwickModel, meshOrderFlitwick));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
+
+    // Configuring player SNAPE
+    this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
+    this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(textures_snape, snapeModel, meshOrderSnape));
+    this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
+
+
+
 
     // // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
