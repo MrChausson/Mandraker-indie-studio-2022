@@ -15,7 +15,8 @@ enum SCENE_TYPE {
     SCENE_MENU,
     SCENE_SETTINGS,
     SCENE_GAME,
-    SCENE_NONE
+    SCENE_NONE,
+    SCENE_CHARACTER_SELECTOR
 };
 class Scene {
     public:

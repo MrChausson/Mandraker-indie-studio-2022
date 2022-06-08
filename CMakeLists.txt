@@ -17,6 +17,7 @@ src/Scene/Menu/Menu.cpp
 src/Scene/Game/Game.cpp
 src/Scene/SplashScreen/SplashScreen.cpp
 src/Scene/Settings/Settings.cpp
+src/Scene/CharacterSelector/CharacterSelector.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
