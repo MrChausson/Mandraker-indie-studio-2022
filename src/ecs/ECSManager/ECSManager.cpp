@@ -124,6 +124,8 @@ ECSManager *ECSManager::applySystems()
                         return ecs;
                 }
                 else if (system->getType() == MOVE && component->getType() == MOVABLE) {
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
                     components.push_back(entity->getComponentsByType(PLACABLE));
                     components.push_back(component);
                     system->apply(components);

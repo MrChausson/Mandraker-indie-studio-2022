@@ -6,6 +6,7 @@
 */
 
 #include "Draw.hpp"
+#include "raymath.h"
 
 Draw::Draw(DRAWMODE mode)
 {

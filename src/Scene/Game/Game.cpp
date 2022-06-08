@@ -50,7 +50,7 @@ Game::Game(Engine *engine)
 
 
     // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 30.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 15.0f, CAMERA_PERSPECTIVE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(texture_cube, std::make_unique<Placable>(1.0f, 0.0f, 0.0f ));
@@ -58,7 +58,8 @@ Game::Game(Engine *engine)
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player
-    this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){2.0f, 0.0f, 0.0f}, -90.0f));
+    this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){1.0f, 0.0f, 0.0f}, -90.0f));
+    this->_ecsManager->addComponent(player, std::make_unique<Movable>(1.0f, MOVABLE_PLAYER));
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, mgmModel, meshOrder));
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
@@ -69,6 +70,7 @@ Game::Game(Engine *engine)
 
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>());
+    this->_ecsManager->addSystem(std::make_unique<Move>());
     this->_ecsManager->addSystem(std::make_unique<Animation>());
     this->loadMap("assets/map/map.txt");
     // this->_ecsManager->addSystem(std::make_unique<Move>());

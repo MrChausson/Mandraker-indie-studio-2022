@@ -18,6 +18,7 @@ class DrawableModel : public Drawable{
         DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder);
         ~DrawableModel();
         Model getModel();
+        Model *getPtrModel();
 
     protected:
     private:

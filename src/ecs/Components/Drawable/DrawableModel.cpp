@@ -27,3 +27,8 @@ Model DrawableModel::getModel()
 {
     return this->_model;
 }
+
+Model *DrawableModel::getPtrModel()
+{
+    return &this->_model;
+}
