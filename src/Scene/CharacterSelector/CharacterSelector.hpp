@@ -5,23 +5,25 @@
 ** Settings
 */
 
-#ifndef SETTINGS_HPP_
-#define SETTINGS_HPP_
+#ifndef CHARACTERSELECTOR_HPP_
+#define CHARACTERSELECTOR_HPP_
     #include "../Scene.hpp"
+    #include "../../Engine/Engine.hpp"
 
-class Settings : public Scene {
+class CharacterSelector : public Scene {
     public:
-        Settings();
-        ~Settings();
+        CharacterSelector(Engine *engine = nullptr);
+        ~CharacterSelector();
 
     protected:
     private:
         Texture2D _background_texture;
         Texture2D _btn_textures[3];
         Texture2D _title_texture;
+        Texture2D _box_texture;
         Font _btn_font;
         Font _title_font;
         Music _music;
 };
 
-#endif /* !SETTINGS_HPP_ */
+#endif /* !CHARACTERSELECTOR_HPP_ */

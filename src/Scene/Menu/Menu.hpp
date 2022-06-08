@@ -8,17 +8,16 @@
 #ifndef MENU_HPP_
 #define MENU_HPP_
     #include "../Scene.hpp"
-    #include "../../Engine/Engine.hpp"
 
 class Menu : public Scene {
     public:
-        Menu(Engine *engine = nullptr);
+        Menu();
         ~Menu();
 
     protected:
     private:
         Texture2D _background_texture;
-        Texture2D _textures[3];
+        Texture2D _btn_textures[3];
         Texture2D _title_texture;
         Font _btn_font;
         Font _title_font;

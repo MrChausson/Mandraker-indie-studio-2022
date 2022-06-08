@@ -6,14 +6,13 @@
 */
 
 #include "SplashScreen.hpp"
-#include "../../Engine/Engine.hpp"
 #include "../../ecs/Components/Drawable/DrawableSprite.hpp"
 #include "../../ecs/Components/Loadable/Loadable.hpp"
 #include "../../ecs/Systems/Loading/Loading.hpp"
 #include "../Menu/Menu.hpp"
 #include "../../ecs/ECSManager/ECSManager.hpp"
 
-SplashScreen::SplashScreen(Engine *engine)
+SplashScreen::SplashScreen()
 {
     this->_ecsManager = std::make_unique<ECSManager>();
     Menu *menu = new Menu();

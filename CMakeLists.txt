@@ -17,6 +17,7 @@ src/Scene/Menu/Menu.cpp
 src/Scene/Game/Game.cpp
 src/Scene/SplashScreen/SplashScreen.cpp
 src/Scene/Settings/Settings.cpp
+src/Scene/CharacterSelector/CharacterSelector.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
@@ -40,6 +41,7 @@ src/ecs/Components/Drawable/DrawableSprite.cpp
 src/ecs/Components/Drawable/DrawableCube.cpp
 src/ecs/Components/Drawable/DrawableCubeTexture.cpp
 src/ecs/Components/Drawable/DrawableModel.cpp
+src/ecs/Components/Drawable/DrawablePlane.cpp
 src/ecs/Components/Hoverable/Hoverable.cpp
 src/ecs/Components/Movable/Movable.cpp
 src/ecs/Components/Musicable/Musicable.cpp

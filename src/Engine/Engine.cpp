@@ -34,7 +34,7 @@ void Engine::game_loop()
     InitAudioDevice();
     this->setFps(this->_fps);
     Engine *engine = this;
-    Scene *scene = new SplashScreen(engine);
+    Scene *scene = new SplashScreen();
     this->_currentEcs = scene->getECS();
     ECSManager *tmp;
 
