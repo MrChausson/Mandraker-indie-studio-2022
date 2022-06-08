@@ -43,13 +43,18 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
     this->_music = LoadMusicStream("assets/sounds/char_select_bg.mp3");
     this->_type = SCENE_CHARACTER_SELECTOR;
-    this->_background_texture = LoadTexture("assets/materials/selection/background.png");
     this->_title_texture = LoadTexture("assets/materials/selection/title_bar.png");
     this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 90, 0, 0);
     this->_btn_textures[0] = LoadTexture("assets/materials/buttons/btn_hovered.png");
     this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
     this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
-    this->_box_texture = LoadTexture("assets/materials/selection/btn_inactive.png");
+    this->_background_texture = LoadTexture("assets/materials/selection/background.png");
+
+    //BOX Textures
+    Texture2D box[3];
+    box[0] = LoadTexture("assets/materials/selection/btn_hovered.png");
+    box[1] = LoadTexture("assets/materials/selection/btn_inactive.png");
+    box[2] = LoadTexture("assets/materials/selection/btn_clicked.png");
 
     // Creating vector texture and the mesh order for mcg 
     std::vector<Texture2D> textures_mcg = {
@@ -105,26 +110,24 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
     PlayMusicStream(this->_music);
 
+    // Title
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(347.5, 0));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
+    // Text
     this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 85));
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"choose your character", Color{255, 255, 255, 255}, this->_btn_font));
-
+    // Background texture
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
+    // Box Component
+    Button(this->_ecsManager.get(), start_pos, 260, box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*1), 260, box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*2), 260, box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*3), 260, box, CLICKABLE_ACTION_NONE);
 
-    this ->_ecsManager->addComponent(bg_perso1, std::make_unique<Placable>(start_pos, 260));
-    this->_ecsManager->addComponent(bg_perso1, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-    this ->_ecsManager->addComponent(bg_perso2, std::make_unique<Placable>(start_pos + (420*1), 260));
-    this->_ecsManager->addComponent(bg_perso2, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-    this ->_ecsManager->addComponent(bg_perso3, std::make_unique<Placable>(start_pos + (420*2), 260));
-    this->_ecsManager->addComponent(bg_perso3, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-    this ->_ecsManager->addComponent(bg_perso4, std::make_unique<Placable>(start_pos + (420*3), 260));
-    this->_ecsManager->addComponent(bg_perso4, std::make_unique<DrawableSprite>(this->_box_texture, 1));
-
-//mcg
+    //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
@@ -132,31 +135,31 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(textures_mcg, mgmModel, meshOrder_mcg, 2));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
-//sprout
+    //sprout
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model sproutModel = LoadModel("assets/models/sprout/sprout.iqm");
     this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(textures_sprout, sproutModel, meshOrder_sprout, 2));
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
-//flitwick
+    //flitwick
     this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model flitwickModel = LoadModel("assets/models/flitwick/flitwick.iqm");
     flitwickModel.transform = MatrixRotateZ(0.2);
     this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(textures_flit, flitwickModel, meshOrderFlitwick, 2));
     this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
 
-//Snape
+    //Snape
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model snapeModel = LoadModel("assets/models/snape/snape.iqm");
     snapeModel.transform = MatrixRotateZ(0.6);
     this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(textures_snape, snapeModel, meshOrderSnape, 2));
     this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
-//button play
+    //button play
     Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
-
+    // System to add 
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<MouseClick>(MouseClick()));
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));

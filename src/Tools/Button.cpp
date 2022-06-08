@@ -25,6 +25,16 @@ Button::Button(ECSManager *ecsManager, std::string text, int x, int y, Font font
     }
 }
 
+Button::Button(ECSManager *ecsManager, int x, int y, Texture2D textures[3], ClickableActionType actionType)
+{
+    int button_id = ecsManager->createEntity();
+
+    ecsManager->addComponent(button_id, std::make_unique<Placable>(x, y));
+    ecsManager->addComponent(button_id, std::make_unique<DrawableSprite>(textures[1], 1));  
+    ecsManager->addComponent(button_id, std::make_unique<Clickable>(ecsManager->getEntity(button_id) ,textures[2], SCENE_NONE, actionType));
+    ecsManager->addComponent(button_id, std::make_unique<Hoverable>(ecsManager->getEntity(button_id), textures[0]));
+}
+
 Button::~Button()
 {
 }
