@@ -37,7 +37,8 @@ Game::Game()
     int test_pot = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
 
-    // Creating vector texture and the mesh order for mcg 
+    // Creating Model , vector texture and the mesh order for mcg 
+    Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
     std::vector<Texture2D> textures = {
         LoadTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
         LoadTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
@@ -50,20 +51,19 @@ Game::Game()
         1, 2, 3, 5, 0, 4
     };
 
+    // Configuring Player vector
+    Vector3 position_player = { 1.0f, 0.0f, 0.0f };
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-    // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
-    // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player
-    this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, (Vector3){1.0f, 0.0f, 0.0f}, -90.0f));
+    this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-    Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, mgmModel, meshOrder));
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
-    // Configuring bag
+
     // // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
