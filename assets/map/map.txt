@@ -1,0 +1,17 @@
+BBBBBBBBBBBBBBBBBBBBBBB
+B*rr r r r r r r r rr*B
+B r                 r B
+B   rr r r r r r rr   B
+B r r             r r B
+B     rr       rr     B
+B r r r         r r r B
+B                     B
+B r r             r r B
+B                     B
+B r r r         r r r B
+B     rr       rr     B
+B r r             r r B
+B   rr r r r r r rr   B
+B r                 r B
+B*rr r r r r r r r rr*B
+BBBBBBBBBBBBBBBBBBBBBBB
