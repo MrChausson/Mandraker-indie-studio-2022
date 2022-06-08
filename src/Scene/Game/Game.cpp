@@ -93,16 +93,17 @@ void Game::loadMap(std::string map_src)
         0
     };
     std::vector<Texture2D> textures_tables = {
-        LoadTexture("assets/models/pottery02_v18@4x.png"),
-        LoadTexture("assets/models/Metal_potteryHolders_v11@4x.png"),
         LoadTexture("assets/models/leaves2_v73@4x.png"),
+        LoadTexture("assets/models/Metal_potteryHolders_v11@4x.png"),
+        LoadTexture("assets/models/pottery02_v18@4x.png"),
     };  
     std::vector<int> texture_table_mesh_order = {
-        2, 1, 0
+        1, 2, 0
     };
     Model bagModel = LoadModel("assets/models/bag/bag.obj");
     Model tableModel = LoadModel("assets/models/table/table.obj");
     Vector3 zero_vector3 = {0.0f, 0.0f, 0.0f};
+    Vector3 bag_scale = {0.03, 0.03, 0.03};
 
     if (!myfile.is_open())
         throw Error_file("Error while opening map file");
@@ -110,7 +111,7 @@ void Game::loadMap(std::string map_src)
         for (int j = 0; j < line.size(); j++) {
             Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
             if (line[j] == 'r') {
-                entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zero_vector3 , -45));
+                entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zero_vector3 , -45, bag_scale));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_pot, bagModel, texture_po_mesh_order));
             }
             else if (line[j] == 'B') {
