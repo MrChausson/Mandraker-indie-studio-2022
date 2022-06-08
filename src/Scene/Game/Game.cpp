@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include "Game.hpp"
+#include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
@@ -181,8 +182,10 @@ void Game::loadMap(std::string map_src)
         2, 0, 1
     };
     Model tableModel = LoadModel("assets/models/table/table.obj");
+    Model tableModelRotate = LoadModel("assets/models/table/table.obj");
+    tableModelRotate.transform = MatrixRotateY(1.55 ); 
     Model bagModel = LoadModel("assets/models/bag/bag.obj");
-    Vector3 zeroVector3 = {0.0f, 0.0f, 0.0f};
+    Vector3 zeroVector3 = {0.0f, 0.0f, 0.0f}; 
     Vector3 bag_scale = {0.03, 0.03, 0.03};
     Vector2 size = { 1, 1 };
 
@@ -198,6 +201,9 @@ void Game::loadMap(std::string map_src)
             } else if (line[j] == 'B') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.5f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
+            } else if (line[j] == 'W') {
+                entity->addComponent(std::make_unique<Placable>(j, 0.5f, i, zeroVector3));
+                entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModelRotate, texture_table_mesh_order));
             } else if (line[j] == '*') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawablePlane>(size));

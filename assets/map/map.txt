@@ -1,13 +1,13 @@
-BBBBBBBBBBBBBBB
-B*           *B
-B r r r r r r B
-B             B
-B r r r r r r B
-B             B
-B r r r r r r B
-B             B
-B r r r r r r B
-B             B
-B r r r r r r B
-B*           *B
-BBBBBBBBBBBBBBB
+B B B B B B B B
+ *           *W
+W r r r r r r  
+              W
+W r r r r r r  
+              W
+W r r r r r r  
+              W
+W r r r r r r  
+              W
+W r r r r r r  
+ *           *W
+B B B B B B B B
