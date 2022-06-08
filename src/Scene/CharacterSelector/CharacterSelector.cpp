@@ -10,9 +10,17 @@
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../Tools/Button.hpp"
 #include <string>
+#include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
+#include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Systems/Animation/Animation.hpp"
 
 CharacterSelector::CharacterSelector(Engine *engine)
 {
+    Vector3 position = { 90.0f, 1.0f, 0.0f };
+    Vector3 target = { 0.0f, 0.0f, 0.0f }; //  Gauche-Droite|Haut-bas|??
+    Vector3 up = { 0.0f, 1.0f, 0.0f };
+    Vector3 scale = { 0.5, 0.5, 0.5 };
+
     std::cout << "Options creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
     int bg_id = this->_ecsManager->createEntity();
@@ -23,7 +31,8 @@ CharacterSelector::CharacterSelector(Engine *engine)
     int bg_perso2 = this->_ecsManager->createEntity(); 
     int bg_perso3 = this->_ecsManager->createEntity(); 
     int bg_perso4 = this->_ecsManager->createEntity(); 
-
+    int character_mcg = this->_ecsManager->createEntity();
+    int camera = this->_ecsManager->createEntity();
 
     int total = 420 * 4;
     int start_pos = (1920/2 - total/2);
@@ -37,6 +46,20 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
     this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
     this->_box_texture = LoadTexture("assets/materials/selection/btn_inactive.png");
+
+    // Creating vector texture and the mesh order for mcg 
+    std::vector<Texture2D> textures_mcg = {
+        LoadTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
+        LoadTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
+        LoadTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
+        LoadTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
+        LoadTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
+        LoadTexture("assets/models/mcg/glass.png")
+    };
+    std::vector<int> meshOrder_mcg = {
+        1, 2, 3, 5, 0, 4
+    };
+    Vector3 rotationAxis = {2.0f, 0.0f, 0.0f};
 
     PlayMusicStream(this->_music);
 

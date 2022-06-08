@@ -7,10 +7,11 @@
 
 #include "DrawableModel.hpp"
 
-DrawableModel::DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder)
+DrawableModel::DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan)
 {
     this->_model = model;
     this->_type = DRAWABLE_TYPE_MODEL;
+    this->_plan = plan;
 
     for (int i = 0; i < textures.size(); i++) {
         SetMaterialTexture(&this->_model.materials[i], MATERIAL_MAP_DIFFUSE, textures[i]);

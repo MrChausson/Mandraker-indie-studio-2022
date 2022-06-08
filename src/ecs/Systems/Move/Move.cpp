@@ -66,6 +66,4 @@ void Move::apply(std::vector<IComponent *> component)
         //TODO: AI moving parameters here Alexandre
         placable->setX(placable->getX() + to_move);
     }
-    //This is just to debug moving values - to be removed later
-    std::cout << type << " " << placable->getX() << " " << placable->getY() << std::endl;
  }
