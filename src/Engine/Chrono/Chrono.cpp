@@ -33,14 +33,7 @@ void Chrono::sleepEndLoop()
     std::chrono::duration<double> sleep_here = this->_toSleep - this->_elapsedSeconds;
 
     this->_end = std::chrono::system_clock::now();
-    if (sleep_here.count() < 0)
-        return;
-    #ifdef _WIN32
-        Sleep(sleep_here.count() * 1000);
-    #endif
-    #ifdef __linux__
-        usleep(sleep_here.count() * 1000000);
-    #endif
+    std::this_thread::sleep_for(sleep_here);
 }
 
 void Chrono::setFps(int fps)

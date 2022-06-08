@@ -9,12 +9,6 @@
     #define CHRONO_HPP_
     #include <chrono>
     #include <thread>
-    #ifdef _WIN32
-        #include <windows.h>
-    #endif
-    #ifdef linux
-        #include <unistd.h>
-    #endif
 
 class Chrono {
     public:
