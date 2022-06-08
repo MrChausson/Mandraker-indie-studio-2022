@@ -58,7 +58,7 @@ Game::Game()
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
     // Configuring player
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, (Vector3){1.0f, 0.0f, 0.0f}, -90.0f));
-    this->_ecsManager->addComponent(player, std::make_unique<Movable>(1.0f, MOVABLE_PLAYER));
+    this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(textures, mgmModel, meshOrder));
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
