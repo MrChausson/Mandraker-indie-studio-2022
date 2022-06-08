@@ -20,9 +20,12 @@ Game::Game()
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
 
     // Create camera vectors
-    Vector3 position = { 0.0f, 60.0f, 20.0f };
-    Vector3 target = { 0.0f, -25.0f, 0.0f };
+    Vector3 position = { 10.0f, 60.0f, 25.0f };
+    Vector3 target = { 10.0f, -25.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
+
+    // Createing plane vectors
+    Vector2 size = { 12.0f, 8.0f };
 
     // Creating entities
     int camera = this->_ecsManager->createEntity();
@@ -31,6 +34,7 @@ Game::Game()
     int ai = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
+    // int plane = this->_ecsManager->createEntity();
 
     // Creating vector texture and the mesh order for mcg 
     std::vector<Texture2D> textures = {
@@ -47,7 +51,7 @@ Game::Game()
 
 
     // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 30.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<DrawableCube>(WHITE));
     // this->_ecsManager->addComponent(test_cube, std::make_unique<Placable>(0.0f, 0.0f, 0.0f ));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
@@ -93,12 +97,13 @@ void Game::loadMap(std::string map_src)
         LoadTexture("assets/models/pottery02_v18@4x.png"),
     };  
     std::vector<int> texture_table_mesh_order = {
-        1, 2, 0
+        2, 0, 1
     };
     Model bagModel = LoadModel("assets/models/bag/bag.obj");
     Model tableModel = LoadModel("assets/models/table/table.obj");
     Vector3 zero_vector3 = {0.0f, 0.0f, 0.0f};
     Vector3 bag_scale = {0.03, 0.03, 0.03};
+    Vector2 size = { 1, 1 };
 
     if (!myfile.is_open())
         throw Error_file("Error while opening map file");
@@ -111,6 +116,9 @@ void Game::loadMap(std::string map_src)
             } else if (line[j] == 'B') {
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zero_vector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
+            } else if (line[j] == '*') {
+                entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zero_vector3));
+                entity->addComponent(std::make_unique<DrawablePlane>(size));
             }
             this->_mapEntities->push_back(entity);
         }
