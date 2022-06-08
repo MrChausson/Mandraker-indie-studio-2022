@@ -9,10 +9,11 @@
 #include <fstream>
 #include "Game.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
-#include "../../ecs/Components/Drawable/DrawableCube.hpp"
-#include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
+#include "../../ecs/Components/Drawable/DrawableCube.hpp"
+#include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
+
 
 Game::Game()
 {
