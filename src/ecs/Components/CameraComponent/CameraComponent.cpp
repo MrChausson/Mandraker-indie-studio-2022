@@ -25,6 +25,18 @@ COMPONENT_TYPES CameraComponent::getType()
     return CAMERA;
 }
 
+Camera CameraComponent::getCameraRaw()
+{
+    Camera camera;
+
+    camera.position = this->_position;
+    camera.target = this->_target;
+    camera.up = this->_up;
+    camera.fovy = this->_fov;
+    camera.projection = this->_projection;
+    return camera;
+}
+
 Camera3D CameraComponent::getCamera()
 {
     Camera3D camera;
