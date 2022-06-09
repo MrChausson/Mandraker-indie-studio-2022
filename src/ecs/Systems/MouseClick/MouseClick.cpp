@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include "raylib.hpp"
 #include "MouseClick.hpp"
 #include "../../Components/Clickable/Clickable.hpp"
 #include "../../../Engine/Engine.hpp"
@@ -64,10 +65,11 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
 
 void MouseClick::apply(std::vector<IComponent *> component)
 {
+    Raylib::Raylib_encap Raylib_encp;
     Clickable *click = static_cast<Clickable *>(component[1]);
-    Vector2 mouse = GetMousePosition();
-    bool pressed = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
-    bool released = IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = Raylib_encp.GetMousePos();
+    bool pressed = Raylib_encp.IsMouseBDown(MOUSE_LEFT_BUTTON);
+    bool released = Raylib_encp.IsMouseBReleased(MOUSE_LEFT_BUTTON);
 
     //Drawable first, clickable second
     if (click->changedState(mouse, pressed))

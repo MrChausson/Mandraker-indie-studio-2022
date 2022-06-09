@@ -6,6 +6,7 @@
 */
 
 #include "Engine.hpp"
+#include "raylib.hpp"
 #include "../Scene/Scene.hpp"
 #include "../Scene/Menu/Menu.hpp"
 #include "../Scene/SplashScreen/SplashScreen.hpp"
@@ -28,10 +29,11 @@ void Engine::game_loop()
 {
     this->_chrono.init();
     int i = 0;
+    Raylib::Raylib_encap Raylib_encp;
 
-    SetConfigFlags(FLAG_FULLSCREEN_MODE);
-    InitWindow(1920, 1080, "Mandraker");
-    InitAudioDevice();
+    Raylib_encp.SetConfFlags(FLAG_FULLSCREEN_MODE);
+    Raylib_encp.InitWind(1920, 1080, "Mandraker");
+    Raylib_encp.InitAudioDev();
     this->setFps(this->_fps);
     Engine *engine = this;
     Scene *scene = new SplashScreen();
@@ -46,19 +48,21 @@ void Engine::game_loop()
                 delete (this->_currentEcs);
                 this->_currentEcs = tmp;
             }
-        if (WindowShouldClose() && !IsKeyDown(KEY_ESCAPE))
+        if (Raylib_encp.WindowShouldEnd() && !Raylib_encp.IsKDown(KEY_ESCAPE))
             loop_status = false;
         this->_chrono.sleepEndLoop();
     }
     if (this->_currentEcs != nullptr)
         delete (this->_currentEcs);
-    CloseAudioDevice();
-    CloseWindow();
+    Raylib_encp.CloseAudioDev();
+    Raylib_encp.CloseWind();
     // delete(static_cast<Menu *>(scene));
 }
 
 void Engine::setFps(int fps)
 {
+    Raylib::Raylib_encap Raylib_encp;
+
     this->_chrono.setFps(fps);
-    SetTargetFPS(fps);
+    Raylib_encp.SetTargFPS(fps);
 }

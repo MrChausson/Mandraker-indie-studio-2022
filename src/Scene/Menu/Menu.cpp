@@ -5,7 +5,7 @@
 ** Menu
 */
 
-#include "raylib.h"
+#include "raylib.hpp"
 #include "Menu.hpp"
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../Tools/Button.hpp"
@@ -14,6 +14,8 @@
 
 Menu::Menu()
 {
+    Raylib::Raylib_encap Raylib_encp;
+
     std::cout << "Menu creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
 
@@ -23,17 +25,17 @@ Menu::Menu()
     int music_id = this->_ecsManager->createEntity();
 
     // Loading Assets for the menu
-    this->_music = LoadMusicStream("assets/sounds/menu_bg.mp3");
+    this->_music = Raylib_encp.LoadMStream("assets/sounds/menu_bg.mp3");
     this->_type = SCENE_MENU;
-    this->_background_texture = LoadTexture("assets/materials/main_menu.png");
-    this->_title_texture = LoadTexture("assets/materials/title_bar.png");
-    this->_btn_font = LoadFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-    this->_btn_textures[0] = LoadTexture("assets/materials/buttons/btn_hovered.png");
-    this->_btn_textures[1] = LoadTexture("assets/materials/buttons/btn_inactive.png");
-    this->_btn_textures[2] = LoadTexture("assets/materials/buttons/btn_clicked.png");
+    this->_background_texture = Raylib_encp.LTexture("assets/materials/main_menu.png");
+    this->_title_texture = Raylib_encp.LTexture("assets/materials/title_bar.png");
+    this->_btn_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
+    this->_btn_textures[0] = Raylib_encp.LTexture("assets/materials/buttons/btn_hovered.png");
+    this->_btn_textures[1] = Raylib_encp.LTexture("assets/materials/buttons/btn_inactive.png");
+    this->_btn_textures[2] = Raylib_encp.LTexture("assets/materials/buttons/btn_clicked.png");
 
     // Play Music
-    PlayMusicStream(this->_music);
+    Raylib_encp.PlayMStream(this->_music);
 
     // Adding components
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(1000, 100));
@@ -60,13 +62,15 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-    UnloadTexture(this->_background_texture);
-    UnloadTexture(this->_btn_textures[0]);
-    UnloadTexture(this->_btn_textures[1]);
-    UnloadTexture(this->_btn_textures[2]);
-    UnloadTexture(this->_title_texture);
-    UnloadFont(this->_btn_font);
-    UnloadFont(this->_title_font);
-    UnloadMusicStream(this->_music);
+    Raylib::Raylib_encap Raylib_encp;
+
+    Raylib_encp.UnlTexture(this->_background_texture);
+    Raylib_encp.UnlTexture(this->_btn_textures[0]);
+    Raylib_encp.UnlTexture(this->_btn_textures[1]);
+    Raylib_encp.UnlTexture(this->_btn_textures[2]);
+    Raylib_encp.UnlTexture(this->_title_texture);
+    Raylib_encp.UnlFont(this->_btn_font);
+    Raylib_encp.UnlFont(this->_title_font);
+    Raylib_encp.UnloadMtream(this->_music);
     std::cout << "Menu destroyed" << std::endl;
 }

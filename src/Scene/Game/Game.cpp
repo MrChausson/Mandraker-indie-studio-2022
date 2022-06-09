@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "raylib.hpp"
 #include "Game.hpp"
 #include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
@@ -18,9 +19,10 @@
 
 Game::Game()
 {
+    Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager = std::make_unique<ECSManager>();
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
-    this->_gryf_infos_texture = LoadTexture("assets/materials/game/gryffindor.png");
+    this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
 
     // Create camera vectors
     Vector3 position = { 10.0f, 60.0f, 25.0f };
@@ -45,60 +47,58 @@ Game::Game()
     int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
 
-    // Load Music 
-    Music music = LoadMusicStream("assets/sounds/game_bg.mp3");
-    // Creating Model , vector texture and the mesh order for mcg 
-    Model mgmModel = LoadModel("assets/models/mcg/mcg.iqm");
+    // Load Music
+    Music music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
+    // Creating Model , vector texture and the mesh order for mcg
+    Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
     std::vector<Texture2D> texturesMgm = {
-        LoadTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
-        LoadTexture("assets/models/mcg/glass.png")
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/mcg/glass.png")
     };
     std::vector<int> meshOrderMgm = {
         1, 2, 3, 5, 0, 4
     };
 
-
     // Creating Model , vector texture and the mesh order for FLitwick
-    Model flitwickModel = LoadModel("assets/models/flitwick/flitwick.iqm");
+    Model flitwickModel = Raylib_encp.LModel("assets/models/flitwick/flitwick.iqm");
     std::vector<Texture2D> texturesFlit = {
-        LoadTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
-        LoadTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
-        LoadTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
-        LoadTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
-        LoadTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
+        Raylib_encp.LTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
+        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
+        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
+        Raylib_encp.LTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
     };
     std::vector<int> meshOrderFlitwick = {
         2, 4, 5, 1, 3
     };
 
     // Creating Model , vector texture and the mesh order for Snape
-    Model snapeModel = LoadModel("assets/models/snape/snape.iqm");
+    Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
     std::vector<Texture2D> texturesSnape = {
-        LoadTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
-        LoadTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
-        LoadTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
-        LoadTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
-        LoadTexture("assets/models/snape/EyesBW_v169@4x.png")
+        Raylib_encp.LTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
+        Raylib_encp.LTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
+        Raylib_encp.LTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
+        Raylib_encp.LTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
+        Raylib_encp.LTexture("assets/models/snape/EyesBW_v169@4x.png")
     };
     std::vector<int> meshOrderSnape = {
        4, 3, 0, 2, 1
     };
 
-
     // Creating Model , vector texture and the mesh order for Sprout
-    Model sproutModel = LoadModel("assets/models/sprout/sprout.iqm");
+    Model sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
     std::vector<Texture2D> texturesSprout = {
-        LoadTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
-        LoadTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
-        LoadTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
-        LoadTexture("assets/models/sprout/Sprout_face_diffuse_v1@4x.png"),
-        LoadTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
-        LoadTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
-        LoadTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_face_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
 
     };
     std::vector<int> meshOrderSprout = {
@@ -109,7 +109,7 @@ Game::Game()
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
 
     //Configure Music
-    PlayMusicStream(music);
+    Raylib_encp.PlayMStream(music);
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(music));
 
     // Adding components
@@ -118,7 +118,7 @@ Game::Game()
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
-    
+
     // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
     this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
@@ -169,31 +169,32 @@ Game::~Game()
 
 void Game::loadMap(std::string map_src)
 {
+    Raylib::Raylib_encap Raylib_encp;
     //load map from file
     std::ifstream myfile (map_src);
     std::string line;
     int i = 0;
-    Texture2D grass_texture = LoadTexture("assets/materials/grass.png");
+    Texture2D grass_texture = Raylib_encp.LTexture("assets/materials/grass.png");
     std::vector<Texture2D> textures_pot = {
-        LoadTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
+        Raylib_encp.LTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
     };
     std::vector<int> texture_po_mesh_order = {
         0
     };
     //Table model
     std::vector<Texture2D> textures_tables = {
-        LoadTexture("assets/models/table/leaves2_v73@4x.png"),
-        LoadTexture("assets/models/table/Metal_potteryHolders_v11@4x.png"),
-        LoadTexture("assets/models/table/pottery02_v18@4x.png"),
+        Raylib_encp.LTexture("assets/models/table/leaves2_v73@4x.png"),
+        Raylib_encp.LTexture("assets/models/table/Metal_potteryHolders_v11@4x.png"),
+        Raylib_encp.LTexture("assets/models/table/pottery02_v18@4x.png"),
     };
     std::vector<int> texture_table_mesh_order = {
         2, 0, 1
     };
-    Model tableModel = LoadModel("assets/models/table/table.obj");
-    Model tableModelRotate = LoadModel("assets/models/table/table.obj");
-    tableModelRotate.transform = MatrixRotateY(1.55 ); 
-    Model bagModel = LoadModel("assets/models/bag/bag.obj");
-    Vector3 zeroVector3 = {0.0f, 0.0f, 0.0f}; 
+    Model tableModel = Raylib_encp.LModel("assets/models/table/table.obj");
+    Model tableModelRotate = Raylib_encp.LModel("assets/models/table/table.obj");
+    tableModelRotate.transform = MatrixRotateY(1.55 );
+    Model bagModel = Raylib_encp.LModel("assets/models/bag/bag.obj");
+    Vector3 zeroVector3 = {0.0f, 0.0f, 0.0f};
     Vector3 bag_scale = {0.03, 0.03, 0.03};
     Vector2 size = { 1, 1 };
 

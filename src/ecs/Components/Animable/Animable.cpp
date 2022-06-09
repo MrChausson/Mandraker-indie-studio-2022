@@ -6,10 +6,12 @@
 */
 
 #include "Animable.hpp"
+#include "raylib.hpp"
 
 Animable::Animable(std::string pathToFile, ANIMATION_TYPE animationType)
 {
-    this->_anims = LoadModelAnimations(pathToFile.c_str(), &this->_animsCount);
+    Raylib::Raylib_encap Raylib_encp;
+    this->_anims = Raylib_encp.LoadMAnimations(pathToFile, &this->_animsCount);
     this->_animationType = animationType;
 }
 

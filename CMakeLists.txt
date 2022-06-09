@@ -11,6 +11,8 @@ include(cmake/Findraylib.cmake)
 add_executable(${PROJECT_NAME}
 # main #
 src/main.cpp
+# raylib_encap #
+src/raylib_encap/raylib.cpp
 # src/Example/Example.cpp
 # SCENE #
 src/Scene/Menu/Menu.cpp
@@ -57,7 +59,7 @@ src/Engine/Engine.cpp
 # Chrono #
 src/Engine/Chrono/Chrono.cpp
 )
-include_directories(./_deps/raylib-src/src)
+include_directories(./_deps/raylib-src/src ./includes)
 
 # foreach(i IN ITEMS raylib)
 #if(NOT TARGET raylib)

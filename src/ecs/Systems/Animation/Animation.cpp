@@ -6,6 +6,7 @@
 */
 
 #include "Animation.hpp"
+#include "raylib.hpp"
 #include <iostream>
 
 Animation::Animation()
@@ -24,11 +25,12 @@ SYSTEM_TYPES Animation::getType()
 
 void Animation::apply(std::vector<IComponent *> component)
 {
+    Raylib::Raylib_encap Raylib_encp;
     Animable *animable = static_cast<Animable *>(component[0]);
     DrawableModel *model = static_cast<DrawableModel *>(component[1]);
 
     animable->setAnimFrameCounter(animable->getAnimFrameCounter() + 1);
-    UpdateModelAnimation(model->getModel(), animable->getAnims()[animable->getAnimationType()], animable->getAnimFrameCounter());
+    Raylib_encp.UpdtModelAnimation(model->getModel(), animable->getAnims()[animable->getAnimationType()], animable->getAnimFrameCounter());
     if (animable->getAnimFrameCounter() >= animable->getAnims()[animable->getAnimationType()].frameCount)
         animable->setAnimFrameCounter(0);
 }

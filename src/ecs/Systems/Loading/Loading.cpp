@@ -6,6 +6,7 @@
 */
 
 #include "Loading.hpp"
+#include "raylib.hpp"
 #include <chrono>
 
 Loading::Loading()
@@ -19,6 +20,7 @@ Loading::~Loading()
 
 void Loading::apply(std::vector<IComponent *> component)
 {
+    Raylib::Raylib_encap Raylib_encp;
     Loadable *loadable = static_cast<Loadable *>(component[0]);
     Placable *placable = static_cast<Placable *>(component[1]);
     std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - this->_clock;
@@ -26,8 +28,8 @@ void Loading::apply(std::vector<IComponent *> component)
     Rectangle dest = {placable->getX(), placable->getY(), static_cast<float>(loadable->getTexture().width) , static_cast<float>(loadable->getTexture().height)};
     Vector2 origin = {static_cast<float>(loadable->getTexture().width)/2 , static_cast<float>(loadable->getTexture().height)/2 + 10};
 
-    DrawTexture(loadable->getTextureBack(), 0, 0, WHITE);
-    DrawTexturePro(loadable->getTexture(), src, dest, origin, loadable->getRotation(), WHITE);
+    Raylib_encp.DwTexture(loadable->getTextureBack(), 0, 0, WHITE);
+    Raylib_encp.DwTexturePro(loadable->getTexture(), src, dest, origin, loadable->getRotation(), WHITE);
     loadable->setRotation(loadable->getRotation() + 1.0f);
     if (elapsed_seconds.count() > loadable->getTime())
         loadable->setLoaded(true);

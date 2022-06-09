@@ -6,6 +6,7 @@
 */
 
 #include "Music_sys.hpp"
+#include "raylib.hpp"
 #include <iostream>
 
 Music_sys::Music_sys()
@@ -19,13 +20,13 @@ Music_sys::~Music_sys()
 void Music_sys::apply(std::vector<IComponent *> component)
 {
     Musicable *musicable = static_cast<Musicable *>(component[0]);
+    Raylib::Raylib_encap Raylib_encp;
 
-    UpdateMusicStream(musicable->getMusic());
-    if (IsKeyPressed(KEY_P))
+    Raylib_encp.UpdtMusicStream(musicable->getMusic());
+    if (Raylib_encp.isKeyPres(KEY_P))
         musicable->updatePause();
     else if (musicable->isPaused())
         return;
-    
 }
 
 SYSTEM_TYPES Music_sys::getType()

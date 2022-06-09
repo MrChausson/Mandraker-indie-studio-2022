@@ -10,7 +10,7 @@
 #include "../../Components/Drawable/Drawable.hpp"
 #include "../../Components/Drawable/DrawableModel.hpp"
 #include "../../Components/Animable/Animable.hpp"
-
+#include "raylib.hpp"
 
 Move::Move()
 {
@@ -28,6 +28,7 @@ SYSTEM_TYPES Move::getType()
 
 void Move::apply(std::vector<IComponent *> component)
 {
+    Raylib::Raylib_encap Raylib_encp;
     Animable *anims = static_cast<Animable *> (component[0]);
     DrawableModel *model = static_cast<DrawableModel *>(component[1]);
     Placable *placable = static_cast<Placable *> (component[2]);
@@ -39,22 +40,22 @@ void Move::apply(std::vector<IComponent *> component)
     MOVABLE_TYPE type = movable->getMovableType();
 
     if (type == MOVABLE_PLAYER) {
-        if (IsKeyDown(KEY_RIGHT)) {
+        if (Raylib_encp.IsKDown(KEY_RIGHT)) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_right);
             model->getPtrModel()->transform = MatrixRotateZ(-1.5);
             placable->setX(placable->getX() + to_move);
-        } else if (IsKeyDown(KEY_LEFT)) {
+        } else if (Raylib_encp.IsKDown(KEY_LEFT)) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_left);
             model->getPtrModel()->transform = MatrixRotateZ(1.5);
             placable->setX(placable->getX() - to_move);
-        } else if (IsKeyDown(KEY_UP)) {
+        } else if (Raylib_encp.IsKDown(KEY_UP)) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_up);
             model->getPtrModel()->transform = MatrixRotateZ(3);
             placable->setZ(placable->getZ() - to_move);
-        } else if (IsKeyDown(KEY_DOWN)) {
+        } else if (Raylib_encp.IsKDown(KEY_DOWN)) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_down);
             model->getPtrModel()->transform = MatrixRotateZ(0);

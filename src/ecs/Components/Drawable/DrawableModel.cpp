@@ -6,16 +6,18 @@
 */
 
 #include "DrawableModel.hpp"
+#include "raylib.hpp"
 
 DrawableModel::DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan)
 {
     this->_model = model;
     this->_type = DRAWABLE_TYPE_MODEL;
     this->_plan = plan;
+    Raylib::Raylib_encap Raylib_encp;
 
     for (int i = 0; i < textures.size(); i++) {
-        SetMaterialTexture(&this->_model.materials[i], MATERIAL_MAP_DIFFUSE, textures[i]);
-        SetModelMeshMaterial(&this->_model, meshOrder[i], i);
+        Raylib_encp.SetMTexture(&this->_model.materials[i], MATERIAL_MAP_DIFFUSE, textures[i]);
+        Raylib_encp.SetMMeshMaterial(&this->_model, meshOrder[i], i);
     }
 }
 

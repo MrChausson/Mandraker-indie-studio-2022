@@ -6,6 +6,7 @@
 */
 
 #include "Clickable.hpp"
+#include "raylib.hpp"
 
 
 Clickable::Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo, ClickableActionType actionType)
@@ -30,7 +31,9 @@ void Clickable::setBound(float x, float y)
 
 bool Clickable::isClicked(Vector2 mouse, bool pressed)
 {
-    bool res = CheckCollisionPointRec(mouse, this->_bounds);
+    Raylib::Raylib_encap Raylib_encp;
+
+    bool res = Raylib_encp.checkCollPointRec(mouse, this->_bounds);
     if (res && pressed)
         return (true);
     else
