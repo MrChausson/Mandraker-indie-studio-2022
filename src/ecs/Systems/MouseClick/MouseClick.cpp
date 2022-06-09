@@ -33,6 +33,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
 {
     Clickable *click = static_cast<Clickable *>(component);
     ECSManager *ecs = click->getEcs();
+    Scene *scene = click->getScene();
 
     switch (actionType)
     {
@@ -40,25 +41,33 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (click->_tmpEcs == SCENE_GAME) {
             Game *game = new Game();
             click->setEcs(game->getECS());
+            if (scene != nullptr)
+                delete (static_cast<CharacterSelector *>(scene));
         }
         else if (click->_tmpEcs == SCENE_MENU) {
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
+            if (scene != nullptr)
+                delete (static_cast<Settings *>(scene));
         }
         else if (click->_tmpEcs == SCENE_SETTINGS) {
             Settings *settings = new Settings();
             click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                delete (static_cast<Menu *>(scene));
         }
         else if (click->_tmpEcs == SCENE_CHARACTER_SELECTOR) {
             CharacterSelector *characterSelector = new CharacterSelector();
             click->setEcs(characterSelector->getECS());
+            if (scene != nullptr)
+                delete (static_cast<Menu *>(scene));
         }
         break;
     case CLICKABLE_ACTION_QUIT_GAME:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
-        break;
-    default:
+        if (scene != nullptr)
+            delete (scene);
         break;
     }
 }

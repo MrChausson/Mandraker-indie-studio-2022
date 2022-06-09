@@ -45,7 +45,7 @@ void Engine::game_loop()
         tmp = this->_currentEcs->applySystems();
         if (tmp != nullptr)
             {
-                delete (this->_currentEcs);
+                // delete (this->_currentEcs);
                 this->_currentEcs = tmp;
             }
         if (Raylib_encp.WindowShouldEnd() && !Raylib_encp.IsKDown(KEY_ESCAPE))

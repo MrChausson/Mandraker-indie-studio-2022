@@ -23,6 +23,29 @@ class Game : public Scene {
         Texture2D _rav_infos_texture;
         Texture2D _slyth_infos_texture;
         Texture2D _huff_infos_texture;
+        Music music;
+        // mcg
+        Model mgmModel;
+        std::vector<Texture2D> texturesMgm;
+        std::vector<int> meshOrderMgm;
+        Model trelawneyModel;
+        std::vector<Texture2D> texturesTre;
+        std::vector<int> meshOrderTrelawney;
+        Model snapeModel;
+        std::vector<Texture2D> texturesSnape;
+        std::vector<int> meshOrderSnape;
+        Model sproutModel;
+        std::vector<Texture2D> texturesSprout;
+        std::vector<int> meshOrderSprout;
+        Texture2D grass_texture;
+        Texture2D stone_texture;
+        std::vector<Texture2D> textures_bag;
+        Model bagModel;
+        std::vector<Texture2D> textures_tables;
+        Model tableModel;
+        Model tableModelRotate;
+        Model gnome;
+        std::vector<Texture2D> textures_gnome;
 };
 
 #endif /* !GAME_HPP_ */

@@ -57,10 +57,10 @@ Game::Game()
     // int plane = this->_ecsManager->createEntity();
 
     // Load Music
-    Music music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
+    this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
     // Creating Model , vector texture and the mesh order for mcg
-    Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
-    std::vector<Texture2D> texturesMgm = {
+    this->mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
+    this->texturesMgm = {
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
@@ -68,13 +68,13 @@ Game::Game()
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/mcg/glass.png")
     };
-    std::vector<int> meshOrderMgm = {
+    this->meshOrderMgm = {
         1, 2, 3, 5, 0, 4
     };
 
     // Creating Model , vector texture and the mesh order for Trelawney
-    Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
-    std::vector<Texture2D> texturesTre = {
+    this->trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
+    this->texturesTre = {
         Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_accessory_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_body_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/trelawney/Trelawney_face_diffuse_v1@4x.png"),
@@ -82,26 +82,26 @@ Game::Game()
         Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hands_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/trelawney/Trelawney_eyes_diffuse_v1@4x.png")
     };
-    std::vector<int> meshOrderTrelawney = {
+    this->meshOrderTrelawney = {
         2, 1, 0, 6, 3, 4
     };
 
     // Creating Model , vector texture and the mesh order for Snape
-    Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
-    std::vector<Texture2D> texturesSnape = {
+    this->snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
+    this->texturesSnape = {
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
         Raylib_encp.LTexture("assets/models/snape/EyesBW_v169@4x.png")
     };
-    std::vector<int> meshOrderSnape = {
+    this->meshOrderSnape = {
        4, 3, 0, 2, 1
     };
 
     // Creating Model , vector texture and the mesh order for Sprout
-    Model sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
-    std::vector<Texture2D> texturesSprout = {
+    this->sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
+    this->texturesSprout = {
         Raylib_encp.LTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
@@ -111,7 +111,7 @@ Game::Game()
         Raylib_encp.LTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
 
     };
-    std::vector<int> meshOrderSprout = {
+    this->meshOrderSprout = {
         1, 5, 4, 0, 6, 3, 2
     };
 
@@ -188,6 +188,36 @@ Game::Game()
 Game::~Game()
 {
     std::cout << "Game destructor" << std::endl;
+    Raylib::Raylib_encap RaylibEncap;
+    RaylibEncap.UnlTexture(this->_gryf_infos_texture);
+    RaylibEncap.UnlTexture(this->_rav_infos_texture);
+    RaylibEncap.UnlTexture(this->_slyth_infos_texture);
+    RaylibEncap.UnlTexture(this->_huff_infos_texture);
+    RaylibEncap.UnloadMtream(this->music);
+    UnloadModel(mgmModel);
+    UnloadModel(trelawneyModel);
+    UnloadModel(snapeModel);
+    UnloadModel(sproutModel);
+    for (auto &i : texturesMgm)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesTre)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesSnape)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesSprout)
+        RaylibEncap.UnlTexture(i);
+    RaylibEncap.UnlTexture(grass_texture);
+    RaylibEncap.UnlTexture(stone_texture);
+    for (auto &i : textures_bag)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : textures_tables)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : textures_gnome)
+        RaylibEncap.UnlTexture(i);
+    UnloadModel(bagModel);
+    UnloadModel(tableModel);
+    UnloadModel(tableModelRotate);
+    UnloadModel(gnome);
 }
 
 void Game::loadMap(std::string map_src)
@@ -198,10 +228,10 @@ void Game::loadMap(std::string map_src)
     int i = 0;
 
     // Gass
-    Texture2D grass_texture = Raylib_encp.LTexture("assets/materials/grass.png");
+    this->grass_texture = Raylib_encp.LTexture("assets/materials/grass.png");
     // Stone
-    Texture2D stone_texture = Raylib_encp.LTexture("assets/materials/game/stone.png");
-    std::vector<Texture2D> textures_pot = {
+    this->stone_texture = Raylib_encp.LTexture("assets/materials/game/stone.png");
+    this->textures_bag = {
         Raylib_encp.LTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
     };
 
@@ -209,10 +239,10 @@ void Game::loadMap(std::string map_src)
     std::vector<int> texture_po_mesh_order = {
         0
     };
-    Model bagModel = Raylib_encp.LModel("assets/models/bag/bag.obj");
+    this->bagModel = Raylib_encp.LModel("assets/models/bag/bag.obj");
 
     //Table
-    std::vector<Texture2D> textures_tables = {
+    this->textures_tables = {
         Raylib_encp.LTexture("assets/models/table/leaves2_v73@4x.png"),
         Raylib_encp.LTexture("assets/models/table/Metal_potteryHolders_v11@4x.png"),
         Raylib_encp.LTexture("assets/models/table/pottery02_v18@4x.png"),
@@ -220,14 +250,14 @@ void Game::loadMap(std::string map_src)
     std::vector<int> texture_table_mesh_order = {
         2, 0, 1
     };
-    Model tableModel = Raylib_encp.LModel("assets/models/table/table.obj");
-    Model tableModelRotate = Raylib_encp.LModel("assets/models/table/table.obj");
+    this->tableModel = Raylib_encp.LModel("assets/models/table/table.obj");
+    this->tableModelRotate = Raylib_encp.LModel("assets/models/table/table.obj");
     tableModelRotate.transform = MatrixRotateY(1.55 );
 
     // Gnome
-    Model gnome = Raylib_encp.LModel("assets/models/gnome/gnome.iqm");
+    this->gnome = Raylib_encp.LModel("assets/models/gnome/gnome.iqm");
     gnome.transform = MatrixRotateX(1.55);
-    std::vector<Texture2D> textures_gnome = {
+    this->textures_gnome = {
         Raylib_encp.LTexture("assets/models/gnome/gnome_DIF_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/gnome/GnomeHoles_DIF_v1@4x.png")
     };
@@ -251,7 +281,7 @@ void Game::loadMap(std::string map_src)
             if (line[j] == 'r') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3 , -45, bag_scale));
-                entity->addComponent(std::make_unique<DrawableModel>(textures_pot, bagModel, texture_po_mesh_order));
+                entity->addComponent(std::make_unique<DrawableModel>(textures_bag, bagModel, texture_po_mesh_order));
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
