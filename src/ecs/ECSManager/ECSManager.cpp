@@ -126,6 +126,7 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(ANIMABLE));
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(COLLISIONABLE));
                     components.push_back(component);
                     system->apply(components);
                 }

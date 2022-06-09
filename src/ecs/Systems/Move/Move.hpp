@@ -13,6 +13,7 @@
 #include "../../ISystem/ISystem.hpp"
 #include "../../Components/Movable/Movable.hpp"
 #include "../../Components/Placable/Placable.hpp"
+#include "../../Components/Collisionable/Collisionable.hpp"
 
 class Move : public ISystem {
     public:

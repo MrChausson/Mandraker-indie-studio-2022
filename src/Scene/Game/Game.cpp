@@ -12,6 +12,7 @@
 #include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Components/Collisionable/Collisionable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
@@ -176,6 +177,10 @@ Game::Game()
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->loadMap("assets/map/map.txt");
+
+    // Collision configuration
+    this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
+
     // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;
 }
