@@ -32,7 +32,8 @@ void Move::apply(std::vector<IComponent *> component)
     Animable *anims = static_cast<Animable *> (component[0]);
     DrawableModel *model = static_cast<DrawableModel *>(component[1]);
     Placable *placable = static_cast<Placable *> (component[2]);
-    Movable *movable = static_cast<Movable *> (component[3]);
+    Collisionable *collision;
+    Movable *movable = static_cast<Movable *> (component[4]);
 
     std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - this->_clock;
     float to_move = movable->getSpeed() * elapsed_seconds.count();
@@ -40,22 +41,23 @@ void Move::apply(std::vector<IComponent *> component)
     MOVABLE_TYPE type = movable->getMovableType();
 
     if (type == MOVABLE_PLAYER) {
-        if (Raylib_encp.IsKDown(KEY_RIGHT)) {
+        collision = static_cast<Collisionable *> (component[3]);
+        if (Raylib_encp.IsKDown(KEY_RIGHT) && !collision->isColliding(model->getModel())) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_right);
             model->getPtrModel()->transform = MatrixRotateZ(-1.5);
             placable->setX(placable->getX() + to_move);
-        } else if (Raylib_encp.IsKDown(KEY_LEFT)) {
+        } else if (Raylib_encp.IsKDown(KEY_LEFT) && !collision->isColliding(model->getModel())) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_left);
             model->getPtrModel()->transform = MatrixRotateZ(1.5);
             placable->setX(placable->getX() - to_move);
-        } else if (Raylib_encp.IsKDown(KEY_UP)) {
+        } else if (Raylib_encp.IsKDown(KEY_UP) && !collision->isColliding(model->getModel())) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_up);
             model->getPtrModel()->transform = MatrixRotateZ(3);
             placable->setZ(placable->getZ() - to_move);
-        } else if (Raylib_encp.IsKDown(KEY_DOWN)) {
+        } else if (Raylib_encp.IsKDown(KEY_DOWN) && !collision->isColliding(model->getModel())) {
             anims->setAnimationType(RUN);
             // placable->setRotationAxis(rot_down);
             model->getPtrModel()->transform = MatrixRotateZ(0);
