@@ -250,7 +250,7 @@ void Game::loadMap(std::string map_src)
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
             } else if (line[j] == 'B') {
-                entity->addComponent(std::make_unique<Placable>(j, 0.5f, i, zeroVector3));
+                entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
