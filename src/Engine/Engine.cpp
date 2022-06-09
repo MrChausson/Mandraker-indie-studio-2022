@@ -31,7 +31,7 @@ void Engine::game_loop()
     int i = 0;
     Raylib::Raylib_encap Raylib_encp;
 
-    Raylib_encp.SetConfFlags(FLAG_FULLSCREEN_MODE);
+    //Raylib_encp.SetConfFlags(FLAG_FULLSCREEN_MODE);
     Raylib_encp.InitWind(1920, 1080, "Mandraker");
     Raylib_encp.InitAudioDev();
     this->setFps(this->_fps);

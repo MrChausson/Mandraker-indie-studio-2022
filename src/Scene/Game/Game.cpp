@@ -23,6 +23,9 @@ Game::Game()
     this->_ecsManager = std::make_unique<ECSManager>();
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
     this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
+    this->_rav_infos_texture = Raylib_encp.LTexture("assets/materials/game/ravenclaw.png");
+    this->_slyth_infos_texture = Raylib_encp.LTexture("assets/materials/game/slytherin.png");
+    this->_huff_infos_texture = Raylib_encp.LTexture("assets/materials/game/hufflepuff.png");
 
     // Create camera vectors
     Vector3 position = { 10.0f, 60.0f, 25.0f };
@@ -44,6 +47,9 @@ Game::Game()
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
     int gryf_infos = this->_ecsManager->createEntity();
+    int rav_infos = this->_ecsManager->createEntity();
+    int slyth_infos = this->_ecsManager->createEntity();
+    int huff_infos = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
 
@@ -114,10 +120,19 @@ Game::Game()
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-    this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 100));
-    this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
     this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
     this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
+
+    // Adding HUD
+    this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 0));
+    this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
+    this->_ecsManager->addComponent(rav_infos, std::make_unique<Placable>(1792, 0));
+    this->_ecsManager->addComponent(rav_infos, std::make_unique<DrawableSprite>(this->_rav_infos_texture, 1));
+    this->_ecsManager->addComponent(slyth_infos, std::make_unique<Placable>(0, 937));
+    this->_ecsManager->addComponent(slyth_infos, std::make_unique<DrawableSprite>(this->_slyth_infos_texture, 1));
+    this->_ecsManager->addComponent(huff_infos, std::make_unique<Placable>(1792, 937));
+    this->_ecsManager->addComponent(huff_infos, std::make_unique<DrawableSprite>(this->_huff_infos_texture, 1));
+
 
     // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));

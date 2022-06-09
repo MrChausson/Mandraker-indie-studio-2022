@@ -20,6 +20,9 @@ class Game : public Scene {
     private:
         std::unique_ptr<std::vector <Entity *>> _mapEntities;
         Texture2D _gryf_infos_texture;
+        Texture2D _rav_infos_texture;
+        Texture2D _slyth_infos_texture;
+        Texture2D _huff_infos_texture;
 };
 
 #endif /* !GAME_HPP_ */
