@@ -85,16 +85,17 @@ CharacterSelector::CharacterSelector(Engine *engine)
         1, 5, 4, 0, 6, 3, 2
     };
 
-       // Creating Model , vector texture and the mesh order for FLitwick
-    std::vector<Texture2D> textures_flit = {
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+        // Creating Model , vector texture and the mesh order for Trelawney
+    std::vector<Texture2D> texturesTre = {
+        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_accessory_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_body_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_face_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hair_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hands_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_eyes_diffuse_v1@4x.png")
     };
-    std::vector<int> meshOrderFlitwick = {
-        2, 4, 5, 1, 3
+    std::vector<int> meshOrderTrelawney = {
+        2, 1, 0, 6, 3, 4
     };
 
     // Creating Model , vector texture and the mesh order for Snape
@@ -144,10 +145,10 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
     //flitwick
     this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
-    Model flitwickModel = Raylib_encp.LModel("assets/models/flitwick/flitwick.iqm");
-    flitwickModel.transform = MatrixRotateZ(0.2);
-    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(textures_flit, flitwickModel, meshOrderFlitwick, 2));
-    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
+    Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
+    trelawneyModel.transform = MatrixRotateZ(0.2);
+    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney, 2));
+    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     //Snape
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
