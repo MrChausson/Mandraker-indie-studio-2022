@@ -246,15 +246,17 @@ void Game::loadMap(std::string map_src)
         throw Error_file("Error while opening map file");
     while (std::getline(myfile, line)) {
         for (int j = 0; j < line.size(); j++) {
-            Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+            Entity *entity = nullptr;
             Entity *grass_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
             if (line[j] == 'r') {
+                entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3 , -45, bag_scale));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_pot, bagModel, texture_po_mesh_order));
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
             } else if (line[j] == 'B') {
+                entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
                 // we have to put grass also
@@ -265,6 +267,7 @@ void Game::loadMap(std::string map_src)
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture));
             } else {
                 if (std::rand() % 2 == 1) { // 50% chance to spawn a gnome
+                    entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
                 }
@@ -272,7 +275,8 @@ void Game::loadMap(std::string map_src)
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
             }
-            this->_mapEntities->push_back(entity);
+            if (entity != nullptr)
+                this->_mapEntities->push_back(entity);
         }
         i++;
     }
