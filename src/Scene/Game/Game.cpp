@@ -63,17 +63,18 @@ Game::Game()
         1, 2, 3, 5, 0, 4
     };
 
-    // Creating Model , vector texture and the mesh order for FLitwick
-    Model flitwickModel = Raylib_encp.LModel("assets/models/flitwick/flitwick.iqm");
-    std::vector<Texture2D> texturesFlit = {
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+    // Creating Model , vector texture and the mesh order for Trelawney
+    Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
+    std::vector<Texture2D> texturesTre = {
+        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_accessory_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_body_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_face_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hair_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hands_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_eyes_diffuse_v1@4x.png")
     };
-    std::vector<int> meshOrderFlitwick = {
-        2, 4, 5, 1, 3
+    std::vector<int> meshOrderTrelawney = {
+        2, 1, 0, 6, 3, 4
     };
 
     // Creating Model , vector texture and the mesh order for Snape
@@ -126,11 +127,11 @@ Game::Game()
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
 
-    // Configuring player FLITWICK
+    // Configuring player TRELAWNEY
     this->_ecsManager->addComponent(flitwick, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
     this->_ecsManager->addComponent(flitwick, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<DrawableModel>(texturesFlit, flitwickModel, meshOrderFlitwick));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     // Configuring player SNAPE
     this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
