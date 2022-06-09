@@ -256,8 +256,8 @@ void Game::loadMap(std::string map_src)
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
             } else if (line[j] == '*') {
-                entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
-                entity->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture));
+                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture));
             } else {
                 if (std::rand() % 2 == 1) { // 50% chance to spawn a gnome
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
