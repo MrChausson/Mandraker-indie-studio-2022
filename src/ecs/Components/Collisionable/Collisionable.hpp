@@ -11,6 +11,7 @@
 #include "../../IComponent/IComponent.hpp"
 #include "../../Entity/Entity.hpp"
 #include "../Drawable/DrawableModel.hpp"
+#include "../Placable/Placable.hpp"
 #include <vector>
 
 class Collisionable : public IComponent {
@@ -18,7 +19,7 @@ class Collisionable : public IComponent {
         Collisionable(std::vector<Entity *> *entities = nullptr);
         ~Collisionable();
         COMPONENT_TYPES getType() override;
-        bool isColliding(Model model);
+        bool isColliding(float x, float y);
         void setEntities(std::vector<Entity *> *entities);
 
     protected:
