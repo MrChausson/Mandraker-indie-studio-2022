@@ -20,7 +20,7 @@
 float mapHeight = 14;
 float mapWidth = 10;
 
-Game::Game()
+Game::Game(std::vector<Model> models)
 {
     Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager = std::make_unique<ECSManager>();
@@ -59,61 +59,10 @@ Game::Game()
     // Load Music
     this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
     // Creating Model , vector texture and the mesh order for mcg
-    this->mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
-    this->texturesMgm = {
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/glass.png")
-    };
-    this->meshOrderMgm = {
-        1, 2, 3, 5, 0, 4
-    };
-
-    // Creating Model , vector texture and the mesh order for Trelawney
-    this->trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
-    this->texturesTre = {
-        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_accessory_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_body_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_face_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hair_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hands_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_eyes_diffuse_v1@4x.png")
-    };
-    this->meshOrderTrelawney = {
-        2, 1, 0, 6, 3, 4
-    };
-
-    // Creating Model , vector texture and the mesh order for Snape
-    this->snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
-    this->texturesSnape = {
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/EyesBW_v169@4x.png")
-    };
-    this->meshOrderSnape = {
-       4, 3, 0, 2, 1
-    };
-
-    // Creating Model , vector texture and the mesh order for Sprout
-    this->sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
-    this->texturesSprout = {
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_face_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
-
-    };
-    this->meshOrderSprout = {
-        1, 5, 4, 0, 6, 3, 2
-    };
+    this->mgmModel = models[0];
+    this->trelawneyModel = models[1];
+    this->snapeModel = models[2];
+    this->sproutModel = models[3];
 
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };

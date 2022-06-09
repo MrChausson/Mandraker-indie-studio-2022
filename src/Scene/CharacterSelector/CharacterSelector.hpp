@@ -14,6 +14,7 @@ class CharacterSelector : public Scene {
     public:
         CharacterSelector(Engine *engine = nullptr);
         ~CharacterSelector();
+        std::vector<Model> getModels();
 
     protected:
     private:
@@ -29,6 +30,7 @@ class CharacterSelector : public Scene {
         std::vector<Texture2D> _textures_sprout;
         std::vector<Texture2D> _texturesTre;
         std::vector<Texture2D> _textures_snape;
+        std::vector<Model> models;
 };
 
 #endif /* !CHARACTERSELECTOR_HPP_ */

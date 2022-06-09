@@ -12,7 +12,7 @@
 
 class Game : public Scene {
     public:
-        Game();
+        Game(std::vector<Model> models);
         ~Game();
         void loadMap(std::string map);
 

@@ -156,8 +156,12 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(_textures_snape, snapeModel, meshOrderSnape, 2));
     this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
+    models.push_back(mgmModel);
+    models.push_back(trelawneyModel);
+    models.push_back(snapeModel);
+    models.push_back(sproutModel);
     //button play
-    Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS, this);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
     // System to add
@@ -179,4 +183,9 @@ CharacterSelector::~CharacterSelector()
         RaylibEncap.UnlTexture(i);
     for (auto &i : this->_btn_textures)
         RaylibEncap.UnlTexture(i);
+}
+
+std::vector<Model> CharacterSelector::getModels()
+{
+    return this->models;
 }

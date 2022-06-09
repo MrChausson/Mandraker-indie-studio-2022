@@ -28,7 +28,7 @@ bool Collisionable::isColliding(float x, float y)
     Vector3 center1 = {x, 0.0, y};
     float radius1 = 0.4;
     Vector3 center2 = {0, 0.0, 0.5};
-    float radius2 = 0.35;
+    float radius2 = 0.25;
     for (auto &entity : *this->_entities) {
         auto placeMap = static_cast<Placable *> (entity->getComponentsByType(COMPONENT_TYPES::PLACABLE));
         center2.x = placeMap->getX();

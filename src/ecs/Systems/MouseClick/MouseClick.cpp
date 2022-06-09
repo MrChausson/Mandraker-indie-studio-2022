@@ -34,15 +34,18 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     Clickable *click = static_cast<Clickable *>(component);
     ECSManager *ecs = click->getEcs();
     Scene *scene = click->getScene();
+    CharacterSelector *charScene;
 
     switch (actionType)
     {
     case CLICKABLE_ACTION_CHANGE_ECS:
         if (click->_tmpEcs == SCENE_GAME) {
-            Game *game = new Game();
+            if (scene == nullptr)
+                throw std::runtime_error("Scene is null");
+            charScene = static_cast<CharacterSelector *>(scene);
+            Game *game = new Game(charScene->getModels());
             click->setEcs(game->getECS());
-            if (scene != nullptr)
-                delete (static_cast<CharacterSelector *>(scene));
+            delete (charScene);
         }
         else if (click->_tmpEcs == SCENE_MENU) {
             Menu *menu = new Menu();
