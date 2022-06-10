@@ -30,6 +30,7 @@ src/ecs/Systems/Move/Move.cpp
 src/ecs/Systems/Music_sys/Music_sys.cpp
 src/ecs/Systems/Loading/Loading.cpp
 src/ecs/Systems/Bomber/Bomber.cpp
+src/ecs/Systems/Player/Player.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp

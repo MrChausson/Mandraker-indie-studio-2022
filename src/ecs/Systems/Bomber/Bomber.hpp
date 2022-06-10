@@ -9,11 +9,17 @@
 #define BOMBER_HPP_
 
 #include "../../ISystem/ISystem.hpp"
+#include <chrono>
 
 class Bomber : public ISystem {
     public:
         Bomber();
         ~Bomber();
+        void apply(std::vector<IComponent *> component) override;
+        SYSTEM_TYPES getType() override;
+
+    private:
+        std::chrono::time_point<std::chrono::system_clock>  _toWait;
 };
 
 #endif /* !BOMBER_HPP_ */
