@@ -24,6 +24,8 @@ enum SYSTEM_TYPES {
     MUSIC,
     ANIMATION,
     LOADING,
+    BOMBER,
+    PLAYER,
     SOUND
 };
 

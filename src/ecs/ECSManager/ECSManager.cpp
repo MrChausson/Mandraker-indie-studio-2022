@@ -157,6 +157,11 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     system->apply(components);
                 }
+                else if (system->getType() == PLAYER && component->getType() == MOVABLE) {
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(MOVABLE));
+                    system->apply(components);
+                }
                 else if (system->getType() == LOADING && component->getType() == LOADABLE) {
                     components.push_back(component);
                     components.push_back(entity->getComponentsByType(PLACABLE));

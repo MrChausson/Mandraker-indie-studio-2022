@@ -14,6 +14,7 @@
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Components/Collisionable/Collisionable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
+#include "../../ecs/Systems/Player/Player.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
 
@@ -67,14 +68,6 @@ Game::Game(std::vector<Model> models)
 
     // Creating Mandrake model
     this->mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
-    //Mandraker
-    this->texturesMandrake = {
-        Raylib_encp.LTexture("assets/models/mandrake/target_mandrake_d.png"),
-        Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
-    };
-    std::vector<int> meshOrderMandrake = {
-       1, 2
-    };
 
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
@@ -129,6 +122,14 @@ Game::Game(std::vector<Model> models)
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
    //mandrake
+    //Mandraker
+    this->texturesMandrake = {
+        Raylib_encp.LTexture("assets/models/mandrake/target_mandrake_d.png"),
+        Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
+    };
+    std::vector<int> meshOrderMandrake = {
+       1, 2
+    };
     Vector3 scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
 
     this->_ecsManager->addComponent(mandrake, std::make_unique<Placable>(-1.0f, 1.0f, 0.0f, position_player, -90.0f, scaleMandrake));
@@ -143,6 +144,7 @@ Game::Game(std::vector<Model> models)
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
+    this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->loadMap("assets/map/map.txt");
 
     // Collision configuration
