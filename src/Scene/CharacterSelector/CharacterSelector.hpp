@@ -15,7 +15,8 @@ class CharacterSelector : public Scene {
         CharacterSelector(Engine *engine = nullptr);
         ~CharacterSelector();
         std::vector<Model> getModels();
-
+        void Unload() override;
+        
     protected:
     private:
         Texture2D _background_texture;

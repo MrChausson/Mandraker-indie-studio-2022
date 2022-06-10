@@ -14,9 +14,13 @@ class SplashScreen : public Scene {
     public:
         SplashScreen();
         ~SplashScreen();
+        void Unload() override;
 
     protected:
     private:
+        Texture2D _back;
+        Texture2D _load;
+        Music _music;
         
 };
 

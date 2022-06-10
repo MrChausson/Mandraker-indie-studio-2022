@@ -137,7 +137,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
-    mgmModel.transform = MatrixRotateZ(-0.1);
+    mgmModel.transform = Raylib_encp.MatrixRotZ(-0.1);
     this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(_textures_mcg, mgmModel, meshOrder_mcg, 2));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
@@ -150,14 +150,14 @@ CharacterSelector::CharacterSelector(Engine *engine)
     //flitwick
     this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
-    trelawneyModel.transform = MatrixRotateZ(0.2);
+    trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);
     this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
     this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     //Snape
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
-    snapeModel.transform = MatrixRotateZ(0.6);
+    snapeModel.transform = Raylib_encp.MatrixRotZ(0.6);
     this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(_textures_snape, snapeModel, meshOrderSnape, 2));
     this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
@@ -180,7 +180,18 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
 CharacterSelector::~CharacterSelector()
 {
+}
+
+std::vector<Model> CharacterSelector::getModels()
+{
+    return this->models;
+}
+
+void CharacterSelector::Unload()
+{
+    std::cout << "Unload Character Selector Scene Texture" << std::endl;
     Raylib::Raylib_encap RaylibEncap;
+    
     RaylibEncap.UnlTexture(this->_background_texture);
     RaylibEncap.UnlTexture(this->_title_texture);
     RaylibEncap.UnlTexture(this->_box_texture);
@@ -188,9 +199,4 @@ CharacterSelector::~CharacterSelector()
         RaylibEncap.UnlTexture(i);
     for (auto &i : this->_btn_textures)
         RaylibEncap.UnlTexture(i);
-}
-
-std::vector<Model> CharacterSelector::getModels()
-{
-    return this->models;
 }

@@ -14,6 +14,7 @@ class Game : public Scene {
     public:
         Game(std::vector<Model> models);
         ~Game();
+        void Unload() override;
         void loadMap(std::string map);
 
     protected:

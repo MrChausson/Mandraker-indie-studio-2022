@@ -62,6 +62,10 @@ Menu::Menu()
 
 Menu::~Menu()
 {
+}
+
+void Menu::Unload()
+{
     Raylib::Raylib_encap Raylib_encp;
 
     Raylib_encp.UnlTexture(this->_background_texture);

@@ -19,7 +19,7 @@ class Collisionable : public IComponent {
         Collisionable(std::vector<Entity *> *entities = nullptr);
         ~Collisionable();
         COMPONENT_TYPES getType() override;
-        bool isColliding(float x, float y);
+        bool isColliding(float x, float y, float z);
         void setEntities(std::vector<Entity *> *entities);
 
     protected:
