@@ -7,3 +7,10 @@
 
 #include "Bomber.hpp"
 
+Bomber::Bomber()
+{
+}
+
+Bomber::~Bomber()
+{
+}

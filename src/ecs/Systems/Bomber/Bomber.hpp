@@ -8,4 +8,12 @@
 #ifndef BOMBER_HPP_
 #define BOMBER_HPP_
 
+#include "../../ISystem/ISystem.hpp"
+
+class Bomber : public ISystem {
+    public:
+        Bomber();
+        ~Bomber();
+};
+
 #endif /* !BOMBER_HPP_ */
