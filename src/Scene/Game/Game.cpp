@@ -225,11 +225,6 @@ void Game::loadMap(std::string map_src)
     Vector3 rotation_gnome = {0.0f, 90.0f, 0.0f};
     Vector3 bag_scale = {0.03, 0.03, 0.03};
     Vector2 size = { 1, 1 };
-    Color invisible = {0, 0, 0, 0};
-    float hitbox_length = 0.8f;
-    float hitbox_width = 0.8f;
-    float hitbox_height = 0.8f;
-    float hitbox_radius = 0.8f;
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     if (!myfile.is_open())
@@ -238,7 +233,6 @@ void Game::loadMap(std::string map_src)
         for (int j = 0; j < line.size(); j++) {
             Entity *entity = nullptr;
             Entity *grass_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-            Entity *invisible_block = nullptr;
             if (line[j] == 'r') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -0.5f, i, zeroVector3 , -45, bag_scale));
@@ -246,10 +240,6 @@ void Game::loadMap(std::string map_src)
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
-                // Let's put an invisible block to prevent the player to go through the bag
-                invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-                invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
-                invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
             } else if (line[j] == 'B') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
@@ -257,10 +247,6 @@ void Game::loadMap(std::string map_src)
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
-                // Let's put an invisible block to prevent the player to go through the table
-                invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-                invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
-                invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
             } else if (line[j] == '*') {
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture));
@@ -269,10 +255,6 @@ void Game::loadMap(std::string map_src)
                     entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
-                    // let's put an invisible block to prevent the player to go through the gnome
-                    invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-                    invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
-                    invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
                 }
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
