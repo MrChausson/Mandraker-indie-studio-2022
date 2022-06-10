@@ -49,6 +49,7 @@ void Draw::apply(std::vector<IComponent *> component)
         Raylib_encp.BeginM3D(camera->getCamera());
         Raylib_encp.SetCamMode(camera->getCamera(), CAMERA_FREE);
         Raylib_encp.DwCube(placable->getPosition(), drawableCube->getWidth(), drawableCube->getHeight(), drawableCube->getLength(), drawableCube->getColor());
+        Raylib_encp.EndM3D();
     } else if (component_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
         if (component.size() < 3)
             throw CameraNotFound();

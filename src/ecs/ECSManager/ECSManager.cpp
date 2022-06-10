@@ -168,6 +168,7 @@ void ECSManager::applyDraw()
     IComponent *camera;
     Raylib::Raylib_encap Raylib_encp;
 
+    Raylib_encp.BgDrawing();
     for (; found == true; current_plan++) {
         found = false;
         for (auto &entity : this->_entities) {
