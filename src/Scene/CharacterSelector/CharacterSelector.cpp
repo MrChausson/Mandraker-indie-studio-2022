@@ -175,7 +175,18 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
 CharacterSelector::~CharacterSelector()
 {
+}
+
+std::vector<Model> CharacterSelector::getModels()
+{
+    return this->models;
+}
+
+void CharacterSelector::Unload()
+{
+    std::cout << "Unload Character Selector Scene Texture" << std::endl;
     Raylib::Raylib_encap RaylibEncap;
+    
     RaylibEncap.UnlTexture(this->_background_texture);
     RaylibEncap.UnlTexture(this->_title_texture);
     RaylibEncap.UnlTexture(this->_box_texture);
@@ -183,9 +194,4 @@ CharacterSelector::~CharacterSelector()
         RaylibEncap.UnlTexture(i);
     for (auto &i : this->_btn_textures)
         RaylibEncap.UnlTexture(i);
-}
-
-std::vector<Model> CharacterSelector::getModels()
-{
-    return this->models;
 }

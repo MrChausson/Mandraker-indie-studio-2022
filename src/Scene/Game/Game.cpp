@@ -136,37 +136,6 @@ Game::Game(std::vector<Model> models)
 
 Game::~Game()
 {
-    std::cout << "Game destructor" << std::endl;
-    Raylib::Raylib_encap RaylibEncap;
-    RaylibEncap.UnlTexture(this->_gryf_infos_texture);
-    RaylibEncap.UnlTexture(this->_rav_infos_texture);
-    RaylibEncap.UnlTexture(this->_slyth_infos_texture);
-    RaylibEncap.UnlTexture(this->_huff_infos_texture);
-    RaylibEncap.UnloadMtream(this->music);
-    UnloadModel(mgmModel);
-    UnloadModel(trelawneyModel);
-    UnloadModel(snapeModel);
-    UnloadModel(sproutModel);
-    for (auto &i : texturesMgm)
-        RaylibEncap.UnlTexture(i);
-    for (auto &i : texturesTre)
-        RaylibEncap.UnlTexture(i);
-    for (auto &i : texturesSnape)
-        RaylibEncap.UnlTexture(i);
-    for (auto &i : texturesSprout)
-        RaylibEncap.UnlTexture(i);
-    RaylibEncap.UnlTexture(grass_texture);
-    RaylibEncap.UnlTexture(stone_texture);
-    for (auto &i : textures_bag)
-        RaylibEncap.UnlTexture(i);
-    for (auto &i : textures_tables)
-        RaylibEncap.UnlTexture(i);
-    for (auto &i : textures_gnome)
-        RaylibEncap.UnlTexture(i);
-    UnloadModel(bagModel);
-    UnloadModel(tableModel);
-    UnloadModel(tableModelRotate);
-    UnloadModel(gnome);
 }
 
 void Game::loadMap(std::string map_src)
@@ -260,4 +229,40 @@ void Game::loadMap(std::string map_src)
         i++;
     }
     myfile.close();
+}
+
+
+void Game::Unload()
+{
+    std::cout << "Game destructor" << std::endl;
+    Raylib::Raylib_encap RaylibEncap;
+    RaylibEncap.UnlTexture(this->_gryf_infos_texture);
+    RaylibEncap.UnlTexture(this->_rav_infos_texture);
+    RaylibEncap.UnlTexture(this->_slyth_infos_texture);
+    RaylibEncap.UnlTexture(this->_huff_infos_texture);
+    RaylibEncap.UnloadMtream(this->music);
+    UnloadModel(mgmModel);
+    UnloadModel(trelawneyModel);
+    UnloadModel(snapeModel);
+    UnloadModel(sproutModel);
+    for (auto &i : texturesMgm)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesTre)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesSnape)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesSprout)
+        RaylibEncap.UnlTexture(i);
+    RaylibEncap.UnlTexture(grass_texture);
+    RaylibEncap.UnlTexture(stone_texture);
+    for (auto &i : textures_bag)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : textures_tables)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : textures_gnome)
+        RaylibEncap.UnlTexture(i);
+    UnloadModel(bagModel);
+    UnloadModel(tableModel);
+    UnloadModel(tableModelRotate);
+    UnloadModel(gnome);
 }

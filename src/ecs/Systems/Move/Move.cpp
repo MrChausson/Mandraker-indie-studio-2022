@@ -42,24 +42,20 @@ void Move::apply(std::vector<IComponent *> component)
 
     if (type == MOVABLE_PLAYER) {
         collision = static_cast<Collisionable *> (component[3]);
-        if (Raylib_encp.IsKDown(KEY_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getZ())) {
+        if (Raylib_encp.IsKDown(KEY_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())) {
             anims->setAnimationType(RUN);
-            // placable->setRotationAxis(rot_right);
             model->getPtrModel()->transform = MatrixRotateZ(-1.5);
             placable->setX(placable->getX() + to_move);
-        } else if (Raylib_encp.IsKDown(KEY_LEFT) && !collision->isColliding(placable->getX() - to_move, placable->getZ())) {
+        } else if (Raylib_encp.IsKDown(KEY_LEFT) && !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ())) {
             anims->setAnimationType(RUN);
-            // placable->setRotationAxis(rot_left);
             model->getPtrModel()->transform = MatrixRotateZ(1.5);
             placable->setX(placable->getX() - to_move);
-        } else if (Raylib_encp.IsKDown(KEY_UP) && !collision->isColliding(placable->getX(), placable->getZ() - to_move)) {
+        } else if (Raylib_encp.IsKDown(KEY_UP) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move)) {
             anims->setAnimationType(RUN);
-            // placable->setRotationAxis(rot_up);
             model->getPtrModel()->transform = MatrixRotateZ(3);
             placable->setZ(placable->getZ() - to_move);
-        } else if (Raylib_encp.IsKDown(KEY_DOWN) && !collision->isColliding(placable->getX(), placable->getZ() + to_move)) {
+        } else if (Raylib_encp.IsKDown(KEY_DOWN) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move)) {
             anims->setAnimationType(RUN);
-            // placable->setRotationAxis(rot_down);
             model->getPtrModel()->transform = MatrixRotateZ(0);
             placable->setZ(placable->getZ() + to_move);
         } else

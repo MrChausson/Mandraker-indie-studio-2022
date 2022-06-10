@@ -53,3 +53,17 @@ Settings::Settings()
 Settings::~Settings()
 {
 }
+
+
+void Settings::Unload()
+{
+    Raylib::Raylib_encap Raylib_encp;
+
+    Raylib_encp.UnloadMtream(this->_music);
+    Raylib_encp.UnlTexture(this->_background_texture);
+    Raylib_encp.UnlTexture(this->_title_texture);
+    Raylib_encp.UnlFont(this->_btn_font);
+    Raylib_encp.UnlTexture(this->_btn_textures[0]);
+    Raylib_encp.UnlTexture(this->_btn_textures[1]);
+    Raylib_encp.UnlTexture(this->_btn_textures[2]);
+}
