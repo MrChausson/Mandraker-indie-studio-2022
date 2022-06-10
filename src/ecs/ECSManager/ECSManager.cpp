@@ -93,6 +93,20 @@ IComponent *ECSManager::getComponent(Entity *entity, COMPONENT_TYPES type)
     return nullptr;
 }
 
+ECSManager ECSManager::applyMusic()
+{
+    std::vector<IComponent *> components;
+    for (auto &system : this->_systems)
+        for (auto &entity : this->_entities)
+            for (auto &component : entity.get()->getComponents()) {
+                components.clear();
+                if (component->getType() == COMPONENT_TYPES::MUSICABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
+            }
+}
+
 ECSManager *ECSManager::applySystems()
 {
     int i = 0;
