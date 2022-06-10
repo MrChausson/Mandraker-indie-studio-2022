@@ -55,6 +55,7 @@ Game::Game(std::vector<Model> models)
     int huff_infos = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
+    int mandrake = this->_ecsManager->createEntity();
 
     // Load Music
     this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
@@ -63,6 +64,17 @@ Game::Game(std::vector<Model> models)
     this->trelawneyModel = models[1];
     this->snapeModel = models[2];
     this->sproutModel = models[3];
+
+    // Creating Mandrake model
+    this->mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
+    //Mandraker
+    this->texturesMandrake = {
+        Raylib_encp.LTexture("assets/models/mandrake/target_mandrake_d.png"),
+        Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
+    };
+    std::vector<int> meshOrderMandrake = {
+       1, 2
+    };
 
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
@@ -73,8 +85,8 @@ Game::Game(std::vector<Model> models)
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-    this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
-    this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
+    //this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
+    //this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
 
     // Adding HUD
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 0));
@@ -116,6 +128,12 @@ Game::Game(std::vector<Model> models)
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
+   //mandrake
+    Vector3 scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
+
+    this->_ecsManager->addComponent(mandrake, std::make_unique<Placable>(-1.0f, 1.0f, 0.0f, position_player, -90.0f, scaleMandrake));
+    this->_ecsManager->addComponent(mandrake, std::make_unique<DrawableModel>(texturesMandrake, mandrakeModel, meshOrderMandrake));
+    this->_ecsManager->addComponent(mandrake, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
     // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
