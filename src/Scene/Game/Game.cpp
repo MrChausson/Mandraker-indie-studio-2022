@@ -135,20 +135,6 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
-   //mandrake
-    //Mandraker
-    this->texturesMandrake = {
-        Raylib_encp.LTexture("assets/models/mandrake/target_mandrake_d.png"),
-        Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
-    };
-    std::vector<int> meshOrderMandrake = {
-       1, 2
-    };
-    Vector3 scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
-
-    this->_ecsManager->addComponent(mandrake, std::make_unique<Placable>(-1.0f, 1.0f, 0.0f, position_player, -90.0f, scaleMandrake));
-    this->_ecsManager->addComponent(mandrake, std::make_unique<DrawableModel>(texturesMandrake, mandrakeModel, meshOrderMandrake));
-    this->_ecsManager->addComponent(mandrake, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
     // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));

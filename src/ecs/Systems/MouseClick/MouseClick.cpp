@@ -32,6 +32,7 @@ SYSTEM_TYPES MouseClick::getType()
 void MouseClick::clickAction(ClickableActionType actionType, IComponent *component, IComponent *component2)
 {
     Clickable *click = static_cast<Clickable *>(component);
+    DrawableSprite *sprite = static_cast<DrawableSprite *>(component2);
     ECSManager *ecs = click->getEcs();
     Scene *scene = click->getScene();
     CharacterSelector *charScene;
@@ -76,30 +77,35 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_CHOOSE_CHARACTER:
         break;
     case CLICKABLE_ACTION_CHOOSE_SPANE:
-        if (click->_sound != nullptr)
+        if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = SNAPE;
+        sprite->setSelected(!sprite->isSelected());
         break;
     case CLICKABLE_ACTION_CHOOSE_MCG:
-        if (click->_sound != nullptr)
+        if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = MCG;
+        sprite->setSelected(!sprite->isSelected());
         break;
     case CLICKABLE_ACTION_CHOOSE_SPROUT:
-        if (click->_sound != nullptr)
+        if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = SPROUT;
+        sprite->setSelected(!sprite->isSelected());
         break;
     case CLICKABLE_ACTION_CHOOSE_TRELAWNEY:
         if (click->_sound != nullptr)
             r.PlayS(*click->_sound);
         this->_characterChoosen = TRELAWNEY;
+        sprite->setSelected(!sprite->isSelected());
         break;
     }
 }
 
 void MouseClick::apply(std::vector<IComponent *> component)
 {
+    // component : [0] = DrawableSprite, [1] = Clickable 
     Raylib::Raylib_encap Raylib_encp;
     Clickable *click = static_cast<Clickable *>(component[1]);
     Vector2 mouse = Raylib_encp.GetMousePos();
@@ -113,7 +119,7 @@ void MouseClick::apply(std::vector<IComponent *> component)
             click->_textureSaved = draw->getTexture();
             draw->setTexture(click->getTexture());
         } else if (released && click->getActionType() != CLICKABLE_ACTION_NONE) {
-            this->clickAction(click->getActionType(), component[1], component[2]);
+            this->clickAction(click->getActionType(), component[1], component[0]);
         } else {
             DrawableSprite *draw = static_cast<DrawableSprite *>(component[0]);
             draw->setTexture(click->_textureSaved);
