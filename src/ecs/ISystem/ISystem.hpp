@@ -23,7 +23,8 @@ enum SYSTEM_TYPES {
     MOVE,
     MUSIC,
     ANIMATION,
-    LOADING
+    LOADING,
+    SOUND
 };
 
 class ISystem {

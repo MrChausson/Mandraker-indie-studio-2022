@@ -35,6 +35,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     ECSManager *ecs = click->getEcs();
     Scene *scene = click->getScene();
     CharacterSelector *charScene;
+    Raylib::Raylib_encap r;
 
     switch (actionType)
     {
@@ -46,20 +47,17 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
             Game *game = new Game(charScene->getModels());
             click->setEcs(game->getECS());
             delete (charScene);
-        }
-        else if (click->_tmpEcs == SCENE_MENU) {
+        } else if (click->_tmpEcs == SCENE_MENU) {
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
             if (scene != nullptr)
                 delete (static_cast<Settings *>(scene));
-        }
-        else if (click->_tmpEcs == SCENE_SETTINGS) {
+        } else if (click->_tmpEcs == SCENE_SETTINGS) {
             Settings *settings = new Settings();
             click->setEcs(settings->getECS());
             if (scene != nullptr)
                 delete (static_cast<Menu *>(scene));
-        }
-        else if (click->_tmpEcs == SCENE_CHARACTER_SELECTOR) {
+        } else if (click->_tmpEcs == SCENE_CHARACTER_SELECTOR) {
             CharacterSelector *characterSelector = new CharacterSelector();
             click->setEcs(characterSelector->getECS());
             if (scene != nullptr)
@@ -71,6 +69,10 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         loop_status = false;
         if (scene != nullptr)
             delete (scene);
+        break;
+    case CLICKABLE_ACTION_CHOOSE_CHARACTER:
+        if (click->_sound != nullptr)
+            r.PlayS(*click->_sound);
         break;
     }
 }

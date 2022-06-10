@@ -31,6 +31,10 @@ class CharacterSelector : public Scene {
         std::vector<Texture2D> _texturesTre;
         std::vector<Texture2D> _textures_snape;
         std::vector<Model> models;
+        Sound mcgSound;
+        Sound sproutSound;
+        Sound treSound;
+        Sound snapeSound;
 };
 
 #endif /* !CHARACTERSELECTOR_HPP_ */
