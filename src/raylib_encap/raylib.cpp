@@ -382,3 +382,13 @@ void Raylib::Raylib_encap::UpdtModelAnimation(Model model, ModelAnimation anim, 
 {
     return UpdateModelAnimation(model, anim, frame);
 }
+
+Matrix MatrixRotZ(float angle) noexcept
+{
+    return MatrixRotateZ(angle);
+}
+
+bool CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept
+{
+    return CheckCollisionBoxes(box1, box2);
+}
