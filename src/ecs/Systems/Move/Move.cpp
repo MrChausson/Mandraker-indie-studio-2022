@@ -65,6 +65,33 @@ void Move::apply(std::vector<IComponent *> component)
     }
     else if (type == MOVABLE_AI) {
         //TODO: AI moving parameters here Alexandre
-        placable->setX(placable->getX() + to_move);
+        int rngvalue = Raylib_encp.GetRngValue(0, 3);
+        // go right
+        if (rngvalue == 0) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = MatrixRotateZ(-1.5);
+            placable->setX(placable->getX() + to_move);
+        }
+        // go left
+        else if (rngvalue == 1) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = MatrixRotateZ(1.5);
+            placable->setX(placable->getX() - to_move);
+        }
+        // go up
+        else if (rngvalue == 2) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = MatrixRotateZ(3);
+            placable->setZ(placable->getZ() - to_move);
+        }
+        // go down
+        else if (rngvalue == 3) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = MatrixRotateZ(0);
+            placable->setZ(placable->getZ() + to_move);
+        }
+        // nothing
+        else
+            anims->setAnimationType(IDLE);
     }
  }
