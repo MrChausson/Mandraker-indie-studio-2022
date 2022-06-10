@@ -14,6 +14,7 @@
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
+#include "../../ecs/Systems/Sound/SoundSystem.hpp"
 
 CharacterSelector::CharacterSelector(Engine *engine)
 {
@@ -122,12 +123,16 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    // this->_box Component
-    Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_NONE);
+    // Sounds
+    this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
+    this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
+    this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
+    Scene *nullScene = nullptr;
 
+    Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_CHARACTER, nullScene, &mcgSound);
+    Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_CHARACTER, nullScene, &sproutSound);
+    Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_CHARACTER, nullScene, &snapeSound);
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
@@ -170,7 +175,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
     this->_ecsManager->addSystem(std::make_unique<Animation>());
-
+    this->_ecsManager->addSystem(std::make_unique<SoundSystem>(SoundSystem()));
 }
 
 CharacterSelector::~CharacterSelector()
