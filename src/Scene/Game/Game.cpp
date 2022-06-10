@@ -31,8 +31,8 @@ Game::Game(std::vector<Model> models)
     this->_huff_infos_texture = Raylib_encp.LTexture("assets/materials/game/hufflepuff.png");
 
     // Create camera vectors
-    Vector3 position = { 7.0f, 40.0f, 25.0f };
-    Vector3 target = { 7.0f, -13.0f, 0.0f };
+    Vector3 position = { 7.0f, 50.0f, 25.0f };
+    Vector3 target = { 7.0f, -20.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
 
     // Createing plane vectors
