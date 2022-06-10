@@ -43,10 +43,12 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (click->_tmpEcs == SCENE_GAME) {
             if (scene == nullptr)
                 throw std::runtime_error("Scene is null");
+            std::cout << "Change scene" << std::endl;
             charScene = static_cast<CharacterSelector *>(scene);
             Game *game = new Game(charScene->getModels());
             click->setEcs(game->getECS());
-            delete (charScene);
+            std::cout << "Change scene" << std::endl;
+            //delete (charScene);
         } else if (click->_tmpEcs == SCENE_MENU) {
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
