@@ -11,6 +11,7 @@ Movable::Movable(float speed, MOVABLE_TYPE type)
 {
     this->_speed = speed;
     this->_type = type;
+    this->_clock = std::chrono::system_clock::now();
 }
 
 Movable::~Movable()
@@ -30,4 +31,14 @@ void Movable::setSpeed(float speed)
 MOVABLE_TYPE Movable::getMovableType()
 {
     return _type;
+}
+
+std::chrono::duration<double> Movable::getElapsedSeconds()
+{
+    return (std::chrono::system_clock::now() - this->_clock);
+}
+
+void Movable::RestartClock()
+{
+    this->_clock = std::chrono::system_clock::now();;
 }

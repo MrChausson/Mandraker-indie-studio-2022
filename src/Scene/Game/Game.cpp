@@ -21,9 +21,11 @@
 float mapHeight = 14;
 float mapWidth = 10;
 
-Game::Game(std::vector<Model> models)
+Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
 {
     Raylib::Raylib_encap Raylib_encp;
+
+    this->_characterChoosen = characterChoosen;
     this->_ecsManager = std::make_unique<ECSManager>();
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
     this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
@@ -46,7 +48,7 @@ Game::Game(std::vector<Model> models)
     int ai = this->_ecsManager->createEntity();
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
-    int flitwick = this->_ecsManager->createEntity();
+    int trelawney = this->_ecsManager->createEntity();
     int snape = this->_ecsManager->createEntity();
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
@@ -94,20 +96,29 @@ Game::Game(std::vector<Model> models)
 
     // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
-    this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    if (characterChoosen == CHARACTER_CHOOSEN::MCG)
+        this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    else
+        this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
 
     // Configuring player TRELAWNEY
-    this->_ecsManager->addComponent(flitwick, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+    if (characterChoosen == CHARACTER_CHOOSEN::TRELAWNEY)
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    else
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     // Configuring player SNAPE
     this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
-    this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    if (characterChoosen == CHARACTER_CHOOSEN::SNAPE)
+        this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    else
+        this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
     this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
     this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
@@ -117,7 +128,10 @@ Game::Game(std::vector<Model> models)
 
     // Configuring player SPROUT
     this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
-    this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    if (characterChoosen == CHARACTER_CHOOSEN::SPROUT)
+        this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    else
+        this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
@@ -149,6 +163,9 @@ Game::Game(std::vector<Model> models)
 
     // Collision configuration
     this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Collisionable>(this->_mapEntities.get()));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Collisionable>(this->_mapEntities.get()));
+    this->_ecsManager->addComponent(snape, std::make_unique<Collisionable>(this->_mapEntities.get()));
 
     // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;

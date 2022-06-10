@@ -24,7 +24,7 @@ class Move : public ISystem {
 
     protected:
     private:
-        std::chrono::time_point<std::chrono::system_clock> _clock;
+        
 };
 
 #endif /* !MOVE_HPP_ */

@@ -14,7 +14,7 @@
 
 Move::Move()
 {
-    this->_clock = std::chrono::system_clock::now();
+    
 }
 
 Move::~Move()
@@ -35,9 +35,9 @@ void Move::apply(std::vector<IComponent *> component)
     Collisionable *collision;
     Movable *movable = static_cast<Movable *> (component[4]);
 
-    std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - this->_clock;
+    std::chrono::duration<double> elapsed_seconds = movable->getElapsedSeconds();
     float to_move = movable->getSpeed() * elapsed_seconds.count();
-    this->_clock = std::chrono::system_clock::now();
+    movable->RestartClock();
     MOVABLE_TYPE type = movable->getMovableType();
 
     if (type == MOVABLE_PLAYER) {
@@ -63,6 +63,6 @@ void Move::apply(std::vector<IComponent *> component)
     }
     else if (type == MOVABLE_AI) {
         //TODO: AI moving parameters here Alexandre
-        placable->setX(placable->getX() + to_move);
+        // placable->setX(placable->getX() + to_move);
     }
  }

@@ -12,7 +12,7 @@
 
 class Game : public Scene {
     public:
-        Game(std::vector<Model> models);
+        Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen);
         ~Game();
         void Unload() override;
         void loadMap(std::string map);
@@ -55,6 +55,7 @@ class Game : public Scene {
         Model tableModelRotate;
         Model gnome;
         std::vector<Texture2D> textures_gnome;
+        CHARACTER_CHOOSEN _characterChoosen;
 };
 
 #endif /* !GAME_HPP_ */
