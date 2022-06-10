@@ -31,8 +31,8 @@ Game::Game(std::vector<Model> models)
     this->_huff_infos_texture = Raylib_encp.LTexture("assets/materials/game/hufflepuff.png");
 
     // Create camera vectors
-    Vector3 position = { 7.0f, 40.0f, 25.0f };
-    Vector3 target = { 7.0f, -13.0f, 0.0f };
+    Vector3 position = { 7.0f, 50.0f, 25.0f };
+    Vector3 target = { 7.0f, -20.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
 
     // Createing plane vectors
@@ -55,6 +55,7 @@ Game::Game(std::vector<Model> models)
     int huff_infos = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
+    int mandrake = this->_ecsManager->createEntity();
 
     // Load Music
     this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
@@ -63,6 +64,17 @@ Game::Game(std::vector<Model> models)
     this->trelawneyModel = models[1];
     this->snapeModel = models[2];
     this->sproutModel = models[3];
+
+    // Creating Mandrake model
+    this->mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
+    //Mandraker
+    this->texturesMandrake = {
+        Raylib_encp.LTexture("assets/models/mandrake/target_mandrake_d.png"),
+        Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
+    };
+    std::vector<int> meshOrderMandrake = {
+       1, 2
+    };
 
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
@@ -73,8 +85,8 @@ Game::Game(std::vector<Model> models)
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-    this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
-    this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
+    //this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
+    //this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
 
     // Adding HUD
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 0));
@@ -116,6 +128,12 @@ Game::Game(std::vector<Model> models)
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
+   //mandrake
+    Vector3 scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
+
+    this->_ecsManager->addComponent(mandrake, std::make_unique<Placable>(-1.0f, 1.0f, 0.0f, position_player, -90.0f, scaleMandrake));
+    this->_ecsManager->addComponent(mandrake, std::make_unique<DrawableModel>(texturesMandrake, mandrakeModel, meshOrderMandrake));
+    this->_ecsManager->addComponent(mandrake, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
     // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
@@ -188,6 +206,11 @@ void Game::loadMap(std::string map_src)
     Vector3 rotation_gnome = {0.0f, 90.0f, 0.0f};
     Vector3 bag_scale = {0.03, 0.03, 0.03};
     Vector2 size = { 1, 1 };
+    Color invisible = {0, 0, 0, 0};
+    float hitbox_length = 0.8f;
+    float hitbox_width = 0.8f;
+    float hitbox_height = 0.8f;
+    float hitbox_radius = 0.8f;
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     if (!myfile.is_open())
@@ -196,6 +219,7 @@ void Game::loadMap(std::string map_src)
         for (int j = 0; j < line.size(); j++) {
             Entity *entity = nullptr;
             Entity *grass_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+            Entity *invisible_block = nullptr;
             if (line[j] == 'r') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -0.5f, i, zeroVector3 , -45, bag_scale));
@@ -203,6 +227,10 @@ void Game::loadMap(std::string map_src)
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
+                // Let's put an invisible block to prevent the player to go through the bag
+                invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
+                invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
             } else if (line[j] == 'B') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
@@ -210,6 +238,10 @@ void Game::loadMap(std::string map_src)
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
+                // Let's put an invisible block to prevent the player to go through the table
+                invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
+                invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
             } else if (line[j] == '*') {
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture));
@@ -218,6 +250,10 @@ void Game::loadMap(std::string map_src)
                     entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
+                    // let's put an invisible block to prevent the player to go through the gnome
+                    invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                    invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
+                    invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
                 }
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
