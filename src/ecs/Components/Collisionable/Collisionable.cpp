@@ -6,6 +6,7 @@
 */
 
 #include "Collisionable.hpp"
+#include "raylib.hpp"
 
 Collisionable::Collisionable(std::vector<Entity *> *entities)
 {
@@ -31,6 +32,7 @@ bool Collisionable::isColliding(float x, float y, float z)
     Vector3 max_map;
     BoundingBox box = {min, max};
     BoundingBox box_map = {min, max};
+    Raylib::Raylib_encap Raylib_encp;
 
     for (auto &entity : *this->_entities) {
         auto placeMap = static_cast<Placable *> (entity->getComponentsByType(COMPONENT_TYPES::PLACABLE));
@@ -41,7 +43,7 @@ bool Collisionable::isColliding(float x, float y, float z)
         max_map.y = placeMap->getY() + 1.5;
         max_map.z = placeMap->getZ() + 0.4;
         box_map = {min_map, max_map};
-        if (CheckCollisionBoxes(box, box_map))
+        if (Raylib_encp.CheckCollBoxes(box, box_map))
             return true;
     }
     return (false);

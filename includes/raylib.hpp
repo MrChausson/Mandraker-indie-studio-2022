@@ -12,6 +12,7 @@
 #include <stddef.h>
 #include <utility>
 #include "../_deps/raylib-src/src/raylib.h"
+#include "../_deps/raylib-src/src/raymath.h"
 
 namespace Raylib
 {
@@ -94,6 +95,8 @@ namespace Raylib
             void DwPlane(Vector3 centerPos, Vector2 size, Color color) noexcept;
             void DwTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint) noexcept;
             void UpdtModelAnimation(Model model, ModelAnimation anim, int frame) noexcept;
+            Matrix MatrixRotZ(float angle) noexcept;
+            bool CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept;
     };
 }
 
