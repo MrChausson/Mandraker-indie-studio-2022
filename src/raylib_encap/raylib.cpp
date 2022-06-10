@@ -387,3 +387,12 @@ int Raylib::Raylib_encap::GetRngValue(int min, int max) noexcept
 {
     return GetRandomValue(min, max);
 }
+Matrix Raylib::Raylib_encap::MatrixRotZ(float angle) noexcept
+{
+    return MatrixRotateZ(angle);
+}
+
+bool Raylib::Raylib_encap::CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept
+{
+    return CheckCollisionBoxes(box1, box2);
+}

@@ -10,6 +10,7 @@
 #include "../Scene/Scene.hpp"
 #include "../Scene/Menu/Menu.hpp"
 #include "../Scene/SplashScreen/SplashScreen.hpp"
+#include <threads.h>
 
 bool loop_status = 1;
 
@@ -39,21 +40,17 @@ void Engine::game_loop()
     Scene *scene = new SplashScreen();
     this->_currentEcs = scene->getECS();
     ECSManager *tmp;
+    std::thread thread_music;
 
     while (loop_status) {
-        this->_chrono.startLoop();
         tmp = this->_currentEcs->applySystems();
         if (tmp != nullptr)
             {
-                delete (this->_currentEcs);
                 this->_currentEcs = tmp;
             }
         if (Raylib_encp.WindowShouldEnd() && !Raylib_encp.IsKDown(KEY_ESCAPE))
             loop_status = false;
-        this->_chrono.sleepEndLoop();
     }
-    if (this->_currentEcs != nullptr)
-        delete (this->_currentEcs);
     Raylib_encp.CloseAudioDev();
     Raylib_encp.CloseWind();
     // delete(static_cast<Menu *>(scene));

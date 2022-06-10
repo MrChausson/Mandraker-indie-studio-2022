@@ -17,7 +17,7 @@
 
 class Clickable : public IComponent {
     public:
-        Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo, ClickableActionType actionType = CLICKABLE_ACTION_NONE);
+        Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo, ClickableActionType actionType = CLICKABLE_ACTION_NONE, Scene *current_scene = nullptr);
         ~Clickable();
         void setBound(float x, float y);
         bool isClicked(Vector2 mouse, bool pressed);
@@ -34,6 +34,7 @@ class Clickable : public IComponent {
         void setEcs(ECSManager *ecs);
         SCENE_TYPE _tmpEcs;
         ClickableActionType getActionType();
+        Scene *getScene();
 
     protected:
     private:
@@ -42,6 +43,7 @@ class Clickable : public IComponent {
         bool _isClicked;
         Rectangle _bounds;
         ClickableActionType _actionType;
+        Scene *_scene;
 };
 
 #endif /* !Clickable_HPP_ */

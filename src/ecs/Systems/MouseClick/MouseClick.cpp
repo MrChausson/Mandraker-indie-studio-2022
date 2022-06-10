@@ -33,32 +33,44 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
 {
     Clickable *click = static_cast<Clickable *>(component);
     ECSManager *ecs = click->getEcs();
+    Scene *scene = click->getScene();
+    CharacterSelector *charScene;
 
     switch (actionType)
     {
     case CLICKABLE_ACTION_CHANGE_ECS:
         if (click->_tmpEcs == SCENE_GAME) {
-            Game *game = new Game();
+            if (scene == nullptr)
+                throw std::runtime_error("Scene is null");
+            charScene = static_cast<CharacterSelector *>(scene);
+            Game *game = new Game(charScene->getModels());
             click->setEcs(game->getECS());
+            delete (charScene);
         }
         else if (click->_tmpEcs == SCENE_MENU) {
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
+            if (scene != nullptr)
+                scene->Unload();
         }
         else if (click->_tmpEcs == SCENE_SETTINGS) {
             Settings *settings = new Settings();
             click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
         }
         else if (click->_tmpEcs == SCENE_CHARACTER_SELECTOR) {
             CharacterSelector *characterSelector = new CharacterSelector();
             click->setEcs(characterSelector->getECS());
+            if (scene != nullptr)
+                scene->Unload();
         }
         break;
     case CLICKABLE_ACTION_QUIT_GAME:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
-        break;
-    default:
+        if (scene != nullptr)
+            scene->Unload();
         break;
     }
 }

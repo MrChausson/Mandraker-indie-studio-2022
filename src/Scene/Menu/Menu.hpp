@@ -13,6 +13,7 @@ class Menu : public Scene {
     public:
         Menu();
         ~Menu();
+        void Unload() override;
 
     protected:
     private:

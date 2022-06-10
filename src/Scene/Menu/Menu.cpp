@@ -47,9 +47,9 @@ Menu::Menu()
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_btn_textures, SCENE_CHARACTER_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS);
-    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_btn_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS);
-    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME);
+    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_btn_textures, SCENE_CHARACTER_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS, this);
+    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_btn_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS, this);
+    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME, this);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
@@ -62,6 +62,10 @@ Menu::Menu()
 
 Menu::~Menu()
 {
+}
+
+void Menu::Unload()
+{
     Raylib::Raylib_encap Raylib_encp;
 
     Raylib_encp.UnlTexture(this->_background_texture);
@@ -70,7 +74,6 @@ Menu::~Menu()
     Raylib_encp.UnlTexture(this->_btn_textures[2]);
     Raylib_encp.UnlTexture(this->_title_texture);
     Raylib_encp.UnlFont(this->_btn_font);
-    Raylib_encp.UnlFont(this->_title_font);
     Raylib_encp.UnloadMtream(this->_music);
     std::cout << "Menu destroyed" << std::endl;
 }

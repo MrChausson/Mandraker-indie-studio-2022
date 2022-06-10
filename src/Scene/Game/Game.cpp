@@ -12,21 +12,27 @@
 #include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Components/Collisionable/Collisionable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
 
+float mapHeight = 14;
+float mapWidth = 10;
 
-Game::Game()
+Game::Game(std::vector<Model> models)
 {
     Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager = std::make_unique<ECSManager>();
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
     this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
+    this->_rav_infos_texture = Raylib_encp.LTexture("assets/materials/game/ravenclaw.png");
+    this->_slyth_infos_texture = Raylib_encp.LTexture("assets/materials/game/slytherin.png");
+    this->_huff_infos_texture = Raylib_encp.LTexture("assets/materials/game/hufflepuff.png");
 
     // Create camera vectors
-    Vector3 position = { 10.0f, 60.0f, 25.0f };
-    Vector3 target = { 10.0f, -25.0f, 0.0f };
+    Vector3 position = { 7.0f, 50.0f, 25.0f };
+    Vector3 target = { 7.0f, -20.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
 
     // Createing plane vectors
@@ -44,65 +50,30 @@ Game::Game()
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
     int gryf_infos = this->_ecsManager->createEntity();
+    int rav_infos = this->_ecsManager->createEntity();
+    int slyth_infos = this->_ecsManager->createEntity();
+    int huff_infos = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
+    int mandrake = this->_ecsManager->createEntity();
 
     // Load Music
-    Music music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
+    this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
     // Creating Model , vector texture and the mesh order for mcg
-    Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
-    std::vector<Texture2D> texturesMgm = {
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/mcg/glass.png")
-    };
-    std::vector<int> meshOrderMgm = {
-        1, 2, 3, 5, 0, 4
-    };
+    this->mgmModel = models[0];
+    this->trelawneyModel = models[1];
+    this->snapeModel = models[2];
+    this->sproutModel = models[3];
 
-    // Creating Model , vector texture and the mesh order for FLitwick
-    Model flitwickModel = Raylib_encp.LModel("assets/models/flitwick/flitwick.iqm");
-    std::vector<Texture2D> texturesFlit = {
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+    // Creating Mandrake model
+    this->mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
+    //Mandraker
+    this->texturesMandrake = {
+        Raylib_encp.LTexture("assets/models/mandrake/target_mandrake_d.png"),
+        Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
     };
-    std::vector<int> meshOrderFlitwick = {
-        2, 4, 5, 1, 3
-    };
-
-    // Creating Model , vector texture and the mesh order for Snape
-    Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
-    std::vector<Texture2D> texturesSnape = {
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
-        Raylib_encp.LTexture("assets/models/snape/EyesBW_v169@4x.png")
-    };
-    std::vector<int> meshOrderSnape = {
-       4, 3, 0, 2, 1
-    };
-
-    // Creating Model , vector texture and the mesh order for Sprout
-    Model sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
-    std::vector<Texture2D> texturesSprout = {
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_face_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
-        Raylib_encp.LTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
-
-    };
-    std::vector<int> meshOrderSprout = {
-        1, 5, 4, 0, 6, 3, 2
+    std::vector<int> meshOrderMandrake = {
+       1, 2
     };
 
     // Configuring Player vector
@@ -114,10 +85,19 @@ Game::Game()
 
     // Adding components
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-    this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 100));
+    //this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
+    //this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
+
+    // Adding HUD
+    this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
-    this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
-    this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
+    this->_ecsManager->addComponent(rav_infos, std::make_unique<Placable>(1792, 0));
+    this->_ecsManager->addComponent(rav_infos, std::make_unique<DrawableSprite>(this->_rav_infos_texture, 1));
+    this->_ecsManager->addComponent(slyth_infos, std::make_unique<Placable>(0, 937));
+    this->_ecsManager->addComponent(slyth_infos, std::make_unique<DrawableSprite>(this->_slyth_infos_texture, 1));
+    this->_ecsManager->addComponent(huff_infos, std::make_unique<Placable>(1792, 937));
+    this->_ecsManager->addComponent(huff_infos, std::make_unique<DrawableSprite>(this->_huff_infos_texture, 1));
+
 
     // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
@@ -126,11 +106,11 @@ Game::Game()
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
 
-    // Configuring player FLITWICK
+    // Configuring player TRELAWNEY
     this->_ecsManager->addComponent(flitwick, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
     this->_ecsManager->addComponent(flitwick, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<DrawableModel>(texturesFlit, flitwickModel, meshOrderFlitwick));
-    this->_ecsManager->addComponent(flitwick, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
+    this->_ecsManager->addComponent(flitwick, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     // Configuring player SNAPE
     this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
@@ -148,6 +128,12 @@ Game::Game()
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
+   //mandrake
+    Vector3 scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
+
+    this->_ecsManager->addComponent(mandrake, std::make_unique<Placable>(-1.0f, 1.0f, 0.0f, position_player, -90.0f, scaleMandrake));
+    this->_ecsManager->addComponent(mandrake, std::make_unique<DrawableModel>(texturesMandrake, mandrakeModel, meshOrderMandrake));
+    this->_ecsManager->addComponent(mandrake, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
     // Configuring ai
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
@@ -158,31 +144,41 @@ Game::Game()
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->loadMap("assets/map/map.txt");
+
+    // Collision configuration
+    this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
+
     // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;
 }
 
 Game::~Game()
 {
-    std::cout << "Game destructor" << std::endl;
 }
 
 void Game::loadMap(std::string map_src)
 {
     Raylib::Raylib_encap Raylib_encp;
-    //load map from file
     std::ifstream myfile (map_src);
     std::string line;
     int i = 0;
-    Texture2D grass_texture = Raylib_encp.LTexture("assets/materials/grass.png");
-    std::vector<Texture2D> textures_pot = {
+
+    // Gass
+    this->grass_texture = Raylib_encp.LTexture("assets/materials/grass.png");
+    // Stone
+    this->stone_texture = Raylib_encp.LTexture("assets/materials/game/stone.png");
+    this->textures_bag = {
         Raylib_encp.LTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
     };
+
+    //bag
     std::vector<int> texture_po_mesh_order = {
         0
     };
-    //Table model
-    std::vector<Texture2D> textures_tables = {
+    this->bagModel = Raylib_encp.LModel("assets/models/bag/bag.obj");
+
+    //Table
+    this->textures_tables = {
         Raylib_encp.LTexture("assets/models/table/leaves2_v73@4x.png"),
         Raylib_encp.LTexture("assets/models/table/Metal_potteryHolders_v11@4x.png"),
         Raylib_encp.LTexture("assets/models/table/pottery02_v18@4x.png"),
@@ -190,36 +186,119 @@ void Game::loadMap(std::string map_src)
     std::vector<int> texture_table_mesh_order = {
         2, 0, 1
     };
-    Model tableModel = Raylib_encp.LModel("assets/models/table/table.obj");
-    Model tableModelRotate = Raylib_encp.LModel("assets/models/table/table.obj");
+    this->tableModel = Raylib_encp.LModel("assets/models/table/table.obj");
+    this->tableModelRotate = Raylib_encp.LModel("assets/models/table/table.obj");
     tableModelRotate.transform = MatrixRotateY(1.55 );
-    Model bagModel = Raylib_encp.LModel("assets/models/bag/bag.obj");
+
+    // Gnome
+    this->gnome = Raylib_encp.LModel("assets/models/gnome/gnome.iqm");
+    gnome.transform = MatrixRotateX(1.55);
+    this->textures_gnome = {
+        Raylib_encp.LTexture("assets/models/gnome/gnome_DIF_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/gnome/GnomeHoles_DIF_v1@4x.png")
+    };
+    std::vector<int> texture_gnome_mesh_order = {
+        0, 2
+    };
+    Vector3 gnome_scale = {0.015, 0.015, 0.015};
+    // 
     Vector3 zeroVector3 = {0.0f, 0.0f, 0.0f};
+    Vector3 rotation_gnome = {0.0f, 90.0f, 0.0f};
     Vector3 bag_scale = {0.03, 0.03, 0.03};
     Vector2 size = { 1, 1 };
+    Color invisible = {0, 0, 0, 0};
+    float hitbox_length = 0.8f;
+    float hitbox_width = 0.8f;
+    float hitbox_height = 0.8f;
+    float hitbox_radius = 0.8f;
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     if (!myfile.is_open())
         throw Error_file("Error while opening map file");
     while (std::getline(myfile, line)) {
         for (int j = 0; j < line.size(); j++) {
-            Entity *entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+            Entity *entity = nullptr;
             Entity *grass_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+            Entity *invisible_block = nullptr;
             if (line[j] == 'r') {
-                entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3 , -45, bag_scale));
-                entity->addComponent(std::make_unique<DrawableModel>(textures_pot, bagModel, texture_po_mesh_order));
+                entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                entity->addComponent(std::make_unique<Placable>(j, -0.5f, i, zeroVector3 , -45, bag_scale));
+                entity->addComponent(std::make_unique<DrawableModel>(textures_bag, bagModel, texture_po_mesh_order));
+                // we have to put grass also
+                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
+                // Let's put an invisible block to prevent the player to go through the bag
+                invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
+                invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
             } else if (line[j] == 'B') {
-                entity->addComponent(std::make_unique<Placable>(j, 0.5f, i, zeroVector3));
+                entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
+                // we have to put grass also
+                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
+                // Let's put an invisible block to prevent the player to go through the table
+                invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
+                invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
             } else if (line[j] == '*') {
-                entity->addComponent(std::make_unique<Placable>(j, 0.0f, i, zeroVector3));
-                entity->addComponent(std::make_unique<DrawablePlane>(size));
+                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture));
+            } else {
+                if (std::rand() % 2 == 1) { // 50% chance to spawn a gnome
+                    entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                    entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
+                    entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
+                    // let's put an invisible block to prevent the player to go through the gnome
+                    invisible_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
+                    invisible_block->addComponent(std::make_unique<Placable>(j, 0, i, zeroVector3));
+                    invisible_block->addComponent(std::make_unique<DrawableCube>(invisible, hitbox_length, hitbox_width, hitbox_height));
+                }
+                // we have to put grass also
+                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
             }
-            // we have to push grass also
-            grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
-            grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture));
-            this->_mapEntities->push_back(entity);
+            if (entity != nullptr)
+                this->_mapEntities->push_back(entity);
         }
         i++;
     }
     myfile.close();
+}
+
+
+void Game::Unload()
+{
+    std::cout << "Game destructor" << std::endl;
+    Raylib::Raylib_encap RaylibEncap;
+    RaylibEncap.UnlTexture(this->_gryf_infos_texture);
+    RaylibEncap.UnlTexture(this->_rav_infos_texture);
+    RaylibEncap.UnlTexture(this->_slyth_infos_texture);
+    RaylibEncap.UnlTexture(this->_huff_infos_texture);
+    RaylibEncap.UnloadMtream(this->music);
+    UnloadModel(mgmModel);
+    UnloadModel(trelawneyModel);
+    UnloadModel(snapeModel);
+    UnloadModel(sproutModel);
+    for (auto &i : texturesMgm)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesTre)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesSnape)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : texturesSprout)
+        RaylibEncap.UnlTexture(i);
+    RaylibEncap.UnlTexture(grass_texture);
+    RaylibEncap.UnlTexture(stone_texture);
+    for (auto &i : textures_bag)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : textures_tables)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : textures_gnome)
+        RaylibEncap.UnlTexture(i);
+    UnloadModel(bagModel);
+    UnloadModel(tableModel);
+    UnloadModel(tableModelRotate);
+    UnloadModel(gnome);
 }

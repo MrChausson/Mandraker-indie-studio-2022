@@ -13,6 +13,7 @@ class Settings : public Scene {
     public:
         Settings();
         ~Settings();
+        void Unload() override;
 
     protected:
     private:

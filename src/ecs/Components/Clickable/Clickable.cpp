@@ -9,7 +9,7 @@
 #include "raylib.hpp"
 
 
-Clickable::Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo, ClickableActionType actionType)
+Clickable::Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo, ClickableActionType actionType, Scene *current_scene)
 {
     Placable *test = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
     this->_type = CLICKABLE;
@@ -18,6 +18,7 @@ Clickable::Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo
     this->_textureClick = texture;
     this->_tmpEcs = ecsToChangeTo;
     this->_actionType = actionType;
+    this->_scene = current_scene;
 }
 
 Clickable::~Clickable()
@@ -84,4 +85,9 @@ void Clickable::setEcs(ECSManager *ecs)
 ClickableActionType Clickable::getActionType()
 {
     return (this->_actionType);
+}
+
+Scene *Clickable::getScene()
+{
+    return (this->_scene);
 }

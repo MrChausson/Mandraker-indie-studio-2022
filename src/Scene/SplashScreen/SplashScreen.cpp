@@ -22,15 +22,15 @@ SplashScreen::SplashScreen()
     int load_bar = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
 
-    Texture2D back = Raylib_encp.LTexture("assets/materials/loading_bg.png");
-    Texture2D load = Raylib_encp.LTexture("assets/materials/loading.png");
-    Music music = Raylib_encp.LoadMStream("assets/sounds/load_bg.mp3");
+    this->_back = Raylib_encp.LTexture("assets/materials/loading_bg.png");
+    this->_load = Raylib_encp.LTexture("assets/materials/loading.png");
+    this->_music = Raylib_encp.LoadMStream("assets/sounds/load_bg.mp3");
 
-    Raylib_encp.PlayMStream(music);
+    Raylib_encp.PlayMStream(this->_music);
 
-    this->_ecsManager->addComponent(load_bar, std::make_unique<Placable>(back.width/2, (back.height/20) * 17));
-    this->_ecsManager->addComponent(load_bar, std::make_unique<Loadable>(load, back, 0.0f, menu->getECS(), 2));
-    this->_ecsManager->addComponent(music_id , std::make_unique<Musicable>(music));
+    this->_ecsManager->addComponent(load_bar, std::make_unique<Placable>(this->_back.width/2, (this->_back.height/20) * 17));
+    this->_ecsManager->addComponent(load_bar, std::make_unique<Loadable>(this->_load, this->_back, 0.0f, menu->getECS(), 2));
+    this->_ecsManager->addComponent(music_id , std::make_unique<Musicable>(this->_music));
 
     this->_ecsManager->addSystem(std::make_unique<Loading>());
     this->_ecsManager->addSystem(std::make_unique<Music_sys>());
@@ -38,4 +38,14 @@ SplashScreen::SplashScreen()
 
 SplashScreen::~SplashScreen()
 {
+}
+
+void SplashScreen::Unload()
+{
+    Raylib::Raylib_encap Raylib_encp;
+
+    std::cout << "Unload SplashScreen Scene Texture" << std::endl;
+    Raylib_encp.UnlTexture(this->_back);
+    Raylib_encp.UnlTexture(this->_load);
+    Raylib_encp.UnloadMtream(this->_music);
 }

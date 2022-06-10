@@ -51,14 +51,13 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_btn_textures[2] = Raylib_encp.LTexture("assets/materials/buttons/btn_clicked.png");
     this->_background_texture = Raylib_encp.LTexture("assets/materials/selection/background.png");
 
-    //BOX Textures
-    Texture2D box[3];
-    box[0] = Raylib_encp.LTexture("assets/materials/selection/btn_hovered.png");
-    box[1] = Raylib_encp.LTexture("assets/materials/selection/btn_inactive.png");
-    box[2] = Raylib_encp.LTexture("assets/materials/selection/btn_clicked.png");
+    //this->_box Textures
+    this->_box[0] = Raylib_encp.LTexture("assets/materials/selection/btn_hovered.png");
+    this->_box[1] = Raylib_encp.LTexture("assets/materials/selection/btn_inactive.png");
+    this->_box[2] = Raylib_encp.LTexture("assets/materials/selection/btn_clicked.png");
 
     // Creating vector texture and the mesh order for mcg
-    std::vector<Texture2D> textures_mcg = {
+    this->_textures_mcg = {
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
@@ -72,7 +71,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     Vector3 rotationAxis = {2.0f, 0.0f, 0.0f};
 
     //sprout
-        std::vector<Texture2D> textures_sprout = {
+        this->_textures_sprout = {
         Raylib_encp.LTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
         Raylib_encp.LTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
@@ -85,20 +84,21 @@ CharacterSelector::CharacterSelector(Engine *engine)
         1, 5, 4, 0, 6, 3, 2
     };
 
-       // Creating Model , vector texture and the mesh order for FLitwick
-    std::vector<Texture2D> textures_flit = {
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_bodyB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/EyesBW_v169@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hairB_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/HP_Flitwick_hand_diffuse_v4@4x.png"),
-        Raylib_encp.LTexture("assets/models/flitwick/Flitwick_head_diffuse_v4@4x.png")
+        // Creating Model , vector texture and the mesh order for Trelawney
+    this->_texturesTre = {
+        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_accessory_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/ProfTrelawney_body_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_face_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hair_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_hands_diffuse_v1@4x.png"),
+        Raylib_encp.LTexture("assets/models/trelawney/Trelawney_eyes_diffuse_v1@4x.png")
     };
-    std::vector<int> meshOrderFlitwick = {
-        2, 4, 5, 1, 3
+    std::vector<int> meshOrderTrelawney = {
+        2, 1, 0, 6, 3, 4
     };
 
     // Creating Model , vector texture and the mesh order for Snape
-    std::vector<Texture2D> textures_snape = {
+    this->_textures_snape = {
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
         Raylib_encp.LTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
@@ -122,42 +122,46 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    // Box Component
-    Button(this->_ecsManager.get(), start_pos, 260, box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*1), 260, box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*2), 260, box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*3), 260, box, CLICKABLE_ACTION_NONE);
+    // this->_box Component
+    Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_NONE);
+    Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_NONE);
 
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
-    mgmModel.transform = MatrixRotateZ(-0.1);
-    this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(textures_mcg, mgmModel, meshOrder_mcg, 2));
+    mgmModel.transform = Raylib_encp.MatrixRotZ(-0.1);
+    this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(_textures_mcg, mgmModel, meshOrder_mcg, 2));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
     //sprout
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
-    this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(textures_sprout, sproutModel, meshOrder_sprout, 2));
+    this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(_textures_sprout, sproutModel, meshOrder_sprout, 2));
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
     //flitwick
     this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
-    Model flitwickModel = Raylib_encp.LModel("assets/models/flitwick/flitwick.iqm");
-    flitwickModel.transform = MatrixRotateZ(0.2);
-    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(textures_flit, flitwickModel, meshOrderFlitwick, 2));
-    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/flitwick/flitwick.iqm", ANIMATION_TYPE::IDLE));
+    Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
+    trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);
+    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
+    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     //Snape
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
-    snapeModel.transform = MatrixRotateZ(0.6);
-    this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(textures_snape, snapeModel, meshOrderSnape, 2));
+    snapeModel.transform = Raylib_encp.MatrixRotZ(0.6);
+    this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(_textures_snape, snapeModel, meshOrderSnape, 2));
     this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
+    models.push_back(mgmModel);
+    models.push_back(trelawneyModel);
+    models.push_back(snapeModel);
+    models.push_back(sproutModel);
     //button play
-    Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_GAME, CLICKABLE_ACTION_CHANGE_ECS, this);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
     // System to add
@@ -171,4 +175,23 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
 CharacterSelector::~CharacterSelector()
 {
+}
+
+std::vector<Model> CharacterSelector::getModels()
+{
+    return this->models;
+}
+
+void CharacterSelector::Unload()
+{
+    std::cout << "Unload Character Selector Scene Texture" << std::endl;
+    Raylib::Raylib_encap RaylibEncap;
+    
+    RaylibEncap.UnlTexture(this->_background_texture);
+    RaylibEncap.UnlTexture(this->_title_texture);
+    RaylibEncap.UnlTexture(this->_box_texture);
+    for (auto &i : this->_box)
+        RaylibEncap.UnlTexture(i);
+    for (auto &i : this->_btn_textures)
+        RaylibEncap.UnlTexture(i);
 }

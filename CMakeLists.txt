@@ -29,6 +29,7 @@ src/ecs/Systems/MouseClick/MouseClick.cpp
 src/ecs/Systems/Move/Move.cpp
 src/ecs/Systems/Music_sys/Music_sys.cpp
 src/ecs/Systems/Loading/Loading.cpp
+src/ecs/Systems/Bomber/Bomber.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp
@@ -37,6 +38,7 @@ src/ecs/Components/Drawable/Drawable.cpp
 src/ecs/Components/Clickable/Clickable.cpp
 src/ecs/Components/Animable/Animable.cpp
 src/ecs/Components/Loadable/Loadable.cpp
+src/ecs/Components/Collisionable/Collisionable.cpp
 #src/ecs/Components/Boundable/Boundable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp
