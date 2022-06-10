@@ -10,7 +10,6 @@
 #include "../Scene/Scene.hpp"
 #include "../Scene/Menu/Menu.hpp"
 #include "../Scene/SplashScreen/SplashScreen.hpp"
-#include <threads.h>
 
 bool loop_status = 1;
 
