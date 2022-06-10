@@ -8,6 +8,12 @@ project(bomberman)
 
 include(cmake/Findraylib.cmake)
 # add the executable
+
+if (WIN32)
+    SET(CMAKE_BUILD_TYPE RELEASE)
+    file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/../Release)
+endif()
+
 add_executable(${PROJECT_NAME}
 # main #
 src/main.cpp
