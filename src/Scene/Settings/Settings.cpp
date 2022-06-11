@@ -122,7 +122,7 @@ void Settings::Unload()
 {
     Raylib::Raylib_encap Raylib_encp;
 
-    Raylib_encp.UnloadMtream(this->_music);
+    Raylib_encp.UnloadMStream(this->_music);
     Raylib_encp.UnlSound(this->_click);
     Raylib_encp.UnlTexture(this->_background_texture);
     Raylib_encp.UnlTexture(this->_title_texture);

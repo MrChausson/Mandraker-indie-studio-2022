@@ -74,7 +74,7 @@ void Menu::Unload()
     Raylib_encp.UnlTexture(this->_btn_textures[2]);
     Raylib_encp.UnlTexture(this->_title_texture);
     Raylib_encp.UnlFont(this->_btn_font);
-    Raylib_encp.UnloadMtream(this->_music);
+    Raylib_encp.UnloadMStream(this->_music);
     std::cout << "Menu destroyed" << std::endl;
 }
 
