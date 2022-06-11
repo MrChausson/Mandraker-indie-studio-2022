@@ -26,7 +26,8 @@ enum SYSTEM_TYPES {
     LOADING,
     BOMBER,
     PLAYER,
-    SOUND
+    SOUND,
+    TIMER
 };
 
 class ISystem {

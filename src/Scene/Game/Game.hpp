@@ -56,6 +56,7 @@ class Game : public Scene {
         Model gnome;
         std::vector<Texture2D> textures_gnome;
         CHARACTER_CHOOSEN _characterChoosen;
+        Font _font;
 };
 
 #endif /* !GAME_HPP_ */

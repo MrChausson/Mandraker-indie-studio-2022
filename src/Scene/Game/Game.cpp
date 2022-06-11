@@ -12,9 +12,11 @@
 #include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Components/Timable/Timable.hpp"
 #include "../../ecs/Components/Collisionable/Collisionable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Player/Player.hpp"
+#include "../../ecs/Systems/Timer/Timer.hpp"
 #include "../../ecs/Components/Drawable/DrawableCube.hpp"
 #include "../../ecs/Components/Drawable/DrawableCubeTexture.hpp"
 
@@ -59,6 +61,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     int music_id = this->_ecsManager->createEntity();
     // int plane = this->_ecsManager->createEntity();
     int mandrake = this->_ecsManager->createEntity();
+    int game_clock = this->_ecsManager->createEntity();
 
     // Load Music
     this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
@@ -93,6 +96,12 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addComponent(huff_infos, std::make_unique<Placable>(1792, 937));
     this->_ecsManager->addComponent(huff_infos, std::make_unique<DrawableSprite>(this->_huff_infos_texture, 1));
 
+
+    // Adding Timer
+    this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
+    this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
+    this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
+    this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK));
 
     // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
@@ -145,6 +154,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
+    this->_ecsManager->addSystem(std::make_unique<Timer>());
     this->loadMap("assets/map/map.txt");
 
     // Collision configuration
@@ -288,4 +298,5 @@ void Game::Unload()
     UnloadModel(tableModel);
     UnloadModel(tableModelRotate);
     UnloadModel(gnome);
+    RaylibEncap.UnlFont(this->_font);
 }

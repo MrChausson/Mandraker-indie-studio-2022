@@ -20,7 +20,8 @@ enum COMPONENT_TYPES {
     ANIMABLE,
     LOADABLE,
     COLLISIONABLE,
-    SOUNDABLE
+    SOUNDABLE,
+    TIMABLE
 };
 
 class IComponent {

@@ -38,6 +38,7 @@ src/ecs/Systems/Loading/Loading.cpp
 src/ecs/Systems/Sound/SoundSystem.cpp
 src/ecs/Systems/Bomber/Bomber.cpp
 src/ecs/Systems/Player/Player.cpp
+src/ecs/Systems/Timer/Timer.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp
@@ -59,6 +60,7 @@ src/ecs/Components/Movable/Movable.cpp
 src/ecs/Components/Musicable/Musicable.cpp
 src/ecs/Components/CameraComponent/CameraComponent.cpp
 src/ecs/Components/Soundable/Soundable.cpp
+src/ecs/Components/Timable/Timable.cpp
 # Tools #
 src/Tools/Button.cpp
 # Entity #

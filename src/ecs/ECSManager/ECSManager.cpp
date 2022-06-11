@@ -170,6 +170,11 @@ ECSManager *ECSManager::applySystems()
                     if (load->isLoaded())
                         return load->getEcs();
                 }
+                else if (system->getType() == TIMER && component->getType() == TIMABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    system->apply(components);
+                }
                 if (!loop_status)
                     return nullptr;
             }
