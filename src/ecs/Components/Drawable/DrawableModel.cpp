@@ -8,11 +8,12 @@
 #include "DrawableModel.hpp"
 #include "raylib.hpp"
 
-DrawableModel::DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan)
+DrawableModel::DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan, ModelType modelType)
 {
     this->_model = model;
     this->_type = DRAWABLE_TYPE_MODEL;
     this->_plan = plan;
+    this->_modelType = modelType;
     Raylib::Raylib_encap Raylib_encp;
 
     for (int i = 0; i < textures.size(); i++) {
@@ -34,4 +35,9 @@ Model DrawableModel::getModel()
 Model *DrawableModel::getPtrModel()
 {
     return &this->_model;
+}
+
+int DrawableModel::getModelType()
+{
+    return ((int) this->_modelType);
 }

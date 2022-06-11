@@ -43,6 +43,7 @@ class ECSManager {
         ECSManager *applySystems();
         void applyDraw();
         void applyMusic();
+        std::vector<std::unique_ptr<Entity>> *getEntities();
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};

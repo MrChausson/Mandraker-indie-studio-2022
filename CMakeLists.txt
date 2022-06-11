@@ -11,9 +11,9 @@ if (WIN32)
 endif()
 
 include(cmake/Findraylib.cmake)
-include(cmake/FindJsonCpp.cmake)
-# add the executable
+#include(cmake/Findjsoncpp.cmake)
 
+# add the executable
 add_executable(${PROJECT_NAME}
 # main #
 src/main.cpp
@@ -39,6 +39,7 @@ src/ecs/Systems/Sound/SoundSystem.cpp
 src/ecs/Systems/Bomber/Bomber.cpp
 src/ecs/Systems/Player/Player.cpp
 src/ecs/Systems/Timer/Timer.cpp
+src/ecs/Systems/Save/SaveSystem.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp
@@ -74,10 +75,11 @@ src/Engine/Chrono/Chrono.cpp
 # Save #
 src/Engine/Save/Save.cpp
 )
-include_directories(./_deps/raylib-src/src ./includes ./_deps/jsoncpp-src/include)
+include_directories(./_deps/raylib-src/src ./includes)
 
 # foreach(i IN ITEMS raylib)
 #if(NOT TARGET raylib)
 #    message(FATAL_ERROR "raylib is not a target")
-#endif()q
-target_link_libraries(${PROJECT_NAME} raylib jsoncpp)
+#endif()
+#target_link_libraries(${PROJECT_NAME} jsoncpp)
+target_link_libraries(${PROJECT_NAME} raylib)

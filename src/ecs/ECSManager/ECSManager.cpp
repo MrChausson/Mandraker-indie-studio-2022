@@ -118,6 +118,10 @@ ECSManager *ECSManager::applySystems()
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
                 components.clear();
+                // temp for saving
+                if (system->getType() == SAVE) {
+                    system->apply(components);
+                }
                 if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
                     components.push_back(component);
                     system->apply(components);
@@ -235,4 +239,9 @@ IComponent *ECSManager::getCamera()
             if (component->getType() == CAMERA)
                 return (component);
     return nullptr;
+}
+
+std::vector<std::unique_ptr<Entity>> *ECSManager::getEntities()
+{
+    return (&this->_entities);
 }
