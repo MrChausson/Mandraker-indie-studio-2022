@@ -31,10 +31,12 @@ void Engine::game_loop()
     this->_chrono.init();
     int i = 0;
     Raylib::Raylib_encap Raylib_encp;
+    Image image = Raylib_encp.LoadImg("assets/materials/logo.png");
 
     Raylib_encp.SetConfFlags(FLAG_FULLSCREEN_MODE);
     Raylib_encp.InitWind(1920, 1080, "Mandraker");
     Raylib_encp.InitAudioDev();
+    SetWindowIcon(image);
     this->setFps(this->_fps);
     Engine *engine = this;
     Scene *scene = new SplashScreen();
@@ -53,6 +55,7 @@ void Engine::game_loop()
     }
     Raylib_encp.CloseAudioDev();
     Raylib_encp.CloseWind();
+    Raylib_encp.UnlImg(image);
     // delete(static_cast<Menu *>(scene));
 }
 

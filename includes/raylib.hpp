@@ -100,6 +100,8 @@ namespace Raylib
             bool CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept;
             float Raylib::Raylib_encap::GetMTimePlayed(Music music) noexcept;
             void Raylib::Raylib_encap::UnloadMdl(Model model) noexcept;
+            void Raylib::Raylib_encap::UnlImg(Image image);
+            Image Raylib::Raylib_encap::LoadImg(std::string fileName) noexcept;
     };
 }
 

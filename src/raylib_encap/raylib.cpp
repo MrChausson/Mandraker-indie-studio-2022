@@ -407,3 +407,13 @@ void Raylib::Raylib_encap::UnloadMdl(Model model) noexcept
 {
     return UnloadModel(model);
 }
+
+void Raylib::Raylib_encap::UnlImg(Image image)
+{
+    UnloadImage(image);
+}
+
+Image Raylib::Raylib_encap::LoadImg(std::string fileName) noexcept
+{
+    return LoadImage(fileName.c_str());
+}
