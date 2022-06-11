@@ -26,6 +26,7 @@ class Player : public ISystem {
         std::vector<Texture2D> _texturesMandrake;
         std::vector<int> _meshOrderMandrake;
         Vector3 _scaleMandrake;
+        Sound _plantSound;
 };
 
 #endif /* !Player_HPP_ */
