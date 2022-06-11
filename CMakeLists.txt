@@ -11,7 +11,7 @@ if (WIN32)
 endif()
 
 include(cmake/Findraylib.cmake)
-include(cmake/FindJsonCpp.cmake)
+#include(cmake/FindJsonCpp.cmake)
 # add the executable
 
 add_executable(${PROJECT_NAME}
