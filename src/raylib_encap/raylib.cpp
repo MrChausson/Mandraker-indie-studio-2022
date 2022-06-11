@@ -248,6 +248,11 @@ void Raylib::Raylib_encap::ResumeS(Sound sound) noexcept
     return ResumeSound(sound);
 }
 
+void Raylib::Raylib_encap::SetSVolume(Sound sound, float volume) noexcept
+{
+    return SetSoundVolume(sound, volume);
+}
+
 void Raylib::Raylib_encap::ClearBkground(Color color) noexcept
 {
     return ClearBackground(color);

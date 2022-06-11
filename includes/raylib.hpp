@@ -68,6 +68,7 @@ namespace Raylib
             void StopS(Sound sound) noexcept;
             void PauseS(Sound sound) noexcept;
             void ResumeS(Sound sound) noexcept;
+            void SetSVolume(Sound sound, float volume) noexcept;
             void ClearBkground(Color color) noexcept;
             void BgDrawing(void) noexcept;
             void EDrawing(void) noexcept;
