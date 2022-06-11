@@ -1,6 +1,5 @@
 Makefile
 bomberman
-*cmake
 .vscode
 _deps
 CMakeFiles
