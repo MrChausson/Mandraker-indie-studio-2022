@@ -13,11 +13,11 @@
 #include "../../Components/Clickable/ClickableActionType.hpp"
 
 enum CHARACTER_CHOOSEN {
-    NONE,
     SNAPE,
     TRELAWNEY,
     SPROUT,
-    MCG
+    MCG,
+    NO_CHARACTER
 };
 
 class MouseClick : public ISystem {
@@ -30,7 +30,7 @@ class MouseClick : public ISystem {
     protected:
     private:
         void clickAction(ClickableActionType actionType, IComponent *component, IComponent *component2);
-        CHARACTER_CHOOSEN _characterChoosen = MCG;
+        CHARACTER_CHOOSEN _characterChoosen = NO_CHARACTER;
 
 };
 

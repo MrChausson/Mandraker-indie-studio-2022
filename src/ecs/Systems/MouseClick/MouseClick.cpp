@@ -42,7 +42,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     switch (actionType)
     {
     case CLICKABLE_ACTION_CHANGE_ECS:
-        if (click->_tmpEcs == SCENE_GAME) {
+        if (click->_tmpEcs == SCENE_GAME && this->_characterChoosen != NO_CHARACTER) {
             if (scene == nullptr)
                 throw std::runtime_error("Scene is null");
             std::cout << "Change scene" << std::endl;
