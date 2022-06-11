@@ -128,7 +128,7 @@ Music Raylib::Raylib_encap::LoadMStream(std::string fileName) const noexcept
     return LoadMusicStream(fileName.c_str());
 }
 
-void Raylib::Raylib_encap::UnloadMtream(Music music) noexcept
+void Raylib::Raylib_encap::UnloadMStream(Music music) noexcept
 {
     return UnloadMusicStream(music);
 }
@@ -401,4 +401,9 @@ bool Raylib::Raylib_encap::CheckCollBoxes(BoundingBox box1, BoundingBox box2) no
 float Raylib::Raylib_encap::GetMSTimePlayed(Music music) noexcept
 {
     return GetMusicTimePlayed(music);
+}
+
+void Raylib::Raylib_encap::UnloadMdl(Model model) noexcept
+{
+    return UnloadModel(model);
 }
