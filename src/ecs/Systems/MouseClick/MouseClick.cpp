@@ -35,6 +35,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     DrawableSprite *sprite = static_cast<DrawableSprite *>(component2);
     ECSManager *ecs = click->getEcs();
     Scene *scene = click->getScene();
+    CharacterSelector *characterSelector;
     CharacterSelector *charScene;
     Raylib::Raylib_encap r;
 
@@ -80,24 +81,36 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = SNAPE;
+        characterSelector = static_cast<CharacterSelector *>(scene);
+        if (!sprite->isSelected())
+            characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
         break;
     case CLICKABLE_ACTION_CHOOSE_MCG:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = MCG;
+        characterSelector = static_cast<CharacterSelector *>(scene);
+        if (!sprite->isSelected())
+            characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
         break;
     case CLICKABLE_ACTION_CHOOSE_SPROUT:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = SPROUT;
+        characterSelector = static_cast<CharacterSelector *>(scene);
+        if (!sprite->isSelected())
+            characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
         break;
     case CLICKABLE_ACTION_CHOOSE_TRELAWNEY:
         if (click->_sound != nullptr)
             r.PlayS(*click->_sound);
         this->_characterChoosen = TRELAWNEY;
+        characterSelector = static_cast<CharacterSelector *>(scene);
+        if (!sprite->isSelected())
+            characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
         break;
     }

@@ -16,6 +16,7 @@ class CharacterSelector : public Scene {
         ~CharacterSelector();
         std::vector<Model> getModels();
         void Unload() override;
+        void resetBoxClicked();
         
     protected:
     private:
@@ -36,6 +37,7 @@ class CharacterSelector : public Scene {
         Sound sproutSound;
         Sound treSound;
         Sound snapeSound;
+        std::vector<int> _idBoxes;
 };
 
 #endif /* !CHARACTERSELECTOR_HPP_ */

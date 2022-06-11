@@ -129,10 +129,12 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
     Scene *nullScene = nullptr;
 
-    Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, nullScene, &mcgSound);
-    Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, nullScene, &sproutSound);
-    Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY);
-    Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, nullScene, &snapeSound);
+    this->_idBoxes = {
+        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &mcgSound).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &sproutSound).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &snapeSound).getIdSprite()
+    };
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
@@ -199,4 +201,15 @@ void CharacterSelector::Unload()
         RaylibEncap.UnlTexture(i);
     for (auto &i : this->_btn_textures)
         RaylibEncap.UnlTexture(i);
+}
+
+void CharacterSelector::resetBoxClicked()
+{
+    DrawableSprite *sprite;
+    for (auto &i : this->_idBoxes){
+        sprite = static_cast<DrawableSprite *>(this->_ecsManager.get()->getEntity(i)->getComponentsByType(DRAWABLE));
+        if (sprite->isSelected())
+            sprite->setTexture(this->_box[1]);
+        sprite->setSelected(false);
+    }
 }

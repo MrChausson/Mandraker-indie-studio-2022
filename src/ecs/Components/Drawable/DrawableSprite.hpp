@@ -24,6 +24,7 @@ class DrawableSprite : public Drawable {
     protected:
     private:
         Texture2D _texture;
+        Texture2D _saved;
         Rectangle _bounds;
         bool _selected;
 };

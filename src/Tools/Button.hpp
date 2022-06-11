@@ -17,9 +17,13 @@ class Button {
         Button(ECSManager *ecsManager, std::string text, int x, int y, Font font, Texture2D textures[3], SCENE_TYPE type, ClickableActionType actionType, Scene *current_scene = nullptr);
         Button(ECSManager *ecsManager, int x, int y, Texture2D textures[3], ClickableActionType actionType, Scene *current_scene = nullptr, Sound *sound = nullptr);
         ~Button();
+        int getIdSprite();
+        int getIdText();
 
     protected:
     private:
+        int _idText;
+        int _idSprite;
 };
 
 #endif /* !BUTTON_HPP_ */
