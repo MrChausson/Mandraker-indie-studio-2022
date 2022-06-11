@@ -13,12 +13,12 @@
 
 enum TIMABLE_TYPE {
     GAME_CLOCK,
-    NONE
+    GAME_NONE
 };
 
 class Timable : public IComponent {
     public:
-        Timable(float timer = 120, TIMABLE_TYPE time_type = NONE);
+        Timable(float timer = 120, TIMABLE_TYPE time_type = GAME_NONE);
         ~Timable();
         COMPONENT_TYPES getType() override { return TIMABLE; };
         std::chrono::duration<double> getElapsedSeconds();
