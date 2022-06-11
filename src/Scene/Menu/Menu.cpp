@@ -77,3 +77,15 @@ void Menu::Unload()
     Raylib_encp.UnloadMtream(this->_music);
     std::cout << "Menu destroyed" << std::endl;
 }
+
+float Menu::getMusicTimePlayed()
+{
+    Raylib::Raylib_encap Raylib_encp;
+    return Raylib_encp.GetMSTimePlayed(this->_music);
+}
+
+void Menu::SetMusicTimePlayed(float dur)
+{
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.SeekMStream(this->_music, dur);
+}

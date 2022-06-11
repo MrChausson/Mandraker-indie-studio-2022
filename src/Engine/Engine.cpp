@@ -12,6 +12,7 @@
 #include "../Scene/SplashScreen/SplashScreen.hpp"
 
 bool loop_status = 1;
+int max_fps = 60;
 
 Engine::Engine(int fps)
 {

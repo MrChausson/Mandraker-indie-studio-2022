@@ -14,11 +14,15 @@ class Settings : public Scene {
         Settings();
         ~Settings();
         void Unload() override;
+        float getMusicTimePlayed();
+        void SetMusicTimePlayed(float dur);
 
     protected:
     private:
         Texture2D _background_texture;
         Texture2D _btn_textures[3];
+        Texture2D _minus_textures[3];
+        Texture2D _plus_textures[3];
         Texture2D _title_texture;
         Texture2D _state_texture;
         Texture2D _stitle_texture;
@@ -26,6 +30,7 @@ class Settings : public Scene {
         Font _text_font;
         Font _value_font;
         Music _music;
+        Sound _click;
 };
 
 #endif /* !SETTINGS_HPP_ */

@@ -28,6 +28,7 @@ Player::Player(ECSManager *ecsManager)
     };
     this->_scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
     this->_plantSound = Raylib_encp.LSound("assets/sounds/mandrake/potting.mp3");
+    Raylib_encp.SetSVolume(this->_plantSound, soundVolume);
     this->_nbMaxMandrake = 1;
 }
 
