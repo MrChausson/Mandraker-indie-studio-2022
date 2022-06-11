@@ -8,8 +8,12 @@
 #include "Soundable.hpp"
 #include "raylib.hpp"
 
+float soundVolume = 1.0f;
+
 Soundable::Soundable(Sound sound)
 {
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.SetSVolume(sound, soundVolume);
     this->_sound = sound;
 }
 

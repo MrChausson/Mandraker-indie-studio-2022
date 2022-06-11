@@ -25,4 +25,6 @@ class Soundable : public IComponent {
     private:
 };
 
+extern float soundVolume;
+
 #endif /* !SOUNDABLE_HPP_ */
