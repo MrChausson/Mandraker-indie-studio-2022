@@ -150,7 +150,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(_textures_sprout, sproutModel, meshOrder_sprout, 2));
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
-    //flitwick
+    //Trelawney
     this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
     trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);

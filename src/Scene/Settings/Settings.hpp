@@ -20,8 +20,11 @@ class Settings : public Scene {
         Texture2D _background_texture;
         Texture2D _btn_textures[3];
         Texture2D _title_texture;
+        Texture2D _state_texture;
+        Texture2D _stitle_texture;
         Font _btn_font;
-        Font _title_font;
+        Font _text_font;
+        Font _value_font;
         Music _music;
 };
 
