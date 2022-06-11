@@ -74,7 +74,7 @@ src/Engine/Chrono/Chrono.cpp
 # Save #
 src/Engine/Save/Save.cpp
 )
-include_directories(./_deps/raylib-src/src ./includes ${JSON_INC_PATH})
+include_directories(./_deps/raylib-src/src ./includes ./_deps/jsoncpp-src/include)
 
 # foreach(i IN ITEMS raylib)
 #if(NOT TARGET raylib)
