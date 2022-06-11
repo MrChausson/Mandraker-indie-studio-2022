@@ -27,8 +27,8 @@ Menu::Menu()
     // Loading Assets for the menu
     this->_music = Raylib_encp.LoadMStream("assets/sounds/menu_bg.mp3");
     this->_type = SCENE_MENU;
-    this->_background_texture = Raylib_encp.LTexture("assets/materials/main_menu.png");
-    this->_title_texture = Raylib_encp.LTexture("assets/materials/title_bar.png");
+    this->_background_texture = Raylib_encp.LTexture("assets/materials/menu/main_menu.png");
+    this->_title_texture = Raylib_encp.LTexture("assets/materials/menu/title_bar.png");
     this->_btn_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
     this->_btn_textures[0] = Raylib_encp.LTexture("assets/materials/buttons/btn_hovered.png");
     this->_btn_textures[1] = Raylib_encp.LTexture("assets/materials/buttons/btn_inactive.png");
