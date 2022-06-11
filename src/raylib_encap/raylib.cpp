@@ -397,3 +397,8 @@ bool Raylib::Raylib_encap::CheckCollBoxes(BoundingBox box1, BoundingBox box2) no
 {
     return CheckCollisionBoxes(box1, box2);
 }
+
+float Raylib::Raylib_encap::GetMSTimePlayed(Music music) noexcept
+{
+    return GetMusicTimePlayed(music);
+}

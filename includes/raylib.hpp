@@ -98,6 +98,7 @@ namespace Raylib
             void UpdtModelAnimation(Model model, ModelAnimation anim, int frame) noexcept;
             Matrix MatrixRotZ(float angle) noexcept;
             bool CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept;
+            float Raylib::Raylib_encap::GetMSTimePlayed(Music music) noexcept;
     };
 }
 
