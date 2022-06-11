@@ -30,8 +30,8 @@ void Animation::apply(std::vector<IComponent *> component)
     Animable *animable = static_cast<Animable *>(component[0]);
     DrawableModel *model = static_cast<DrawableModel *>(component[1]);
     std::chrono::duration<double> elapsedSecond = std::chrono::system_clock::now() - this->_clock;
-    std::cout << "elaps  " << elapsedSecond.count() << std::endl;
-    if (elapsedSecond.count() > 0.0003) {
+    int fps = 150;
+    if (elapsedSecond.count() > 1 / fps) {
         animable->setAnimFrameCounter(animable->getAnimFrameCounter() + 1);
         this->_clock = std::chrono::system_clock::now();
     }
