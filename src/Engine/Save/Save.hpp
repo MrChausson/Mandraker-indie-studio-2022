@@ -7,7 +7,7 @@
 
 #ifndef SAVE_HPP_
     #define SAVE_HPP_
-//    #include "../../../_deps/jsoncpp-src/include/json/json.h"
+    #include "../../../_deps/jsoncpp-src/include/json/json.h"
     #include "../Engine.hpp"
 
 class Save {
@@ -18,6 +18,7 @@ class Save {
 
     protected:
     private:
+        std::string _fileToSaveTo;
 };
 
 #endif /* !SAVE_HPP_ */

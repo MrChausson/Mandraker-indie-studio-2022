@@ -9,7 +9,7 @@
 
 Save::Save(std::string file_to_save)
 {
-
+    this->_fileToSaveTo = file_to_save;
 }
 
 Save::~Save()
