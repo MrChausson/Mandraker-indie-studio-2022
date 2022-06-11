@@ -21,3 +21,6 @@ bomverman.dir/
 .vs
 Mandraker.dir
 out/
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
