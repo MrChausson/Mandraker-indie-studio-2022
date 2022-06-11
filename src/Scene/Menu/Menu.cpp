@@ -81,7 +81,7 @@ void Menu::Unload()
 float Menu::getMusicTimePlayed()
 {
     Raylib::Raylib_encap Raylib_encp;
-    return Raylib_encp.GetMSTimePlayed(this->_music);
+    return Raylib_encp.GetMTimePlayed(this->_music);
 }
 
 void Menu::SetMusicTimePlayed(float dur)

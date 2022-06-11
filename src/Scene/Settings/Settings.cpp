@@ -145,7 +145,7 @@ void Settings::Unload()
 float Settings::getMusicTimePlayed()
 {
     Raylib::Raylib_encap Raylib_encp;
-    return Raylib_encp.GetMSTimePlayed(this->_music);
+    return Raylib_encp.GetMTimePlayed(this->_music);
 }
 
 void Settings::SetMusicTimePlayed(float dur)
