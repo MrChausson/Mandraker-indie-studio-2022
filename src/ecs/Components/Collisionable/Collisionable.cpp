@@ -26,7 +26,7 @@ bool Collisionable::isColliding(float x, float y, float z)
 {
 
     //bool CheckCollisionSpheres(Vector3 center1, float radius1, Vector3 center2, float radius2); 
-    Vector3 min = {x - 0.3f, y, z- 0.4f};
+    Vector3 min = {x - 0.3f, y, z- 0.2f};
     Vector3 max = {x + 0.2f, y + 1.5f, z + 0.1f  };
     Vector3 min_map;
     Vector3 max_map;

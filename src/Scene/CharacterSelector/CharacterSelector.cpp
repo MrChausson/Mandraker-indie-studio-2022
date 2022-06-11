@@ -127,12 +127,13 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
     this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
     this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
+    this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
     Scene *nullScene = nullptr;
 
     this->_idBoxes = {
         Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &mcgSound).getIdSprite(),
         Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &sproutSound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &trelawneySound).getIdSprite(),
         Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &snapeSound).getIdSprite()
     };
     //mcg
