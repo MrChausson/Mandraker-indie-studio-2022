@@ -14,7 +14,8 @@
 Settings::Settings()
 {
     Raylib::Raylib_encap Raylib_encp;
-    int volume = musicVolume * 100;
+    int mvolume = musicVolume * 100;
+    int svolume = soundVolume * 100;
     std::cout << "Options creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
     int bg_id = this->_ecsManager->createEntity();
@@ -62,7 +63,7 @@ Settings::Settings()
     this->_ecsManager->addComponent(mvolume_id, std::make_unique<Placable>(320, 500));
     this->_ecsManager->addComponent(mvolume_id, std::make_unique<DrawableSprite>(this->_state_texture, 0));
     this->_ecsManager->addComponent(mvolume_text, std::make_unique<Placable>(335, 525));
-    this->_ecsManager->addComponent(mvolume_text, std::make_unique<DrawableText>(2, std::to_string(volume), Color{255, 255, 255, 255}, this->_value_font));
+    this->_ecsManager->addComponent(mvolume_text, std::make_unique<DrawableText>(2, std::to_string(mvolume), Color{255, 255, 255, 255}, this->_value_font));
 
     
     this->_ecsManager->addComponent(stitle_id, std::make_unique<Placable>(800, 400));
@@ -72,7 +73,7 @@ Settings::Settings()
     this->_ecsManager->addComponent(svolume_id, std::make_unique<Placable>(920, 500));
     this->_ecsManager->addComponent(svolume_id, std::make_unique<DrawableSprite>(this->_state_texture, 0));
     this->_ecsManager->addComponent(svolume_text, std::make_unique<Placable>(935, 525));
-    this->_ecsManager->addComponent(svolume_text, std::make_unique<DrawableText>(2, std::to_string(volume), Color{255, 255, 255, 255}, this->_value_font));
+    this->_ecsManager->addComponent(svolume_text, std::make_unique<DrawableText>(2, std::to_string(svolume), Color{255, 255, 255, 255}, this->_value_font));
 
     Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS);
 
