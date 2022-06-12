@@ -179,10 +179,11 @@ ECSManager *ECSManager::applySystems()
                 else if (system->getType() == TIMER && component->getType() == TIMABLE) {
                     components.push_back(component);
                     components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(entity->getComponentsByType(PLACABLE));
                     system->apply(components);
                     Timable *time = static_cast<Timable *>(component);
                     if (time->isFinished())
-                        break;
+                       return (nullptr);
                 }
                 if (!loop_status)
                     return nullptr;

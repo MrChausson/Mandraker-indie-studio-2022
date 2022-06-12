@@ -22,7 +22,8 @@ enum COMPONENT_TYPES {
     COLLISIONABLE,
     SOUNDABLE,
     TIMABLE,
-    PLAYABLE
+    PLAYABLE,
+    BREAKABLE
 };
 
 class IComponent {

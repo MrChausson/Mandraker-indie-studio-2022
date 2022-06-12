@@ -6,3 +6,17 @@
 */
 
 #include "Breakable.hpp"
+
+Breakable::Breakable()
+{
+}
+
+Breakable::~Breakable()
+{
+}
+
+
+COMPONENT_TYPES Breakable::getType()
+{
+    return (COMPONENT_TYPES::BREAKABLE);
+}

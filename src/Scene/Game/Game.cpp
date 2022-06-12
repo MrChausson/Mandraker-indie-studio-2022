@@ -15,6 +15,7 @@
 #include "../../ecs/Components/Playable/Playable.hpp"
 #include "../../ecs/Components/Timable/Timable.hpp"
 #include "../../ecs/Components/Collisionable/Collisionable.hpp"
+#include "../../ecs/Components/Breakable/Breakable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Player/Player.hpp"
 #include "../../ecs/Systems/Timer/Timer.hpp"
@@ -160,9 +161,9 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
-    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
     this->loadMap("assets/map/map.txt");
+    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get()));
 
     // Collision configuration
     this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
@@ -258,6 +259,7 @@ void Game::loadMap(std::string map_src)
                     entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
+                    entity->addComponent(std::make_unique<Breakable>());
                 }
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));

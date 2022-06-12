@@ -20,11 +20,14 @@ class Playable : public IComponent {
         int getNbMaxMandrake();
         void setNbMandrake(int nbMandrake);
         void setNbMaxMandrake(int nbMaxMandrake);
+        void setRange(int range);
+        int getRange();
 
     protected:
     private:
         int _nbMandrakeMax;
         int _nbMandrake;
+        int _range;
 };
 
 #endif /* !PLAYABLE_HPP_ */
