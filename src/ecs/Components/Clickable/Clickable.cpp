@@ -19,7 +19,7 @@ Clickable::Clickable(Entity *entity, Texture2D texture, SCENE_TYPE ecsToChangeTo
     this->_tmpEcs = ecsToChangeTo;
     this->_actionType = actionType;
     this->_scene = current_scene;
-    this->_sound =sound;
+    this->_sound = sound;
 }
 
 Clickable::~Clickable()

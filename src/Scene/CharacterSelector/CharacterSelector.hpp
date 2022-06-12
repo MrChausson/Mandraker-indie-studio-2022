@@ -37,6 +37,7 @@ class CharacterSelector : public Scene {
         Sound sproutSound;
         Sound treSound;
         Sound snapeSound;
+        Sound trelawneySound;
         std::vector<int> _idBoxes;
 };
 

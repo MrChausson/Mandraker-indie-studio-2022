@@ -90,12 +90,12 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     // Adding HUD
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
-    this->_ecsManager->addComponent(rav_infos, std::make_unique<Placable>(1792, 0));
-    this->_ecsManager->addComponent(rav_infos, std::make_unique<DrawableSprite>(this->_rav_infos_texture, 1));
-    this->_ecsManager->addComponent(slyth_infos, std::make_unique<Placable>(0, 937));
-    this->_ecsManager->addComponent(slyth_infos, std::make_unique<DrawableSprite>(this->_slyth_infos_texture, 1));
-    this->_ecsManager->addComponent(huff_infos, std::make_unique<Placable>(1792, 937));
+    this->_ecsManager->addComponent(huff_infos, std::make_unique<Placable>(1792, 0));
     this->_ecsManager->addComponent(huff_infos, std::make_unique<DrawableSprite>(this->_huff_infos_texture, 1));
+    this->_ecsManager->addComponent(rav_infos, std::make_unique<Placable>(0, 937));
+    this->_ecsManager->addComponent(rav_infos, std::make_unique<DrawableSprite>(this->_rav_infos_texture, 1));
+    this->_ecsManager->addComponent(slyth_infos, std::make_unique<Placable>(1792, 937));
+    this->_ecsManager->addComponent(slyth_infos, std::make_unique<DrawableSprite>(this->_slyth_infos_texture, 1));
 
 
     // Adding Timer
@@ -115,7 +115,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
 
 
     // Configuring player TRELAWNEY
-    this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
     if (characterChoosen == CHARACTER_CHOOSEN::TRELAWNEY)
         this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     else
@@ -137,7 +137,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size, DARKBROWN));
 
     // Configuring player SPROUT
-    this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
     if (characterChoosen == CHARACTER_CHOOSEN::SPROUT)
         this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     else
@@ -275,11 +275,11 @@ void Game::Unload()
     RaylibEncap.UnlTexture(this->_rav_infos_texture);
     RaylibEncap.UnlTexture(this->_slyth_infos_texture);
     RaylibEncap.UnlTexture(this->_huff_infos_texture);
-    RaylibEncap.UnloadMtream(this->music);
-    UnloadModel(mgmModel);
-    UnloadModel(trelawneyModel);
-    UnloadModel(snapeModel);
-    UnloadModel(sproutModel);
+    RaylibEncap.UnloadMStream(this->music);
+    RaylibEncap.UnloadMdl(mgmModel);
+    RaylibEncap.UnloadMdl(trelawneyModel);
+    RaylibEncap.UnloadMdl(snapeModel);
+    RaylibEncap.UnloadMdl(sproutModel);
     for (auto &i : texturesMgm)
         RaylibEncap.UnlTexture(i);
     for (auto &i : texturesTre)
@@ -296,9 +296,9 @@ void Game::Unload()
         RaylibEncap.UnlTexture(i);
     for (auto &i : textures_gnome)
         RaylibEncap.UnlTexture(i);
-    UnloadModel(bagModel);
-    UnloadModel(tableModel);
-    UnloadModel(tableModelRotate);
-    UnloadModel(gnome);
+    RaylibEncap.UnloadMdl(bagModel);
+    RaylibEncap.UnloadMdl(tableModel);
+    RaylibEncap.UnloadMdl(tableModelRotate);
+    RaylibEncap.UnloadMdl(gnome);
     RaylibEncap.UnlFont(this->_font);
 }

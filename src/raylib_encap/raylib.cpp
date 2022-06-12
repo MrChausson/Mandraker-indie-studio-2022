@@ -128,7 +128,7 @@ Music Raylib::Raylib_encap::LoadMStream(std::string fileName) const noexcept
     return LoadMusicStream(fileName.c_str());
 }
 
-void Raylib::Raylib_encap::UnloadMtream(Music music) noexcept
+void Raylib::Raylib_encap::UnloadMStream(Music music) noexcept
 {
     return UnloadMusicStream(music);
 }
@@ -246,6 +246,11 @@ void Raylib::Raylib_encap::PauseS(Sound sound) noexcept
 void Raylib::Raylib_encap::ResumeS(Sound sound) noexcept
 {
     return ResumeSound(sound);
+}
+
+void Raylib::Raylib_encap::SetSVolume(Sound sound, float volume) noexcept
+{
+    return SetSoundVolume(sound, volume);
 }
 
 void Raylib::Raylib_encap::ClearBkground(Color color) noexcept
@@ -391,4 +396,24 @@ Matrix Raylib::Raylib_encap::MatrixRotZ(float angle) noexcept
 bool Raylib::Raylib_encap::CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept
 {
     return CheckCollisionBoxes(box1, box2);
+}
+
+float Raylib::Raylib_encap::GetMTimePlayed(Music music) noexcept
+{
+    return GetMusicTimePlayed(music);
+}
+
+void Raylib::Raylib_encap::UnloadMdl(Model model) noexcept
+{
+    return UnloadModel(model);
+}
+
+void Raylib::Raylib_encap::UnlImg(Image image)
+{
+    UnloadImage(image);
+}
+
+Image Raylib::Raylib_encap::LoadImg(std::string fileName) noexcept
+{
+    return LoadImage(fileName.c_str());
 }

@@ -44,7 +44,7 @@ namespace Raylib
             void SetMousePos(std::pair<int, int> const &pos) const noexcept;
             int GetKeyPres(void) noexcept;
             Music LoadMStream(std::string fileName) const noexcept;
-            void UnloadMtream(Music music) noexcept;
+            void UnloadMStream(Music music) noexcept;
             void PlayMStream(Music music) noexcept;
             bool IsMStreamPlaying(Music music) noexcept;
             void StopMStream(Music music) noexcept;
@@ -68,6 +68,7 @@ namespace Raylib
             void StopS(Sound sound) noexcept;
             void PauseS(Sound sound) noexcept;
             void ResumeS(Sound sound) noexcept;
+            void SetSVolume(Sound sound, float volume) noexcept;
             void ClearBkground(Color color) noexcept;
             void BgDrawing(void) noexcept;
             void EDrawing(void) noexcept;
@@ -97,6 +98,10 @@ namespace Raylib
             void UpdtModelAnimation(Model model, ModelAnimation anim, int frame) noexcept;
             Matrix MatrixRotZ(float angle) noexcept;
             bool CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept;
+            float GetMTimePlayed(Music music) noexcept;
+            void UnloadMdl(Model model) noexcept;
+            void UnlImg(Image image);
+            Image LoadImg(std::string fileName) noexcept;
     };
 }
 

@@ -11,6 +11,7 @@
 #include "raylib.h"
 #include "../../IComponent/IComponent.hpp"
 
+
 class Musicable : public IComponent{
     public:
         Musicable(Music music);
@@ -25,5 +26,7 @@ class Musicable : public IComponent{
         bool _pause;
         Music _music;
 };
+
+extern float musicVolume;
 
 #endif /* !MUSICABLE_HPP_ */

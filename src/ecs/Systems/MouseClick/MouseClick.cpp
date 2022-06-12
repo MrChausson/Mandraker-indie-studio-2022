@@ -36,28 +36,32 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     ECSManager *ecs = click->getEcs();
     Scene *scene = click->getScene();
     CharacterSelector *characterSelector;
-    CharacterSelector *charScene;
+    Settings *settings;
+    Menu *menu;
+    
     Raylib::Raylib_encap r;
 
     switch (actionType)
     {
     case CLICKABLE_ACTION_CHANGE_ECS:
-        if (click->_tmpEcs == SCENE_GAME) {
+        if (click->_tmpEcs == SCENE_GAME && this->_characterChoosen != NO_CHARACTER) {
             if (scene == nullptr)
                 throw std::runtime_error("Scene is null");
             std::cout << "Change scene" << std::endl;
-            charScene = static_cast<CharacterSelector *>(scene);
-            Game *game = new Game(charScene->getModels(), this->_characterChoosen);
+            characterSelector = static_cast<CharacterSelector *>(scene);
+            Game *game = new Game(characterSelector->getModels(), this->_characterChoosen);
             click->setEcs(game->getECS());
             std::cout << "Change scene" << std::endl;
-            //delete (charScene);
         } else if (click->_tmpEcs == SCENE_MENU) {
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
             if (scene != nullptr)
                 delete (static_cast<Settings *>(scene));
         } else if (click->_tmpEcs == SCENE_SETTINGS) {
+            menu = static_cast<Menu *>(scene);
+            int dur = menu->getMusicTimePlayed();
             Settings *settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
             click->setEcs(settings->getECS());
             if (scene != nullptr)
                 scene->Unload();
@@ -68,15 +72,13 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
             if (scene != nullptr)
                 scene->Unload();
         }
-        break;
+    break;
     case CLICKABLE_ACTION_QUIT_GAME:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
         if (scene != nullptr)
             scene->Unload();
-        break;
-    case CLICKABLE_ACTION_CHOOSE_CHARACTER:
-        break;
+    break;
     case CLICKABLE_ACTION_CHOOSE_SPANE:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
@@ -85,7 +87,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
-        break;
+    break;
     case CLICKABLE_ACTION_CHOOSE_MCG:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
@@ -94,7 +96,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
-        break;
+    break;
     case CLICKABLE_ACTION_CHOOSE_SPROUT:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
@@ -103,7 +105,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
-        break;
+    break;
     case CLICKABLE_ACTION_CHOOSE_TRELAWNEY:
         if (click->_sound != nullptr)
             r.PlayS(*click->_sound);
@@ -112,7 +114,87 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
         sprite->setSelected(!sprite->isSelected());
-        break;
+    break;
+    case CLICKABLE_ACTION_MINUS_MUSIC:
+        if (click->_sound != nullptr && musicVolume > 0) {
+            r.PlayS(*click->_sound);
+            musicVolume -= 0.1;
+            settings = static_cast<Settings *>(scene);
+            int dur = settings->getMusicTimePlayed();
+            settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
+            click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        }
+    break;
+    case CLICKABLE_ACTION_PLUS_MUSIC:
+        if (click->_sound != nullptr && musicVolume < 1) {
+            r.PlayS(*click->_sound);
+            musicVolume += 0.1;
+            settings = static_cast<Settings *>(scene);
+            int dur = settings->getMusicTimePlayed();
+            settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
+            click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        }
+    break;
+    case CLICKABLE_ACTION_MINUS_SOUND:
+    if (click->_sound != nullptr && soundVolume > 0) {
+            r.PlayS(*click->_sound);
+            soundVolume -= 0.1;
+            settings = static_cast<Settings *>(scene);
+            int dur = settings->getMusicTimePlayed();
+            settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
+            click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        } 
+    break;
+    case CLICKABLE_ACTION_PLUS_SOUND:
+        if (click->_sound != nullptr && soundVolume < 1) {
+            r.PlayS(*click->_sound);
+            soundVolume += 0.1;
+            settings = static_cast<Settings *>(scene);
+            int dur = settings->getMusicTimePlayed();
+            settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
+            click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        }
+    break;
+    case CLICKABLE_ACTION_MINUS_FPS:
+        if (click->_sound != nullptr && max_fps > 30) {
+            r.PlayS(*click->_sound);
+            max_fps -= 30;
+            settings = static_cast<Settings *>(scene);
+            int dur = settings->getMusicTimePlayed();
+            settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
+            click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        }
+        r.SetTargFPS(max_fps);
+    break;
+    case CLICKABLE_ACTION_PLUS_FPS:
+        if (click->_sound != nullptr && max_fps < 210) {
+            r.PlayS(*click->_sound);
+            max_fps += 30;
+            r.SetTargFPS(max_fps);
+            settings = static_cast<Settings *>(scene);
+            int dur = settings->getMusicTimePlayed();
+            settings = new Settings();
+            settings->SetMusicTimePlayed(dur);
+            click->setEcs(settings->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        }
+    break;
     }
 }
 

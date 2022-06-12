@@ -28,6 +28,8 @@ Player::Player(ECSManager *ecsManager)
     };
     this->_scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
     this->_plantSound = Raylib_encp.LSound("assets/sounds/mandrake/potting.mp3");
+    Raylib_encp.SetSVolume(this->_plantSound, soundVolume);
+    this->_nbMaxMandrake = 1;
 }
 
 Player::~Player()
@@ -48,7 +50,8 @@ void Player::apply(std::vector<IComponent *> component)
     Vector3 playerPos = {1.0f, 0.0f, 0.0f};
     MOVABLE_TYPE type = playerMove->getMovableType();
     int bomb_id;
-    if (type == MOVABLE_PLAYER && IsKeyPressed(KEY_SPACE)) {
+    if ( IsKeyPressed(KEY_SPACE) && type == MOVABLE_PLAYER  && this->_nbMaxMandrake  >  this->_nbMandrake) {
+        this->_nbMandrake++;
         bomb_id = this->_ecsManager->createEntity();
         Raylib_encp.PlayS(this->_plantSound);
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Placable>(playerPlace->getX(), playerPlace->getY(), playerPlace->getZ(), playerPos, -90.0f, this->_scaleMandrake));

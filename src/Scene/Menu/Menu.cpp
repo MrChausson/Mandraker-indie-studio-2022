@@ -27,8 +27,8 @@ Menu::Menu()
     // Loading Assets for the menu
     this->_music = Raylib_encp.LoadMStream("assets/sounds/menu_bg.mp3");
     this->_type = SCENE_MENU;
-    this->_background_texture = Raylib_encp.LTexture("assets/materials/main_menu.png");
-    this->_title_texture = Raylib_encp.LTexture("assets/materials/title_bar.png");
+    this->_background_texture = Raylib_encp.LTexture("assets/materials/menu/main_menu.png");
+    this->_title_texture = Raylib_encp.LTexture("assets/materials/menu/title_bar.png");
     this->_btn_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
     this->_btn_textures[0] = Raylib_encp.LTexture("assets/materials/buttons/btn_hovered.png");
     this->_btn_textures[1] = Raylib_encp.LTexture("assets/materials/buttons/btn_inactive.png");
@@ -74,6 +74,18 @@ void Menu::Unload()
     Raylib_encp.UnlTexture(this->_btn_textures[2]);
     Raylib_encp.UnlTexture(this->_title_texture);
     Raylib_encp.UnlFont(this->_btn_font);
-    Raylib_encp.UnloadMtream(this->_music);
+    Raylib_encp.UnloadMStream(this->_music);
     std::cout << "Menu destroyed" << std::endl;
+}
+
+float Menu::getMusicTimePlayed()
+{
+    Raylib::Raylib_encap Raylib_encp;
+    return Raylib_encp.GetMTimePlayed(this->_music);
+}
+
+void Menu::SetMusicTimePlayed(float dur)
+{
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.SeekMStream(this->_music, dur);
 }
