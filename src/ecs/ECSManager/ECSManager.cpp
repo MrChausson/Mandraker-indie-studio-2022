@@ -114,14 +114,14 @@ ECSManager *ECSManager::applySystems()
 
     BeginDrawing();
     ClearBackground(BLACK);
-    for (auto &system : this->_systems)
+    for (auto &system : this->_systems) {
+        if (system->getType() == SAVE) {
+            system->apply(components);
+        }
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
                 components.clear();
                 // temp for saving
-                if (system->getType() == SAVE) {
-                    system->apply(components);
-                }
                 if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
                     components.push_back(component);
                     system->apply(components);
@@ -182,6 +182,7 @@ ECSManager *ECSManager::applySystems()
                 if (!loop_status)
                     return nullptr;
             }
+    }
 
     this->applyDraw();
 

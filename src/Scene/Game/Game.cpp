@@ -156,7 +156,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<Timer>());
-    this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_entities_ecs));
+    this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
     this->loadMap("assets/map/map.txt");
 
     // Collision configuration
