@@ -11,11 +11,12 @@
 
 class GameSettings : public Scene {
     public:
-        GameSettings();
+        GameSettings(ECSManager *_ecsToReturn);
         ~GameSettings();
         void Unload() override;
         float getMusicTimePlayed();
         void SetMusicTimePlayed(float dur);
+        ECSManager *_previousEcs;
 
     protected:
     private:
@@ -30,7 +31,7 @@ class GameSettings : public Scene {
         Font _text_font;
         Font _value_font;
         Music _music;
-        Sound _click;
+        Sound _click;  
 };
 
 #endif /* !GameSettings_HPP_ */

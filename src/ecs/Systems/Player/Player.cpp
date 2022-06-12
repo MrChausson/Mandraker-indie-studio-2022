@@ -11,6 +11,7 @@
 #include "../../Components/Animable/Animable.hpp"
 #include "../../Components/Timable/Timable.hpp"
 #include "../../Components/Playable/Playable.hpp"
+#include "../../../Scene/GameSettings/GameSettings.hpp"
 
 
 Player::Player(ECSManager *ecsManager)
@@ -52,7 +53,7 @@ void Player::apply(std::vector<IComponent *> component)
     Vector3 playerPos = {1.0f, 0.0f, 0.0f};
     MOVABLE_TYPE type = playerMove->getMovableType();
     int bomb_id;
-    if ( IsKeyPressed(KEY_SPACE) && type == MOVABLE_PLAYER  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
+    if ( Raylib_encp.isKeyPres(KEY_SPACE) && type == MOVABLE_PLAYER  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
         playable->setNbMandrake(playable->getNbMandrake() + 1);
         bomb_id = this->_ecsManager->createEntity();
         Raylib_encp.PlayS(this->_plantSound);
@@ -61,10 +62,25 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableModel>(this->_texturesMandrake, this->_mandrakeModel, this->_meshOrderMandrake));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
     }
+    if (Raylib_encp.isKeyPres(KEY_ESCAPE)) {
+        GameSettings *settings = new GameSettings(this->_ecsManager);
+        this->_ecsToChangeTo = settings->getECS();
+        
+    }
 }
 
 
 SYSTEM_TYPES Player::getType()
 {
     return (PLAYER);
+}
+
+ECSManager  *Player::getEcsToChangeTo()
+{
+    return (this->_ecsToChangeTo);
+}
+
+void Player::setEcsToChangeTo(ECSManager *ecsToChangeTo)
+{
+    this->_ecsToChangeTo = ecsToChangeTo;
 }
