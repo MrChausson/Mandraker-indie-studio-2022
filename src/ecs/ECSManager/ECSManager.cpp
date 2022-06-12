@@ -188,6 +188,7 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
                     system->apply(components);
                     Timable *time = static_cast<Timable *>(component);
                     if (time->isFinished())

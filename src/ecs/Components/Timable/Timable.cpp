@@ -65,3 +65,18 @@ void *Timable::getPlayable()
 {
     return (this->_playable);
 }
+
+void Timable::setTimer(float timer)
+{
+    this->_timer = timer;
+}
+
+float Timable::getTimer()
+{
+    return (this->_timer);
+}
+
+void Timable::setTimeType(TIMABLE_TYPE time_type)
+{
+    this->_time_type = time_type;
+}

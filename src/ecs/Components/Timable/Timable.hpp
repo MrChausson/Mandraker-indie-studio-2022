@@ -14,6 +14,8 @@
 enum TIMABLE_TYPE {
     GAME_CLOCK,
     GAME_MANDRAKE,
+    GAME_MANDRAKE_SECOND,
+    GAME_GNOME,
     GAME_NONE
 };
 
@@ -31,6 +33,9 @@ class Timable : public IComponent {
         void setFinished(bool finished);
         bool isFinished();
         void *getPlayable();
+        void setTimer(float timer);
+        float getTimer();
+        void setTimeType(TIMABLE_TYPE time_type);
 
     protected:
     private:
