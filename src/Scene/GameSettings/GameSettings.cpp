@@ -6,7 +6,7 @@
 */
 
 #include "raylib.hpp"
-#include "Settings.hpp"
+#include "GameSettings.hpp"
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../Tools/Button.hpp"
 #include "../../Engine/Engine.hpp"
@@ -103,7 +103,9 @@ Settings::Settings()
     this->_ecsManager->addComponent(vfps_text, std::make_unique<DrawableText>(2, std::to_string(max_fps), Color{255, 255, 255, 255}, this->_value_font));
     Button(this->_ecsManager.get(), 1640, 500, this->_plus_textures, CLICKABLE_ACTION_PLUS_FPS, this, &this->_click);
 
-    Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "resume", 300, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_RETURN_GAME);
+    Button(this->_ecsManager.get(), "save & menu", 700, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_MENU);
+    Button(this->_ecsManager.get(), "save & quit", 1100, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_QUIT);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 

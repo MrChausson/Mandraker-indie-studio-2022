@@ -12,6 +12,7 @@
 #include <iostream>
 #include "../Components/Clickable/Clickable.hpp"
 #include "../Components/Timable/Timable.hpp"
+#include "../Systems/Player/Player.hpp"
 
 ECSManager::ECSManager()
 {
@@ -110,6 +111,7 @@ void ECSManager::applyMusic()
 
 ECSManager *ECSManager::applySystems()
 {
+    Raylib::Raylib_encap r;
     int i = 0;
     std::vector<IComponent *> components; // Let's create a vector that will store all the needed components by the system
 

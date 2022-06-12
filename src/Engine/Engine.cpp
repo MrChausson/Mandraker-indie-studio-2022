@@ -43,8 +43,9 @@ void Engine::game_loop()
     this->_currentEcs = scene->getECS();
     ECSManager *tmp;
     std::thread thread_music;
-
+    
     while (loop_status) {
+        
         tmp = this->_currentEcs->applySystems();
         if (tmp != nullptr)
             {
