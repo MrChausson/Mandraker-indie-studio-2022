@@ -14,12 +14,14 @@
 
 class Timer : public ISystem {
     public:
-        Timer();
+        Timer(ECSManager *ecsManager);
         ~Timer();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
 
     private:
+        ECSManager *_ecsManager;
+        bool _deleted = false;
 };
 
 #endif /* !Timer_HPP_ */

@@ -27,8 +27,6 @@ class Player : public ISystem {
         std::vector<int> _meshOrderMandrake;
         Vector3 _scaleMandrake;
         Sound _plantSound;
-        int _nbMaxMandrake;
-        int _nbMandrake = 0;
 };
 
 #endif /* !Player_HPP_ */

@@ -11,6 +11,7 @@
 #include "../../Engine/Engine.hpp"
 #include <iostream>
 #include "../Components/Clickable/Clickable.hpp"
+#include "../Components/Timable/Timable.hpp"
 
 ECSManager::ECSManager()
 {
@@ -161,9 +162,10 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     system->apply(components);
                 }
-                else if (system->getType() == PLAYER && component->getType() == MOVABLE) {
+                else if (system->getType() == PLAYER && component->getType() == PLAYABLE) {
                     components.push_back(entity->getComponentsByType(PLACABLE));
                     components.push_back(entity->getComponentsByType(MOVABLE));
+                    components.push_back(component);
                     system->apply(components);
                 }
                 else if (system->getType() == LOADING && component->getType() == LOADABLE) {
@@ -178,6 +180,9 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     system->apply(components);
+                    Timable *time = static_cast<Timable *>(component);
+                    if (time->isFinished())
+                        break;
                 }
                 if (!loop_status)
                     return nullptr;

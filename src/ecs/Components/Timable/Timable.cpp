@@ -7,11 +7,14 @@
 
 #include "Timable.hpp"
 
-Timable::Timable(float timer, TIMABLE_TYPE time_type)
+
+Timable::Timable(float timer, TIMABLE_TYPE time_type, int id_entiy, void *playable)
 {
     this->_timer = timer;
     this->_clock = std::chrono::system_clock::now();
     this->_time_type = time_type;
+    this->_id_entity = id_entiy;
+    this->_playable = playable;
 }
 
 Timable::~Timable()
@@ -41,4 +44,24 @@ bool Timable::isTimeOut()
 TIMABLE_TYPE Timable::getTimeType()
 {
     return (this->_time_type);
+}
+
+int Timable::getIdEntity()
+{
+    return (this->_id_entity);
+}
+
+void Timable::setFinished(bool finished)
+{
+    this->_finished = finished;
+}
+
+bool Timable::isFinished()
+{
+    return (this->_finished);
+}
+
+void *Timable::getPlayable()
+{
+    return (this->_playable);
 }

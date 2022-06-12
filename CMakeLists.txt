@@ -49,6 +49,7 @@ src/ecs/Components/Clickable/Clickable.cpp
 src/ecs/Components/Animable/Animable.cpp
 src/ecs/Components/Loadable/Loadable.cpp
 src/ecs/Components/Collisionable/Collisionable.cpp
+src/ecs/Components/Playable/Playable.cpp
 #src/ecs/Components/Boundable/Boundable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp
