@@ -11,7 +11,7 @@ Playable::Playable(int nbMaxMandrake)
 {
     this->_nbMandrakeMax = 1;
     this->_nbMandrake = 0;
-    this->_range = 2;
+    this->_range = 1.5;
 }
 
 Playable::~Playable()

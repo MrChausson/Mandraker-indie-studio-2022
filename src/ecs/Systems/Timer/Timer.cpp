@@ -57,15 +57,17 @@ void Timer::deleteGnome(Vector3 position, void *play)
 {
     Vector3 pos;
     Playable *playable = static_cast<Playable *>(play);
+    Placable *place;
+    Breakable *breakable;
+    float range = playable->getRange();
     for (auto &entity : *this->_mapEntities) {
-        if (entity->getComponents().size() != 0) {
-            Placable *place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
-            Breakable *breakable = static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE));
+        if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
+            place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (breakable != nullptr && (position.x - pos.x < playable->getRange()/100  || pos.x - position.x > - playable->getRange()/100)) {
+            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
-                break;
             }
         }
     }
 }
+
