@@ -5,9 +5,6 @@
 ** Save
 */
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include "../../ecs/Components/Timable/Timable.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
@@ -37,7 +34,6 @@ void Save::save(std::vector<Entity *> entities)
     Drawable *drawable;
     Timable *timable;
     Placable *placable;
-    // Boundable *boundable;
     Movable *movable;
     Animable *animable;
     CameraComponent *camera;
@@ -73,14 +69,6 @@ void Save::save(std::vector<Entity *> entities)
                 buffer << std::to_string(placable->getScale().x) << std::endl;
                 buffer << std::to_string(placable->getScale().y) << std::endl;
                 buffer << std::to_string(placable->getScale().z) << std::endl;
-            // } else if (component->getType() == BOUNDABLE) {
-            //     boundable = static_cast<Boundable *>(component);
-            //     tmp_rect = boundable->getBounds();
-            //     buffer << "Boundable" << std::endl;
-            //     buffer << std::to_string(tmp_rect.x) << std::endl;
-            //     buffer << std::to_string(tmp_rect.y) << std::endl;
-            //     buffer << std::to_string(tmp_rect.width) << std::endl;
-            //     buffer << std::to_string(tmp_rect.height) << std::endl;
             } else if (component->getType() == MOVABLE) {
                 movable = static_cast<Movable *>(component);
                 buffer << "Movable" << std::endl;
@@ -148,4 +136,78 @@ void Save::save(std::vector<Entity *> entities)
     }
     savefile << buffer.str();
     savefile.close();
+}
+
+std::unique_ptr<IComponent> Save::saveTimable(std::vector<std::string> lines)
+{
+    std::unique_ptr<IComponent> component = std::make_unique<Timable>(std::stoi(lines[0]));
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::savePlacable(std::vector<std::string> lines)
+{
+    Vector3 pos = {std::stof(lines[0]), std::stof(lines[1]), std::stof(lines[2])};
+    Vector3 rot = {std::stof(lines[3]), std::stof(lines[4]), std::stof(lines[5])};
+    float angle = std::stof(lines[6]);
+    Vector3 scale = {std::stof(lines[7]), std::stof(lines[8]), std::stof(lines[9])};
+    std::unique_ptr<IComponent> component = std::make_unique<Placable>(pos, rot, angle, scale);
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveMovable(std::vector<std::string> lines)
+{
+    float speed = std::stof(lines[0]);
+    int movable_type = std::stoi(lines[1]);
+    std::unique_ptr<IComponent> component = std::make_unique<Movable>(speed, (MOVABLE_TYPE) movable_type);
+    return component;
+}
+
+std::vector<Entity> Save::load()
+{
+    std::vector<Entity> entities;
+    std::ifstream savefile;
+    Drawable *drawable;
+    Timable *timable;
+    Placable *placable;
+    Movable *movable;
+    Animable *animable;
+    CameraComponent *camera;
+    DrawableCube *drawableCube;
+    DrawableCubeTexture *drawableCubeTexture;
+    DrawableModel *drawableModel;
+    DrawablePlane *drawablePlane;
+    DrawableSprite *drawableSprite;
+    DrawableText *drawableText;
+    std::vector <std::string> lines;
+
+    savefile.open(this->_fileToSaveTo);
+    if (!savefile.is_open())
+        throw Error_file("Could not open file to load");
+    if (savefile.is_open()) {
+        std::string line;
+        while (getline(savefile, line)) {
+            lines.clear();
+            Entity entity(std::stoi(line));
+            getline(savefile, line);
+            if (line == "Timable") {
+                for (int i = 0; i < 1; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.addComponent(saveTimable(lines));
+            } else if (line == "Placable") {
+                for (int i = 0; i < 10; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.addComponent(savePlacable(lines));
+            } else if (line == "Movable") {
+                for (int i = 0; i < 2; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.addComponent(saveMovable(lines));
+            }
+        }
+    }
 }
