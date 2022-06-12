@@ -41,7 +41,7 @@ void Timer::apply(std::vector<IComponent *> component)
             time->setFinished(true);
             playable = static_cast<Playable *>(time->getPlayable());
             playable->setNbMandrake(playable->getNbMandrake() - 1);
-            // this->deleteGnome(place->getPosition(), time->getPlayable());
+            this->deleteGnome(place->getPosition(), time->getPlayable());
             this->_ecsManager->deleteEntity(time->getIdEntity());
         }
     }
@@ -58,12 +58,14 @@ void Timer::deleteGnome(Vector3 position, void *play)
     Vector3 pos;
     Playable *playable = static_cast<Playable *>(play);
     for (auto &entity : *this->_mapEntities) {
-        Placable *place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
-        Breakable *breakable = static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE));
-        pos = place->getPosition();
-        if (breakable != nullptr && (pos.x - position.x < playable->getRange()/100  || pos.x - position.x > - playable->getRange()/100)) {
-            this->_ecsManager->deleteEntity(entity->getId());
-            break;
+        if (entity->getComponents().size() != 0) {
+            Placable *place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
+            Breakable *breakable = static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE));
+            pos = place->getPosition();
+            if (breakable != nullptr && (position.x - pos.x < playable->getRange()/100  || pos.x - position.x > - playable->getRange()/100)) {
+                this->_ecsManager->getEntity(entity->getId())->clearComponent();
+                break;
+            }
         }
     }
 }

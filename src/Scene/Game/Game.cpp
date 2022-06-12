@@ -54,6 +54,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
     int trelawney = this->_ecsManager->createEntity();
+    std::cout << "TRELAWNEY---------------------------------------------" << std::endl;
     int snape = this->_ecsManager->createEntity();
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
