@@ -29,11 +29,30 @@ class Save {
         std::unique_ptr<IComponent> saveDrawableCubeTexture(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveDrawableModel(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveDrawablePlane(std::vector<std::string> lines);
-        std::unique_ptr<IComponent> saveDrawableSprite(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveDrawableText(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveCollisionable(std::vector<std::string> lines);
     private:
         std::string _fileToSaveTo;
+        Texture2D _grassTexture;
+        Texture2D _stoneTexture;
+        Model _mgmModel;
+        Model _trelawneyModel;
+        Model _snapeModel;
+        Model _sproutModel;
+        Model _gnomeModel;
+        Model _bagModel;
+        std::vector<Texture2D> _textures_mcg;
+        std::vector<Texture2D> _textures_sprout;
+        std::vector<Texture2D> _texturesTre;
+        std::vector<Texture2D> _textures_snape;
+        std::vector<Texture2D> _texturesGnome;
+        std::vector<Texture2D> _texturesBag;
+        std::vector<int> _meshOrder_mcg;
+        std::vector<int> _meshOrder_sprout;
+        std::vector<int> _meshOrderTrelawney;
+        std::vector<int> _meshOrderSnape;
+        std::vector<int> _texture_gnome_mesh_order;
+        std::vector<int> _textureBagMeshOrder;
 };
 
 #endif /* !SAVE_HPP_ */

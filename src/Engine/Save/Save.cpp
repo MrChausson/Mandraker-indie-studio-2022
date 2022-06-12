@@ -5,6 +5,7 @@
 ** Save
 */
 
+#include "raylib.hpp"
 #include "../../ecs/Components/Timable/Timable.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
@@ -20,7 +21,84 @@
 
 Save::Save(std::string file_to_save)
 {
+    Raylib::Raylib_encap r;
     this->_fileToSaveTo = file_to_save;
+    this->_grassTexture = r.LTexture("assets/meterials/grass.png");
+    this->_stoneTexture = r.LTexture("assets/materials/game/stone.png");
+    // Creating vector texture and the mesh order for mcg
+    this->_textures_mcg = {
+        r.LTexture("assets/models/mcg/c_McGonagall_Body_Diffuse_v1@4x.png"),
+        r.LTexture("assets/models/mcg/c_McGonagall_eyes_Diffuse_v1@4x.png"),
+        r.LTexture("assets/models/mcg/c_McGonagall_hands_Diffuse_v1@4x.png"),
+        r.LTexture("assets/models/mcg/c_McGonagall_Hat_Diffuse_v1@4x.png"),
+        r.LTexture("assets/models/mcg/c_McGonagall_Head_Diffuse_v1@4x.png"),
+        r.LTexture("assets/models/mcg/glass.png")
+    };
+    this->_meshOrder_mcg = {
+        1, 2, 3, 5, 0, 4
+    };
+
+    //sprout
+        this->_textures_sprout = {
+        r.LTexture("assets/models/sprout/Sprout_body_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/sprout/Sprout_cloak_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/sprout/Sprout_eyes_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/sprout/Sprout_face_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/sprout/Sprout_hair_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/sprout/Sprout_hand_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/sprout/Sprout_hat_diffuse_v1@4x.png")
+    };
+    this->_meshOrder_sprout = {
+        1, 5, 4, 0, 6, 3, 2
+    };
+
+        // Creating Model , vector texture and the mesh order for Trelawney
+    this->_texturesTre = {
+        r.LTexture("assets/models/trelawney/ProfTrelawney_accessory_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/trelawney/ProfTrelawney_body_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/trelawney/Trelawney_face_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/trelawney/Trelawney_hair_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/trelawney/Trelawney_hands_diffuse_v1@4x.png"),
+        r.LTexture("assets/models/trelawney/Trelawney_eyes_diffuse_v1@4x.png")
+    };
+    this->_meshOrderTrelawney = {
+        2, 1, 0, 6, 3, 4
+    };
+
+    // Creating Model , vector texture and the mesh order for Snape
+    this->_textures_snape = {
+        r.LTexture("assets/models/snape/c_Snape_Hair_diffuse_v3@4x.png"),
+        r.LTexture("assets/models/snape/c_Snape_Hands_diffuse_v8@4x.png"),
+        r.LTexture("assets/models/snape/c_Snape_Head_diffuse_v3@4x.png"),
+        r.LTexture("assets/models/snape/c_Snape_Outfit_diffuse_v3@4x.png"),
+        r.LTexture("assets/models/snape/EyesBW_v169@4x.png")
+    };
+    this->_meshOrderSnape = {
+       4, 3, 0, 2, 1
+    };
+    this->_texturesGnome = {
+        r.LTexture("assets/models/gnome/gnome_DIF_v1@4x.png"),
+        r.LTexture("assets/models/gnome/GnomeHoles_DIF_v1@4x.png")
+    };
+    this->_texture_gnome_mesh_order = {
+        0, 2
+    };
+    this->_texturesBag = {
+        r.LTexture("assets/models/bag/p_FertiliserBag_Diffuse_v1@4x.png")
+    };
+    this->_textureBagMeshOrder = {
+        0
+    };
+    this->_mgmModel = r.LModel("assets/models/mcg/mcg.iqm");
+    this->_snapeModel.transform = r.MatrixRotZ(0.6);
+    this->_snapeModel = r.LModel("assets/models/snape/snape.iqm");
+    this->_snapeModel.transform = r.MatrixRotZ(0.6);
+    this->_sproutModel = r.LModel("assets/models/sprout/sprout.iqm");
+    this->_sproutModel.transform = r.MatrixRotZ(0.6);
+    this->_trelawneyModel = r.LModel("assets/models/trelawney/trelawney.iqm");
+    this->_trelawneyModel.transform = r.MatrixRotZ(0.6);
+    this->_gnomeModel = r.LModel("assets/models/gnome/gnome.iqm");
+    this->_gnomeModel.transform = MatrixRotateX(1.55);
 }
 
 Save::~Save()
@@ -108,21 +186,26 @@ void Save::save(std::vector<Entity *> entities)
                     buffer << std::to_string(drawableCube->getColor().g) << std::endl;
                     buffer << std::to_string(drawableCube->getColor().b) << std::endl;
                     buffer << std::to_string(drawableCube->getColor().a) << std::endl;
+                    buffer << std::to_string(drawableCube->getWidth()) << std::endl;
+                    buffer << std::to_string(drawableCube->getHeight()) << std::endl;
+                    buffer << std::to_string(drawableCube->getLength()) << std::endl;
                 } else if (tmp_drawable_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
                     drawableCubeTexture = static_cast<DrawableCubeTexture *>(drawable);
-                    buffer << std::to_string(drawableCubeTexture->getCubeTextureType()) << std::endl;
-                    buffer << std::to_string(drawableCubeTexture->getHeight()) << std::endl;
-                    buffer << std::to_string(drawableCubeTexture->getWidth()) << std::endl;
-                    buffer << std::to_string(drawableCubeTexture->getLength()) << std::endl;
                     buffer << std::to_string(drawableCubeTexture->getColor().r) << std::endl;
                     buffer << std::to_string(drawableCubeTexture->getColor().g) << std::endl;
                     buffer << std::to_string(drawableCubeTexture->getColor().b) << std::endl;
                     buffer << std::to_string(drawableCubeTexture->getColor().a) << std::endl;
+                    buffer << std::to_string(drawableCubeTexture->getWidth()) << std::endl;
+                    buffer << std::to_string(drawableCubeTexture->getHeight()) << std::endl;
+                    buffer << std::to_string(drawableCubeTexture->getLength()) << std::endl;
+                    buffer << std::to_string(drawableCubeTexture->getCubeTextureType()) << std::endl;
                 } else if (tmp_drawable_type == DRAWABLE_TYPE_TEXT) {
                     drawableText = static_cast<DrawableText *>(drawable);
                     buffer << drawableText->getText() << std::endl;
                 } else if (tmp_drawable_type == DRAWABLE_TYPE_PLANE) {
                     drawablePlane = static_cast<DrawablePlane *>(drawable);
+                    buffer << std::to_string(drawablePlane->getSize().x) << std::endl;
+                    buffer << std::to_string(drawablePlane->getSize().y) << std::endl;
                     buffer << std::to_string(drawablePlane->getColor().r) << std::endl;
                     buffer << std::to_string(drawablePlane->getColor().g) << std::endl;
                     buffer << std::to_string(drawablePlane->getColor().b) << std::endl;
@@ -181,6 +264,60 @@ std::unique_ptr<IComponent> Save::saveCamera(std::vector<std::string> lines)
     return component;
 }
 
+std::unique_ptr<IComponent> Save::saveDrawableCube(std::vector<std::string> lines)
+{
+    Color color = {std::stoi(lines[0]), std::stoi(lines[1]), std::stoi(lines[2]), std::stoi(lines[3])};
+    std::unique_ptr<IComponent> component = std::make_unique<DrawableCube>(color, std::stoi(lines[4]), std::stoi(lines[5]), std::stoi(lines[6]));
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveDrawableCubeTexture(std::vector<std::string> lines)
+{
+    Color color = {std::stoi(lines[0]), std::stoi(lines[1]), std::stoi(lines[2]), std::stoi(lines[3])};
+    CubeTextureType cube_texture_type = (CubeTextureType) std::stoi(lines[4]);
+    std::unique_ptr<IComponent> component;
+    if (cube_texture_type == CubeTextureType::GRASS)
+        component = std::make_unique<DrawableCubeTexture>(this->_grassTexture, cube_texture_type, std::stoi(lines[4]), std::stoi(lines[5]), std::stoi(lines[6]), color);
+    else
+        component = std::make_unique<DrawableCubeTexture>(this->_stoneTexture, cube_texture_type, std::stoi(lines[4]), std::stoi(lines[5]), std::stoi(lines[6]), color);        
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveDrawableText(std::vector<std::string> lines)
+{
+    std::unique_ptr<IComponent> component = std::make_unique<DrawableText>(0, lines[0]);
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveDrawablePlane(std::vector<std::string> lines)
+{
+    Vector2 size = {std::stof(lines[0]), std::stof(lines[1])};
+    Color color = {std::stoi(lines[2]), std::stoi(lines[3]), std::stoi(lines[4]), std::stoi(lines[5])};
+    std::unique_ptr<IComponent> component = std::make_unique<DrawablePlane>(size, color);
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveDrawableModel(std::vector<std::string> lines)
+{
+    ModelType model_type = (ModelType) std::stoi(lines[0]);
+    std::unique_ptr<IComponent> component;
+    if (model_type == ModelType::MCG)
+        component = std::make_unique<DrawableModel>(this->_textures_mcg, this->_mgmModel, this->_meshOrder_mcg, 0, model_type);
+    else if (model_type == ModelType::SNAPE)
+        component = std::make_unique<DrawableModel>(this->_textures_snape, this->_snapeModel, this->_meshOrderSnape, 0, model_type);
+    else if (model_type == ModelType::SPROUT)
+        component = std::make_unique<DrawableModel>(this->_textures_sprout, this->_sproutModel, this->_meshOrder_sprout, 0, model_type);
+    else if (model_type == ModelType::TRELAWNEY)
+        component = std::make_unique<DrawableModel>(this->_texturesTre, this->_trelawneyModel, this->_meshOrderTrelawney, 0, model_type);
+    else if (model_type == ModelType::GNOME)
+        component = std::make_unique<DrawableModel>(this->_texturesGnome, this->_gnomeModel, this->_texture_gnome_mesh_order, 0, model_type);
+    else if (model_type == ModelType::BAG)
+        component = std::make_unique<DrawableModel>(this->_texturesBag, this->_bagModel, this->_textureBagMeshOrder, 0, model_type);
+    return component;
+}
+
+//TODO PLAN
+
 std::vector<std::unique_ptr<Entity>> Save::load()
 {
     std::vector<std::unique_ptr<Entity>> entities;
@@ -200,6 +337,7 @@ std::vector<std::unique_ptr<Entity>> Save::load()
     std::string line;
     std::vector <std::string> lines;
     std::unique_ptr<Entity> entity;
+    DRAWABLE_TYPE drawable_type;
 
     savefile.open(this->_fileToSaveTo);
     if (!savefile.is_open())
@@ -238,6 +376,40 @@ std::vector<std::unique_ptr<Entity>> Save::load()
                 lines.push_back(line);
             }
             entity.get()->addComponent(saveCamera(lines));
+        } else if (line == "Drawable") {
+            getline(savefile, line);
+            drawable_type = (DRAWABLE_TYPE) std::stoi(line);
+            if (drawable_type == DRAWABLE_TYPE_CUBE) {
+                for (int i = 0; i < 7; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.get()->addComponent(saveDrawableCube(lines));
+            } else if (drawable_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
+                for (int i = 0; i < 8; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.get()->addComponent(saveDrawableCubeTexture(lines));
+            } else if (drawable_type == DRAWABLE_TYPE_TEXT) {
+                for (int i = 0; i < 1; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.get()->addComponent(saveDrawableText(lines));
+            } else if (drawable_type == DRAWABLE_TYPE_PLANE) {
+                for (int i = 0; i < 6; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.get()->addComponent(saveDrawablePlane(lines));
+            } else if (drawable_type == DRAWABLE_TYPE_MODEL) {
+                for (int i = 0; i < 1; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                entity.get()->addComponent(saveDrawableModel(lines));
+            }
         }
         entities.push_back(std::move(entity));
     }
