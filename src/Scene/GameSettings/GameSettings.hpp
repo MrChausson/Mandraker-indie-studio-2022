@@ -2,17 +2,17 @@
 ** EPITECH PROJECT, 2022
 ** B-YEP-400-LIL-4-1-indiestudio-clement.chausson
 ** File description:
-** Settings
+** GameSettings
 */
 
-#ifndef SETTINGS_HPP_
-#define SETTINGS_HPP_
+#ifndef GameSettings_HPP_
+#define GameSettings_HPP_
     #include "../Scene.hpp"
 
-class Settings : public Scene {
+class GameSettings : public Scene {
     public:
-        Settings();
-        ~Settings();
+        GameSettings();
+        ~GameSettings();
         void Unload() override;
         float getMusicTimePlayed();
         void SetMusicTimePlayed(float dur);
@@ -33,4 +33,4 @@ class Settings : public Scene {
         Sound _click;
 };
 
-#endif /* !SETTINGS_HPP_ */
+#endif /* !GameSettings_HPP_ */

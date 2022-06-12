@@ -12,7 +12,8 @@
 #include "../../../Engine/Engine.hpp"
 #include "../../../Scene/Game/Game.hpp"
 #include "../../../Scene/Menu/Menu.hpp"
-#include "../../../Scene/Settings/Settings.hpp" 
+#include "../../../Scene/Settings/Settings.hpp"
+#include "../../../Scene/GameSettings/GameSettings.hpp"
 #include "../../../Scene/CharacterSelector/CharacterSelector.hpp"
 
 MouseClick::MouseClick()

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2022
 ** B-YEP-400-LIL-4-1-indiestudio-clement.chausson
 ** File description:
-** Settings
+** GameSettings
 */
 
 #include "raylib.hpp"
@@ -13,7 +13,7 @@
 #include <string>
 #include <math.h>
 
-Settings::Settings()
+GameSettings::GameSettings()
 {
     Raylib::Raylib_encap Raylib_encp;
     int mvolume = round(musicVolume * 100);
@@ -63,7 +63,7 @@ Settings::Settings()
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Title Text
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(800, 85));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(800, 70));
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"settings", Color{255, 255, 255, 255}, this->_btn_font));
 
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
@@ -103,9 +103,9 @@ Settings::Settings()
     this->_ecsManager->addComponent(vfps_text, std::make_unique<DrawableText>(2, std::to_string(max_fps), Color{255, 255, 255, 255}, this->_value_font));
     Button(this->_ecsManager.get(), 1640, 500, this->_plus_textures, CLICKABLE_ACTION_PLUS_FPS, this, &this->_click);
 
-    Button(this->_ecsManager.get(), "resume", 300, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_RETURN_GAME);
-    Button(this->_ecsManager.get(), "save & menu", 700, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_MENU);
-    Button(this->_ecsManager.get(), "save & quit", 1100, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_QUIT);
+    Button(this->_ecsManager.get(), "resume game", 100, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_RETURN_GAME);
+    Button(this->_ecsManager.get(), "save & menu", 700, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_MENU);
+    Button(this->_ecsManager.get(), "save & quit", 1300, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_QUIT);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
@@ -115,12 +115,12 @@ Settings::Settings()
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
 }
 
-Settings::~Settings()
+GameSettings::~GameSettings()
 {
 }
 
 
-void Settings::Unload()
+void GameSettings::Unload()
 {
     Raylib::Raylib_encap Raylib_encp;
 
@@ -144,13 +144,13 @@ void Settings::Unload()
     Raylib_encp.UnlTexture(this->_plus_textures[2]);
 }
 
-float Settings::getMusicTimePlayed()
+float GameSettings::getMusicTimePlayed()
 {
     Raylib::Raylib_encap Raylib_encp;
     return Raylib_encp.GetMTimePlayed(this->_music);
 }
 
-void Settings::SetMusicTimePlayed(float dur)
+void GameSettings::SetMusicTimePlayed(float dur)
 {
     Raylib::Raylib_encap Raylib_encp;
     Raylib_encp.SeekMStream(this->_music, dur);
