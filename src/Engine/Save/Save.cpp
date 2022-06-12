@@ -162,6 +162,25 @@ std::unique_ptr<IComponent> Save::saveMovable(std::vector<std::string> lines)
     return component;
 }
 
+std::unique_ptr<IComponent> Save::saveAnimable(std::vector<std::string> lines)
+{
+    ANIMATION_TYPE animable_type = (ANIMATION_TYPE) std::stoi(lines[0]);
+    std::string path = lines[1];
+    std::unique_ptr<IComponent> component = std::make_unique<Animable>(path, animable_type);
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveCamera(std::vector<std::string> lines)
+{
+    Vector3 position = {std::stof(lines[0]), std::stof(lines[1]), std::stof(lines[2])};
+    Vector3 target = {std::stof(lines[3]), std::stof(lines[4]), std::stof(lines[5])};
+    Vector3 up = {std::stof(lines[6]), std::stof(lines[7]), std::stof(lines[8])};
+    float fov = std::stof(lines[9]);
+    int projection = std::stoi(lines[10]);
+    std::unique_ptr<IComponent> component = std::make_unique<CameraComponent>(position, target, up, fov, projection);
+    return component;
+}
+
 std::vector<std::unique_ptr<Entity>> Save::load()
 {
     std::vector<std::unique_ptr<Entity>> entities;
@@ -207,6 +226,18 @@ std::vector<std::unique_ptr<Entity>> Save::load()
                 lines.push_back(line);
             }
             entity.get()->addComponent(saveMovable(lines));
+        } else if (line == "Animable") {
+            for (int i = 0; i < 2; i++) {
+                getline(savefile, line);
+                lines.push_back(line);
+            }
+            entity.get()->addComponent(saveAnimable(lines));
+        } else if (line == "Camera") {
+            for (int i = 0; i < 11; i++) {
+                getline(savefile, line);
+                lines.push_back(line);
+            }
+            entity.get()->addComponent(saveCamera(lines));
         }
         entities.push_back(std::move(entity));
     }
