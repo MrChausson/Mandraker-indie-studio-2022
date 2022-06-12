@@ -27,7 +27,7 @@ Player::Player(ECSManager *ecsManager)
         Raylib_encp.LTexture("assets/models/mandrake/target_plantpot_d.png"),
     };
     this->_meshOrderMandrake = {
-       1, 2
+       1, 0
     };
     this->_scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
     this->_plantSound = Raylib_encp.LSound("assets/sounds/mandrake/potting.mp3");
