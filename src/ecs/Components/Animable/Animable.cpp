@@ -13,6 +13,7 @@ Animable::Animable(std::string pathToFile, ANIMATION_TYPE animationType)
     Raylib::Raylib_encap Raylib_encp;
     this->_anims = Raylib_encp.LoadMAnimations(pathToFile, &this->_animsCount);
     this->_animationType = animationType;
+    this->_pathToFile = pathToFile;
 }
 
 Animable::~Animable()
@@ -50,4 +51,9 @@ void Animable::setAnimationType(ANIMATION_TYPE animationType)
 int Animable::getAnimationType()
 {
     return this->_animationType;
+}
+
+std::string Animable::getPathToFile()
+{
+    return this->_pathToFile;
 }

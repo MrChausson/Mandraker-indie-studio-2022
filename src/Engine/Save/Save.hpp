@@ -7,17 +7,17 @@
 
 #ifndef SAVE_HPP_
     #define SAVE_HPP_
-//    #include "../../../_deps/jsoncpp-src/include/json/json.h"
-    #include "../Engine.hpp"
+    #include "../../ecs/Entity/Entity.hpp"
 
 class Save {
     public:
         Save(std::string file_to_save);
         ~Save();
-        void save(ECSManager *ecs);
+        void save(std::vector<Entity *> entities);
 
     protected:
     private:
+        std::string _fileToSaveTo;
 };
 
 #endif /* !SAVE_HPP_ */

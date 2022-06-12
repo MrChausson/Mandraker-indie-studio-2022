@@ -48,3 +48,27 @@ Camera3D CameraComponent::getCamera()
     camera.projection = this->_projection;
     return camera;
 }
+Vector3 CameraComponent::getPosition()
+{
+    return this->_position;
+}
+
+Vector3 CameraComponent::getTarget()
+{
+    return this->_target;
+}
+
+Vector3 CameraComponent::getUp()
+{
+    return this->_up;
+}
+
+float CameraComponent::getFov()
+{
+    return this->_fov;
+}
+
+int CameraComponent::getProjection()
+{
+    return this->_projection;
+}

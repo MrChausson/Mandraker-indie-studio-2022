@@ -7,7 +7,7 @@
 
 #include "DrawableCubeTexture.hpp"
 
-DrawableCubeTexture::DrawableCubeTexture(Texture2D texture, float width, float height, float length, Color color)
+DrawableCubeTexture::DrawableCubeTexture(Texture2D texture, CubeTextureType type, float width, float height, float length, Color color)
 {
     this->_color = color;
     this->_type = DRAWABLE_TYPE_TEXTURE_CUBE;
@@ -15,6 +15,7 @@ DrawableCubeTexture::DrawableCubeTexture(Texture2D texture, float width, float h
     this->_height = height;
     this->_length = length;
     this->_texture = texture;
+    this->_cubeTextureType = type;
 }
 
 DrawableCubeTexture::~DrawableCubeTexture()
@@ -64,4 +65,10 @@ float DrawableCubeTexture::getLength()
 Texture2D DrawableCubeTexture::getTexture()
 {
     return this->_texture;
+}
+
+int DrawableCubeTexture::getCubeTextureType()
+{
+    int ret = (int) this->_cubeTextureType;
+    return ret;
 }
