@@ -13,12 +13,22 @@
 #include <string>
 #include "Drawable.hpp"
 
+enum class ModelType {
+    MCG,
+    SPROUT,
+    TRELAWNEY,
+    SNAPE,
+    GNOME,
+    BAG
+};
+
 class DrawableModel : public Drawable{
     public:
-        DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan = 0);
+        DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan = 0, ModelType modelType = ModelType::MCG);
         ~DrawableModel();
         Model getModel();
         Model *getPtrModel();
+        int getModelType();
 
     protected:
     private:
@@ -26,8 +36,7 @@ class DrawableModel : public Drawable{
         ModelAnimation *_anims;
         int _animFrameCounter = 0;
         unsigned int _animsCount = 0;
-
-    
+        ModelType _modelType; 
 };
 
 #endif /* !DRAWABLEMODEL_HPP_ */

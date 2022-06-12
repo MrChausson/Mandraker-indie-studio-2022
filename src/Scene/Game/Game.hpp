@@ -57,6 +57,7 @@ class Game : public Scene {
         std::vector<Texture2D> textures_gnome;
         CHARACTER_CHOOSEN _characterChoosen;
         Font _font;
+        std::vector<std::unique_ptr<Entity>> *_entities_ecs;
 };
 
 #endif /* !GAME_HPP_ */

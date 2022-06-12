@@ -18,6 +18,11 @@ class CameraComponent : public IComponent {
         COMPONENT_TYPES getType() override;
         Camera3D getCamera();
         Camera getCameraRaw();
+        Vector3 getPosition();
+        Vector3 getTarget();
+        Vector3 getUp();
+        float getFov();
+        int getProjection();
 
     protected:
     private:
