@@ -35,16 +35,18 @@ bool Collisionable::isColliding(float x, float y, float z)
     Raylib::Raylib_encap Raylib_encp;
 
     for (auto &entity : *this->_entities) {
-        auto placeMap = static_cast<Placable *> (entity->getComponentsByType(COMPONENT_TYPES::PLACABLE));
-        min_map.x = placeMap->getX() - 0.4;
-        min_map.y = placeMap->getY();
-        min_map.z = placeMap->getZ() - 0.4;
-        max_map.x = placeMap->getX() + 0.4;
-        max_map.y = placeMap->getY() + 1.5;
-        max_map.z = placeMap->getZ() + 0.4;
-        box_map = {min_map, max_map};
-        if (Raylib_encp.CheckCollBoxes(box, box_map))
-            return true;
+        if (entity->getComponents().size() != 0) {
+            auto placeMap = static_cast<Placable *> (entity->getComponentsByType(COMPONENT_TYPES::PLACABLE));
+            min_map.x = placeMap->getX() - 0.4;
+            min_map.y = placeMap->getY();
+            min_map.z = placeMap->getZ() - 0.4;
+            max_map.x = placeMap->getX() + 0.4;
+            max_map.y = placeMap->getY() + 1.5;
+            max_map.z = placeMap->getZ() + 0.4;
+            box_map = {min_map, max_map};
+            if (Raylib_encp.CheckCollBoxes(box, box_map))
+                return true;
+        }
     }
     return (false);
 }

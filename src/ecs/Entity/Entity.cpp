@@ -45,3 +45,8 @@ IComponent *Entity::getComponentsByType(COMPONENT_TYPES type)
             return(component.get());
     return nullptr;
 }
+
+void Entity::clearComponent()
+{
+    this->_components.clear();
+}
