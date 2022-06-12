@@ -146,11 +146,11 @@ std::unique_ptr<IComponent> Save::saveTimable(std::vector<std::string> lines)
 
 std::unique_ptr<IComponent> Save::savePlacable(std::vector<std::string> lines)
 {
-    Vector3 pos = {std::stof(lines[0]), std::stof(lines[1]), std::stof(lines[2])};
     Vector3 rot = {std::stof(lines[3]), std::stof(lines[4]), std::stof(lines[5])};
     float angle = std::stof(lines[6]);
     Vector3 scale = {std::stof(lines[7]), std::stof(lines[8]), std::stof(lines[9])};
-    std::unique_ptr<IComponent> component = std::make_unique<Placable>(pos, rot, angle, scale);
+    std::unique_ptr<IComponent> component = std::make_unique<Placable>
+    (std::stof(lines[0]), std::stof(lines[1]), std::stof(lines[2]), rot, angle, scale);
     return component;
 }
 
@@ -162,9 +162,9 @@ std::unique_ptr<IComponent> Save::saveMovable(std::vector<std::string> lines)
     return component;
 }
 
-std::vector<Entity> Save::load()
+std::vector<std::unique_ptr<Entity>> Save::load()
 {
-    std::vector<Entity> entities;
+    std::vector<std::unique_ptr<Entity>> entities;
     std::ifstream savefile;
     Drawable *drawable;
     Timable *timable;
@@ -178,36 +178,37 @@ std::vector<Entity> Save::load()
     DrawablePlane *drawablePlane;
     DrawableSprite *drawableSprite;
     DrawableText *drawableText;
+    std::string line;
     std::vector <std::string> lines;
+    std::unique_ptr<Entity> entity;
 
     savefile.open(this->_fileToSaveTo);
     if (!savefile.is_open())
         throw Error_file("Could not open file to load");
-    if (savefile.is_open()) {
-        std::string line;
-        while (getline(savefile, line)) {
-            lines.clear();
-            Entity entity(std::stoi(line));
-            getline(savefile, line);
-            if (line == "Timable") {
-                for (int i = 0; i < 1; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.addComponent(saveTimable(lines));
-            } else if (line == "Placable") {
-                for (int i = 0; i < 10; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.addComponent(savePlacable(lines));
-            } else if (line == "Movable") {
-                for (int i = 0; i < 2; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.addComponent(saveMovable(lines));
+    while (getline(savefile, line)) {
+        lines.clear();
+        entity = std::make_unique<Entity>(std::stoi(line));
+        getline(savefile, line);
+        if (line == "Timable") {
+            for (int i = 0; i < 1; i++) {
+                getline(savefile, line);
+                lines.push_back(line);
             }
+            entity.get()->addComponent(saveTimable(lines));
+        } else if (line == "Placable") {
+            for (int i = 0; i < 10; i++) {
+                getline(savefile, line);
+                lines.push_back(line);
+            }
+            entity.get()->addComponent(savePlacable(lines));
+        } else if (line == "Movable") {
+            for (int i = 0; i < 2; i++) {
+                getline(savefile, line);
+                lines.push_back(line);
+            }
+            entity.get()->addComponent(saveMovable(lines));
         }
+        entities.push_back(std::move(entity));
     }
+    return entities;
 }

@@ -17,7 +17,7 @@ class Save {
         Save(std::string file_to_save);
         ~Save();
         void save(std::vector<Entity *> entities);
-        std::vector<Entity> load();
+        std::vector<std::unique_ptr<Entity>> load();
 
     protected:
         std::unique_ptr<IComponent> saveTimable(std::vector<std::string> lines);
