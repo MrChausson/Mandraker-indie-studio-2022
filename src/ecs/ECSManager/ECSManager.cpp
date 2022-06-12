@@ -169,6 +169,12 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(MOVABLE));
                     components.push_back(component);
                     system->apply(components);
+                    Player *player = static_cast<Player *>(system.get());
+                    if (player != nullptr && player->getEcsToChangeTo() != nullptr) {
+                        ECSManager *tmp = player->getEcsToChangeTo();
+                        player->setEcsToChangeTo(nullptr);
+                        return (tmp);
+                    }
                 }
                 else if (system->getType() == LOADING && component->getType() == LOADABLE) {
                     components.push_back(component);

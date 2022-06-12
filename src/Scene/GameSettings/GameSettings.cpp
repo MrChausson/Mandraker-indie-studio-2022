@@ -13,12 +13,13 @@
 #include <string>
 #include <math.h>
 
-GameSettings::GameSettings()
+GameSettings::GameSettings(ECSManager *_ecsToReturn)
 {
     Raylib::Raylib_encap Raylib_encp;
     int mvolume = round(musicVolume * 100);
     int svolume = round(soundVolume * 100);
     std::cout << "Options creating" << std::endl;
+    this->_previousEcs = _ecsToReturn;
     this->_ecsManager = std::make_unique<ECSManager>();
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
@@ -103,9 +104,9 @@ GameSettings::GameSettings()
     this->_ecsManager->addComponent(vfps_text, std::make_unique<DrawableText>(2, std::to_string(max_fps), Color{255, 255, 255, 255}, this->_value_font));
     Button(this->_ecsManager.get(), 1640, 500, this->_plus_textures, CLICKABLE_ACTION_PLUS_FPS, this, &this->_click);
 
-    Button(this->_ecsManager.get(), "resume game", 100, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_RETURN_GAME);
-    Button(this->_ecsManager.get(), "save & menu", 700, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_MENU);
-    Button(this->_ecsManager.get(), "save & quit", 1300, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_QUIT);
+    Button(this->_ecsManager.get(), "resume game", 100, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_RETURN_GAME, this);
+    Button(this->_ecsManager.get(), "save & menu", 700, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_MENU, this);
+    Button(this->_ecsManager.get(), "save & quit", 1300, 900, this->_value_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_SAVE_AND_QUIT, this);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 

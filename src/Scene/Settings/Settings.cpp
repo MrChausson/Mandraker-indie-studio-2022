@@ -103,7 +103,7 @@ Settings::Settings()
     this->_ecsManager->addComponent(vfps_text, std::make_unique<DrawableText>(2, std::to_string(max_fps), Color{255, 255, 255, 255}, this->_value_font));
     Button(this->_ecsManager.get(), 1640, 500, this->_plus_textures, CLICKABLE_ACTION_PLUS_FPS, this, &this->_click);
 
-    Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS);
+    Button(this->_ecsManager.get(), "apply", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
