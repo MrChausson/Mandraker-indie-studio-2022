@@ -11,6 +11,8 @@
 #include "../../Engine/Engine.hpp"
 #include <iostream>
 #include "../Components/Clickable/Clickable.hpp"
+#include "../Components/Timable/Timable.hpp"
+#include "../Systems/Player/Player.hpp"
 
 ECSManager::ECSManager()
 {
@@ -109,6 +111,7 @@ void ECSManager::applyMusic()
 
 ECSManager *ECSManager::applySystems()
 {
+    Raylib::Raylib_encap r;
     int i = 0;
     std::vector<IComponent *> components; // Let's create a vector that will store all the needed components by the system
 
@@ -161,10 +164,17 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     system->apply(components);
                 }
-                else if (system->getType() == PLAYER && component->getType() == MOVABLE) {
+                else if (system->getType() == PLAYER && component->getType() == PLAYABLE) {
                     components.push_back(entity->getComponentsByType(PLACABLE));
                     components.push_back(entity->getComponentsByType(MOVABLE));
+                    components.push_back(component);
                     system->apply(components);
+                    Player *player = static_cast<Player *>(system.get());
+                    if (player != nullptr && player->getEcsToChangeTo() != nullptr) {
+                        ECSManager *tmp = player->getEcsToChangeTo();
+                        player->setEcsToChangeTo(nullptr);
+                        return (tmp);
+                    }
                 }
                 else if (system->getType() == LOADING && component->getType() == LOADABLE) {
                     components.push_back(component);
@@ -177,7 +187,12 @@ ECSManager *ECSManager::applySystems()
                 else if (system->getType() == TIMER && component->getType() == TIMABLE) {
                     components.push_back(component);
                     components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
                     system->apply(components);
+                    Timable *time = static_cast<Timable *>(component);
+                    if (time->isFinished())
+                       return (nullptr);
                 }
                 if (!loop_status)
                     return nullptr;

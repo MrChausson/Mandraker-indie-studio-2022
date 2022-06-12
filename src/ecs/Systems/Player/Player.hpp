@@ -18,6 +18,8 @@ class Player : public ISystem {
         ~Player();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
+        ECSManager  *getEcsToChangeTo();
+        void setEcsToChangeTo(ECSManager *ecsManager);
 
     private:
         std::chrono::time_point<std::chrono::system_clock>  _toWait;
@@ -27,8 +29,7 @@ class Player : public ISystem {
         std::vector<int> _meshOrderMandrake;
         Vector3 _scaleMandrake;
         Sound _plantSound;
-        int _nbMaxMandrake;
-        int _nbMandrake = 0;
+        ECSManager *_ecsToChangeTo = nullptr;
 };
 
 #endif /* !Player_HPP_ */

@@ -12,8 +12,10 @@
 #include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
+#include "../../ecs/Components/Playable/Playable.hpp"
 #include "../../ecs/Components/Timable/Timable.hpp"
 #include "../../ecs/Components/Collisionable/Collisionable.hpp"
+#include "../../ecs/Components/Breakable/Breakable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Player/Player.hpp"
 #include "../../ecs/Systems/Timer/Timer.hpp"
@@ -52,6 +54,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     int model = this->_ecsManager->createEntity();
     int test_pot = this->_ecsManager->createEntity();
     int trelawney = this->_ecsManager->createEntity();
+    std::cout << "TRELAWNEY---------------------------------------------" << std::endl;
     int snape = this->_ecsManager->createEntity();
     int plane = this->_ecsManager->createEntity();
     int sprout = this->_ecsManager->createEntity();
@@ -102,7 +105,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
     this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
     this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
-    this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK));
+    this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
 
     // Configuring player MCG
     this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
@@ -110,6 +113,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
         this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     else
         this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
     this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
     this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
 
@@ -120,6 +124,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
         this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     else
         this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
     this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
     this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
@@ -129,6 +134,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
         this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     else
         this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
     this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
     this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
 
@@ -142,6 +148,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
         this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
     else
         this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
     this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
     this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
@@ -155,9 +162,9 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
-    this->_ecsManager->addSystem(std::make_unique<Timer>());
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
     this->loadMap("assets/map/map.txt");
+    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get()));
 
     // Collision configuration
     this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
@@ -253,6 +260,7 @@ void Game::loadMap(std::string map_src)
                     entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
+                    entity->addComponent(std::make_unique<Breakable>());
                 }
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));

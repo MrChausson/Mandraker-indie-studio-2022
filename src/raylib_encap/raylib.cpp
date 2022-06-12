@@ -383,6 +383,11 @@ void Raylib::Raylib_encap::DwTexturePro(Texture2D texture, Rectangle source, Rec
     return DrawTexturePro(texture, source, dest, origin, rotation, tint);
 }
 
+void Raylib::Raylib_encap::DwTextureRec(Texture2D texture, Rectangle source, Vector2 pos, Color tint) noexcept
+{
+    return DrawTextureRec(texture, source, pos, tint);
+}
+
 void Raylib::Raylib_encap::UpdtModelAnimation(Model model, ModelAnimation anim, int frame) noexcept
 {
     return UpdateModelAnimation(model, anim, frame);

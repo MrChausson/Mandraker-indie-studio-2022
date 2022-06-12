@@ -102,6 +102,7 @@ namespace Raylib
             void UnloadMdl(Model model) noexcept;
             void UnlImg(Image image);
             Image LoadImg(std::string fileName) noexcept;
+            void DwTextureRec(Texture2D texture, Rectangle source, Vector2 pos, Color tint) noexcept;
     };
 }
 

@@ -25,6 +25,7 @@ src/Scene/Menu/Menu.cpp
 src/Scene/Game/Game.cpp
 src/Scene/SplashScreen/SplashScreen.cpp
 src/Scene/Settings/Settings.cpp
+src/Scene/GameSettings/GameSettings.cpp
 src/Scene/CharacterSelector/CharacterSelector.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
@@ -49,6 +50,7 @@ src/ecs/Components/Clickable/Clickable.cpp
 src/ecs/Components/Animable/Animable.cpp
 src/ecs/Components/Loadable/Loadable.cpp
 src/ecs/Components/Collisionable/Collisionable.cpp
+src/ecs/Components/Playable/Playable.cpp
 #src/ecs/Components/Boundable/Boundable.cpp
 src/ecs/Components/Drawable/DrawableText.cpp
 src/ecs/Components/Drawable/DrawableSprite.cpp

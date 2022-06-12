@@ -19,7 +19,6 @@ class Breakable : public IComponent {
     protected:
     private:
         COMPONENT_TYPES _type;
-        bool _isBroken = false;
 };
 
 #endif /* !BREAKABLE_HPP_ */

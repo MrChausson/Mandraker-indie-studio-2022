@@ -202,6 +202,11 @@ void CharacterSelector::Unload()
         RaylibEncap.UnlTexture(i);
     for (auto &i : this->_btn_textures)
         RaylibEncap.UnlTexture(i);
+    RaylibEncap.UnlSound(this->mcgSound);
+    RaylibEncap.UnlSound(this->sproutSound);
+    RaylibEncap.UnlSound(this->trelawneySound);
+    RaylibEncap.UnlSound(this->snapeSound);
+    RaylibEncap.UnloadMStream(this->_music);
 }
 
 void CharacterSelector::resetBoxClicked()
