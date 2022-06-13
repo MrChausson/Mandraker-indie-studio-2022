@@ -14,7 +14,7 @@
 #include "../../Components/Animable/Animable.hpp"
 
 
-Timer::Timer(ECSManager *ecsManager = nullptr, std::vector<Entity *> *mapEntities = nullptr, std::vector<Entity *> *playerEntities = nullptr)
+Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::vector<Entity *> *playerEntities)
 
 {
     Raylib::Raylib_encap Raylib_encp;
@@ -51,10 +51,12 @@ void Timer::apply(std::vector<IComponent *> component)
     } else if  (time_type == GAME_MANDRAKE_SECOND) {
         if (time->isTimeOut()) {
             sound = static_cast<Soundable *>(component[4]);
-            sound->stopSound();
+            if (sound != nullptr)
+                sound->stopSound();
             time->setFinished(true);
             playable = static_cast<Playable *>(time->getPlayable());
             playable->setNbMandrake(playable->getNbMandrake() - 1);
+            this->updatePlayer(place->getPosition(), time->getPlayable());
             this->deleteGnome(place->getPosition(), time->getPlayable());
             this->_ecsManager->deleteEntity(time->getIdEntity());
         }
@@ -62,6 +64,11 @@ void Timer::apply(std::vector<IComponent *> component)
         if (time->isTimeOut()) {
             time->setFinished(true);
             this->deleteGnome(place->getPosition(), time->getPlayable());
+        }
+    } else if (time_type == GAME_PLAYER_FALL) {
+        if (time->isTimeOut()) {
+            time->setFinished(true);
+            this->deletePlayer(place->getPosition(), time->getPlayable());
         }
     }
 }
@@ -110,4 +117,44 @@ void Timer::updateGnome(Vector3 position, void *play)
         }
     }
 }
+
+void Timer::updatePlayer(Vector3 position, void *play)
+{
+    Vector3 pos;
+    Playable *playable = static_cast<Playable *>(play);
+    Placable *place;
+    Breakable *breakable;
+    float range = playable->getRange();
+    for (auto &entity : *this->_playerEntities) {
+        if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
+            place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
+            pos = place->getPosition();
+            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
+                static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimationType(ANIMATION_TYPE::FALL);
+                static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimFrameCounter(0);
+
+                entity->addComponent(std::make_unique<Timable>(1.5, GAME_PLAYER_FALL, -1, playable));
+            }
+        }
+    }
+}
+
+void Timer::deletePlayer(Vector3 position, void *play)
+{
+    Vector3 pos;
+    Playable *playable = static_cast<Playable *>(play);
+    Placable *place;
+    Breakable *breakable;
+    float range = playable->getRange();
+    for (auto &entity : *this->_playerEntities) {
+        if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
+            place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
+            pos = place->getPosition();
+            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
+                this->_ecsManager->getEntity(entity->getId())->clearComponent();
+            }
+        }
+    }
+}
+
 

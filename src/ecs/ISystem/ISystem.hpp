@@ -28,7 +28,8 @@ enum SYSTEM_TYPES {
     PLAYER,
     SOUND,
     TIMER,
-    SAVE
+    SAVE,
+    FINISH
 };
 
 class ISystem {
