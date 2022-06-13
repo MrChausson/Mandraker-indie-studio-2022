@@ -30,7 +30,7 @@ class Clickable : public IComponent {
         Texture2D _textureSaved;
         Texture2D _textureClick;
         Texture2D _tmp;
-        ECSManager *getEcs();
+        ECSManager *getEcsToChangeTo();
         void setEcs(ECSManager *ecs);
         SCENE_TYPE _tmpEcs;
         ClickableActionType getActionType();

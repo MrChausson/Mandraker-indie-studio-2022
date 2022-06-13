@@ -139,7 +139,7 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                     Clickable *click = static_cast<Clickable *>(component);
-                    ECSManager *ecs = click->getEcs();
+                    ECSManager *ecs = click->getEcsToChangeTo();
                     if (ecs != nullptr)
                         return ecs;
                 }

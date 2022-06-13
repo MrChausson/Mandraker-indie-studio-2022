@@ -15,6 +15,7 @@
 #include "../../../Scene/Settings/Settings.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
 #include "../../../Scene/CharacterSelector/CharacterSelector.hpp"
+#include "../../../Engine/Save/Save.hpp"
 
 MouseClick::MouseClick()
 {
@@ -34,11 +35,13 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
 {
     Clickable *click = static_cast<Clickable *>(component);
     DrawableSprite *sprite = static_cast<DrawableSprite *>(component2);
-    ECSManager *ecs = click->getEcs();
+    ECSManager *ecs = click->getEcsToChangeTo();
     Scene *scene = click->getScene();
     CharacterSelector *characterSelector;
     Settings *settings;
+    std::vector<Entity *> entities;
     Menu *menu;
+    Save *save;
     
     Raylib::Raylib_encap r;
 
@@ -195,9 +198,14 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     break;
     case CLICKABLE_ACTION_SAVE_AND_MENU:
         menu = new Menu();
+        for (auto &entity : *scene->getECS()->getEntities())
+            entities.push_back(entity.get());
+        save = new Save("game.save");
+        save->save(entities);
+        delete(save);
         click->setEcs(menu->getECS());
-            if (scene != nullptr)
-                delete (static_cast<Settings *>(scene));
+        if (scene != nullptr)
+            delete (static_cast<Settings *>(scene));
     break;
     case CLICKABLE_ACTION_RETURN_GAME:
         if (scene == nullptr)
