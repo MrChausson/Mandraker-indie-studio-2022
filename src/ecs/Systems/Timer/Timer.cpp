@@ -73,6 +73,11 @@ void Timer::apply(std::vector<IComponent *> component)
     }
 }
 
+bool Timer::isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range)
+{
+    return (std::abs(breakable_pos.x - bomb_pos.x) < 0.5 && (std::abs(breakable_pos.z - bomb_pos.z)) < range
+        || (std::abs(breakable_pos.z - bomb_pos.z) < 0.5 && (std::abs(breakable_pos.x - bomb_pos.x)) < range));
+}
 
 SYSTEM_TYPES Timer::getType()
 {
@@ -90,7 +95,7 @@ void Timer::deleteGnome(Vector3 position, void *play)
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
+            if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
             }
         }
@@ -108,7 +113,7 @@ void Timer::updateGnome(Vector3 position, void *play)
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
+            if (isInRange(position, pos, range)) {
                 this->_ecsManager->addComponent(entity->getId(), std::make_unique<Animable>("assets/models/gnome/gnome.iqm", ANIMATION_TYPE::RUN, 40));
                 this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
                 this->_ecsManager->addComponent(entity->getId(), std::make_unique<Playable>(3));
@@ -129,7 +134,7 @@ void Timer::updatePlayer(Vector3 position, void *play)
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
+            if (isInRange(position, pos, range)) {
                 static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimationType(ANIMATION_TYPE::FALL);
                 entity->addComponent(std::make_unique<Timable>(2, GAME_PLAYER_FALL, -1, playable));
             }
@@ -148,11 +153,9 @@ void Timer::deletePlayer(Vector3 position, void *play)
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
+            if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
             }
         }
     }
 }
-
-
