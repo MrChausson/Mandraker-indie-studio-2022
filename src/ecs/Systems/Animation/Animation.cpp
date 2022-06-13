@@ -32,7 +32,7 @@ void Animation::apply(std::vector<IComponent *> component)
     std::chrono::duration<double> elapsedSecond = std::chrono::system_clock::now() - this->_clock;
     int fps = 150;
     if (elapsedSecond.count() > 1 / fps) {
-        animable->setAnimFrameCounter(animable->getAnimFrameCounter() + 1);
+        animable->setAnimFrameCounter(animable->getAnimFrameCounter() + animable->getAnimFrameToAdd());
         this->_clock = std::chrono::system_clock::now();
     }
     Raylib_encp.UpdtModelAnimation(model->getModel(), animable->getAnims()[animable->getAnimationType()], animable->getAnimFrameCounter());
