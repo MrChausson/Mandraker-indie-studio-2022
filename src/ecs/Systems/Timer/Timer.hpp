@@ -20,7 +20,7 @@ class Timer : public ISystem {
         SYSTEM_TYPES getType() override;
         void deleteGnome(Vector3 position, void *play);
         void updateGnome(Vector3 position, void *play);
-
+        bool isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range);
         void deletePlayer(Vector3 position, void *play);
         void updatePlayer(Vector3 position, void *play);
     private:
