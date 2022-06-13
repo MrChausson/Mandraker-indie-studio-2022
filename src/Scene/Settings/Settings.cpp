@@ -59,7 +59,7 @@ Settings::Settings()
     Raylib_encp.PlayMStream(this->_music);
 
     // Title image
-    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(347.5, 0));
+    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(960 - _title_texture.width / 2, 0));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Title Text
