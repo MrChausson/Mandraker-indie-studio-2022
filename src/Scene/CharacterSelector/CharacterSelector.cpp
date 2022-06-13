@@ -124,17 +124,38 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
     // Sounds
-    this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
-    this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
-    this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
-    this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
+    // this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
+    // this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
+    // this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
+    // this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
+
+    this->_SoundMcg = {
+        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_03.wav"),
+    };
+    this->_SoundSprout = {
+        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_03.wav"),
+    };
+    this->_SoundSnape = {
+        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_03.wav"),
+    };
+    this->_SoundTrelawney = {
+        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_03.wav"),
+    };
     Scene *nullScene = nullptr;
 
     this->_idBoxes = {
-        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &mcgSound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &sproutSound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &trelawneySound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &snapeSound).getIdSprite()
+        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &_SoundMcg).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &_SoundSprout).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &_SoundTrelawney).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &_SoundSnape).getIdSprite()
     };
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
