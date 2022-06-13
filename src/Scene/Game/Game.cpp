@@ -134,14 +134,19 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
 
         // Configuring player MCG
         this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
+        int done = 0;
         for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 0)
+            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 0) {
+                done = 1;
                 this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 1)
+            }
+            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 1) {
+                done = 1;
                 this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            else
-                this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+            }
         }
+        if (done != 1)
+            this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
         this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
         this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
@@ -150,29 +155,41 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
 
         // Configuring player TRELAWNEY
         this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
+        done = 0;
         for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 0)
+            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 0) {
+                done = 1;
                 this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 1)
+            }
+            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 1) {
+                done = 1;
                 this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            else
-                this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+            }
         }
-            this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
+        if (done != 1)
+            this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
 
         // Configuring player SNAPE
         this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
+        done = 0;
         for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 0)
+            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 0) {
+                done = 1;
                 this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 1)
+            }
+            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 1) {
+                done = 1;
                 this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            else
-                this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+            }
         }
+        if (done != 1)
+            this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+
         this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
         this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
@@ -180,14 +197,20 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
 
         // Configuring player SPROUT
         this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+        done = 0;
         for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 0)
+            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 0) {
+                done = 1;
                 this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 1)
+            }
+            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 1) {
+                done = 1;
                 this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            else
-                this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+            }
         }
+        if (done != 1)
+            this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+
         this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
         this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
