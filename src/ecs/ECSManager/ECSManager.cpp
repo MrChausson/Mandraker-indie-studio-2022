@@ -13,6 +13,7 @@
 #include "../Components/Clickable/Clickable.hpp"
 #include "../Components/Timable/Timable.hpp"
 #include "../Systems/Player/Player.hpp"
+#include "../Systems/Finish/Finish.hpp"
 
 ECSManager::ECSManager()
 {
@@ -120,6 +121,12 @@ ECSManager *ECSManager::applySystems()
     for (auto &system : this->_systems) {
         if (system->getType() == SAVE) {
             system->apply(components);
+        }
+        if (system->getType() == FINISH) {
+            Finish *finish = static_cast<Finish *>(system.get());
+            if (finish->isFinished()) {
+                return (finish->getEcsManager());
+            }
         }
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {

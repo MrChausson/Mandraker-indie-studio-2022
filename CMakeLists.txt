@@ -41,6 +41,7 @@ src/ecs/Systems/Bomber/Bomber.cpp
 src/ecs/Systems/Player/Player.cpp
 src/ecs/Systems/Timer/Timer.cpp
 src/ecs/Systems/Save/SaveSystem.cpp
+src/ecs/Systems/Finish/Finish.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp
