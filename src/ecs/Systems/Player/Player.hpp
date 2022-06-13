@@ -20,6 +20,7 @@ class Player : public ISystem {
         SYSTEM_TYPES getType() override;
         ECSManager  *getEcsToChangeTo();
         void setEcsToChangeTo(ECSManager *ecsManager);
+        Texture2D assetSounds;
 
     private:
         std::chrono::time_point<std::chrono::system_clock>  _toWait;

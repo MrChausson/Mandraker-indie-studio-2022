@@ -64,11 +64,13 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
+
+        this->assetSounds = Raylib_encp.LTexture("assets/0");
+
     }
     if (Raylib_encp.isKeyPres(KEY_ESCAPE)) {
         GameSettings *settings = new GameSettings(this->_ecsManager);
         this->_ecsToChangeTo = settings->getECS();
-        
     }
 }
 
