@@ -30,5 +30,6 @@ class Engine {
 };
 
 extern bool loop_status;
+extern int max_fps;
 
 #endif /* !ENGINE_HPP_ */

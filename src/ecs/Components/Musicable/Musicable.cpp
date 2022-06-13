@@ -8,8 +8,12 @@
 #include "Musicable.hpp"
 #include "raylib.hpp"
 
+float musicVolume = 0.5f;
+
 Musicable::Musicable(Music music)
 {
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.SetMVolume(music, musicVolume);
     _music = music;
     _pause = false;
 }

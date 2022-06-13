@@ -11,6 +11,7 @@
 #include "../../ISystem/ISystem.hpp"
 #include "../../Components/Animable/Animable.hpp"
 #include "../../Components/Drawable/DrawableModel.hpp"
+#include <chrono>
 
 class Animation : public ISystem {
     public:
@@ -21,6 +22,7 @@ class Animation : public ISystem {
 
     protected:
     private:
+    std::chrono::time_point<std::chrono::system_clock> _clock;
 };
 
 #endif /* !ANIMATION_HPP_ */

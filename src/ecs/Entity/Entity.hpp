@@ -22,6 +22,7 @@ class Entity {
         std::vector<IComponent *> getComponents();
         IComponent  *getComponentsByType(COMPONENT_TYPES type);
         void addComponent(std::unique_ptr<IComponent> component);
+        void clearComponent();
 
     protected:
     private:

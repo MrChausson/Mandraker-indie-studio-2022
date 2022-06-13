@@ -23,7 +23,12 @@ enum SYSTEM_TYPES {
     MOVE,
     MUSIC,
     ANIMATION,
-    LOADING
+    LOADING,
+    BOMBER,
+    PLAYER,
+    SOUND,
+    TIMER,
+    SAVE
 };
 
 class ISystem {

@@ -11,6 +11,8 @@
 #include "../../Engine/Engine.hpp"
 #include <iostream>
 #include "../Components/Clickable/Clickable.hpp"
+#include "../Components/Timable/Timable.hpp"
+#include "../Systems/Player/Player.hpp"
 
 ECSManager::ECSManager()
 {
@@ -93,7 +95,7 @@ IComponent *ECSManager::getComponent(Entity *entity, COMPONENT_TYPES type)
     return nullptr;
 }
 
-ECSManager ECSManager::applyMusic()
+void ECSManager::applyMusic()
 {
     std::vector<IComponent *> components;
     for (auto &system : this->_systems)
@@ -109,15 +111,20 @@ ECSManager ECSManager::applyMusic()
 
 ECSManager *ECSManager::applySystems()
 {
+    Raylib::Raylib_encap r;
     int i = 0;
     std::vector<IComponent *> components; // Let's create a vector that will store all the needed components by the system
 
     BeginDrawing();
     ClearBackground(BLACK);
-    for (auto &system : this->_systems)
+    for (auto &system : this->_systems) {
+        if (system->getType() == SAVE) {
+            system->apply(components);
+        }
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
                 components.clear();
+                // temp for saving
                 if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
                     components.push_back(component);
                     system->apply(components);
@@ -148,10 +155,26 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                 }
+                else if (system->getType() == SOUND && component->getType() == SOUNDABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
                 else if (system->getType() == ANIMATION && component->getType() == ANIMABLE) {
                     components.push_back(component);
                     components.push_back(entity->getComponentsByType(DRAWABLE));
                     system->apply(components);
+                }
+                else if (system->getType() == PLAYER && component->getType() == PLAYABLE) {
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(MOVABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                    Player *player = static_cast<Player *>(system.get());
+                    if (player != nullptr && player->getEcsToChangeTo() != nullptr) {
+                        ECSManager *tmp = player->getEcsToChangeTo();
+                        player->setEcsToChangeTo(nullptr);
+                        return (tmp);
+                    }
                 }
                 else if (system->getType() == LOADING && component->getType() == LOADABLE) {
                     components.push_back(component);
@@ -161,9 +184,21 @@ ECSManager *ECSManager::applySystems()
                     if (load->isLoaded())
                         return load->getEcs();
                 }
+                else if (system->getType() == TIMER && component->getType() == TIMABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
+                    components.push_back(entity->getComponentsByType(SOUNDABLE));
+                    system->apply(components);
+                    Timable *time = static_cast<Timable *>(component);
+                    if (time->isFinished())
+                       return (nullptr);
+                }
                 if (!loop_status)
                     return nullptr;
             }
+    }
 
     this->applyDraw();
 
@@ -221,4 +256,9 @@ IComponent *ECSManager::getCamera()
             if (component->getType() == CAMERA)
                 return (component);
     return nullptr;
+}
+
+std::vector<std::unique_ptr<Entity>> *ECSManager::getEntities()
+{
+    return (&this->_entities);
 }

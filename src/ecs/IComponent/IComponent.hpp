@@ -19,7 +19,11 @@ enum COMPONENT_TYPES {
     CAMERA,
     ANIMABLE,
     LOADABLE,
-    COLLISIONABLE
+    COLLISIONABLE,
+    SOUNDABLE,
+    TIMABLE,
+    PLAYABLE,
+    BREAKABLE
 };
 
 class IComponent {

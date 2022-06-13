@@ -14,6 +14,8 @@ class Menu : public Scene {
         Menu();
         ~Menu();
         void Unload() override;
+        float getMusicTimePlayed();
+        void SetMusicTimePlayed(float dur);
 
     protected:
     private:

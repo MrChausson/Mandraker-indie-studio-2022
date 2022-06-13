@@ -11,9 +11,14 @@
 #include "raylib.h"
 #include "Drawable.hpp"
 
+enum class CubeTextureType {
+    GRASS,
+    STONE
+};
+
 class DrawableCubeTexture : public Drawable {
     public:
-        DrawableCubeTexture(Texture2D texture, float width = 1.0f, float height = 1.0f, float length = 1.0f, Color color = WHITE);
+        DrawableCubeTexture(Texture2D texture, CubeTextureType textureType, float width = 1.0f, float height = 1.0f, float length = 1.0f, Color color = WHITE);
         ~DrawableCubeTexture();
         void setColor(Color color);
         Color getColor();
@@ -24,6 +29,7 @@ class DrawableCubeTexture : public Drawable {
         void setLength(float length);
         float getLength();
         Texture2D getTexture();
+        int getCubeTextureType();
 
     protected:
     private:
@@ -32,6 +38,7 @@ class DrawableCubeTexture : public Drawable {
     float _length;
     Color _color;
     Texture2D _texture;
+    CubeTextureType _cubeTextureType;
 
 };
 

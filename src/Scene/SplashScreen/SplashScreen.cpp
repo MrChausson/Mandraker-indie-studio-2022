@@ -47,5 +47,5 @@ void SplashScreen::Unload()
     std::cout << "Unload SplashScreen Scene Texture" << std::endl;
     Raylib_encp.UnlTexture(this->_back);
     Raylib_encp.UnlTexture(this->_load);
-    Raylib_encp.UnloadMtream(this->_music);
+    Raylib_encp.UnloadMStream(this->_music);
 }

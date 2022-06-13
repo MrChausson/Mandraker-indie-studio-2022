@@ -20,6 +20,7 @@
     #include "../Systems/Move/Move.hpp"
     #include "../Components/Movable/Movable.hpp"
     #include "../Components/Musicable/Musicable.hpp"
+    #include "../Components/Soundable/Soundable.hpp"
     #include "../Systems/Music_sys/Music_sys.hpp"
     #include "raylib.h"
 
@@ -42,7 +43,8 @@ class ECSManager {
         // Apply
         ECSManager *applySystems();
         void applyDraw();
-        ECSManager applyMusic();
+        void applyMusic();
+        std::vector<std::unique_ptr<Entity>> *getEntities();
 
     protected:
         std::vector<std::unique_ptr<Entity>> _entities = {};

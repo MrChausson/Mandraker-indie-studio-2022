@@ -14,6 +14,7 @@
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
+#include "../../ecs/Systems/Sound/SoundSystem.hpp"
 
 CharacterSelector::CharacterSelector(Engine *engine)
 {
@@ -122,12 +123,19 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    // this->_box Component
-    Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_NONE);
-    Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_NONE);
+    // Sounds
+    this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
+    this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
+    this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
+    this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
+    Scene *nullScene = nullptr;
 
+    this->_idBoxes = {
+        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &mcgSound).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &sproutSound).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &trelawneySound).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &snapeSound).getIdSprite()
+    };
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
@@ -142,7 +150,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(_textures_sprout, sproutModel, meshOrder_sprout, 2));
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
-    //flitwick
+    //Trelawney
     this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
     trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);
@@ -170,7 +178,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addSystem(std::make_unique<MouseHover>(MouseHover()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
     this->_ecsManager->addSystem(std::make_unique<Animation>());
-
+    this->_ecsManager->addSystem(std::make_unique<SoundSystem>(SoundSystem()));
 }
 
 CharacterSelector::~CharacterSelector()
@@ -194,4 +202,20 @@ void CharacterSelector::Unload()
         RaylibEncap.UnlTexture(i);
     for (auto &i : this->_btn_textures)
         RaylibEncap.UnlTexture(i);
+    RaylibEncap.UnlSound(this->mcgSound);
+    RaylibEncap.UnlSound(this->sproutSound);
+    RaylibEncap.UnlSound(this->trelawneySound);
+    RaylibEncap.UnlSound(this->snapeSound);
+    RaylibEncap.UnloadMStream(this->_music);
+}
+
+void CharacterSelector::resetBoxClicked()
+{
+    DrawableSprite *sprite;
+    for (auto &i : this->_idBoxes){
+        sprite = static_cast<DrawableSprite *>(this->_ecsManager.get()->getEntity(i)->getComponentsByType(DRAWABLE));
+        if (sprite->isSelected())
+            sprite->setTexture(this->_box[1]);
+        sprite->setSelected(false);
+    }
 }

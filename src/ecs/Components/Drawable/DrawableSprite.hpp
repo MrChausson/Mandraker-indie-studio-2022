@@ -18,11 +18,15 @@ class DrawableSprite : public Drawable {
         void setTexture(Texture2D texture);
         Texture2D getTexture();
         Rectangle getBounds();
+        bool isSelected();
+        void setSelected(bool selected);
 
     protected:
     private:
         Texture2D _texture;
+        Texture2D _saved;
         Rectangle _bounds;
+        bool _selected;
 };
 
 #endif /* !DRAWABLESPRITE_HPP_ */

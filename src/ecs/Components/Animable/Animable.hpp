@@ -22,7 +22,7 @@ enum ANIMATION_TYPE {
 
 class Animable : public IComponent {
     public:
-        Animable(std::string pathToFile, ANIMATION_TYPE animationType);
+        Animable(std::string pathToFile = "", ANIMATION_TYPE animationType = IDLE, int animFrameToAdd = 1);
         ~Animable();
         COMPONENT_TYPES getType() override { return ANIMABLE; };
         void setAnimFrame(int frame);
@@ -32,14 +32,19 @@ class Animable : public IComponent {
         ModelAnimation *getAnims();
         void setAnimationType(ANIMATION_TYPE animationType);
         int getAnimationType();
+        std::string getPathToFile();
+        int getAnimFrameToAdd();
+        void setAnimFrameToAdd(int frame);
+
 
     protected:
     private:
+        std::string _pathToFile;
         ModelAnimation *_anims;
         int _animFrameCounter = 0;
         unsigned int _animsCount = 0;
         ANIMATION_TYPE _animationType;
-
+        int _animFrameToAdd;
 };
 
 #endif /* !ANIMABLE_HPP_ */

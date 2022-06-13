@@ -8,11 +8,13 @@
 #include "Animable.hpp"
 #include "raylib.hpp"
 
-Animable::Animable(std::string pathToFile, ANIMATION_TYPE animationType)
+Animable::Animable(std::string pathToFile, ANIMATION_TYPE animationType, int animFrameToAdd)
 {
     Raylib::Raylib_encap Raylib_encp;
     this->_anims = Raylib_encp.LoadMAnimations(pathToFile, &this->_animsCount);
     this->_animationType = animationType;
+    this->_pathToFile = pathToFile;
+    this->_animFrameToAdd = animFrameToAdd;
 }
 
 Animable::~Animable()
@@ -50,4 +52,19 @@ void Animable::setAnimationType(ANIMATION_TYPE animationType)
 int Animable::getAnimationType()
 {
     return this->_animationType;
+}
+
+std::string Animable::getPathToFile()
+{
+    return this->_pathToFile;
+}
+
+int Animable::getAnimFrameToAdd()
+{
+    return this->_animFrameToAdd;
+}
+
+void Animable::setAnimFrameToAdd(int frame)
+{
+    this->_animFrameToAdd = frame;
 }
