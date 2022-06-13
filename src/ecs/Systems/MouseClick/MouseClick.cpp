@@ -197,7 +197,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         menu = new Menu();
         click->setEcs(menu->getECS());
             if (scene != nullptr)
-                delete (static_cast<Settings *>(scene));
+                scene->Unload();
     break;
     case CLICKABLE_ACTION_RETURN_GAME:
         if (scene == nullptr)
