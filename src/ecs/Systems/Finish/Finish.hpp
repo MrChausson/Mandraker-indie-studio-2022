@@ -13,7 +13,7 @@
 
 class Finish : public ISystem {
     public:
-        Finish(ECSManager *ecsManager = nullptr, std::vector<Entity *> *playerEntities = nullptr);
+        Finish(std::vector<Entity *> *playerEntities = nullptr);
         ~Finish();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
@@ -21,7 +21,7 @@ class Finish : public ISystem {
         bool isFinished();
 
     private:
-        ECSManager *_ecsManager;
+        ECSManager *_ecsManager = nullptr;
         std::vector<Entity *> *_playerEntities;
 };
 

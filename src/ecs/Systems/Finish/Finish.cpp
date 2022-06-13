@@ -6,10 +6,10 @@
 */
 
 #include "Finish.hpp"
+#include "../../../Scene/Menu/Menu.hpp"
 
-Finish::Finish(ECSManager *ecsManager, std::vector<Entity *> *playerEntities)
+Finish::Finish(std::vector<Entity *> *playerEntities)
 {
-    this->_ecsManager = ecsManager;
     this->_playerEntities = playerEntities;
 }
 
@@ -41,8 +41,9 @@ bool Finish::isFinished()
         if (components.size() == 0)
             i++;
     }
-    if (i >= 3)
+    if (i >= 3) {
+        this->_ecsManager = (new Menu())->getECS();
         return (true);
-    else
+    } else
         return (false);
 }

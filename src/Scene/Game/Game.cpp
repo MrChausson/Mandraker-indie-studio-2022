@@ -32,8 +32,6 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
 {
     Raylib::Raylib_encap Raylib_encp;
 
-    // set Scene to end
-    Scene *scene = new Menu();
     // Set character chosen
     this->_characterChoosen = characterChoosen;
     this->_ecsManager = std::make_unique<ECSManager>();
@@ -210,7 +208,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
     this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get(), &this->_playerEntities));
-    this->_ecsManager->addSystem(std::make_unique<Finish>(scene->getECS(), &this->_playerEntities));
+    this->_ecsManager->addSystem(std::make_unique<Finish>(&this->_playerEntities));
 
     //Drawing the plane
     this->_ecsManager->addComponent(plane, std::make_unique<Placable>(0, -1, 0));
