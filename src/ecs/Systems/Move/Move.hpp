@@ -25,7 +25,7 @@ class Move : public ISystem {
 
     protected:
     private:
-        
+        std::chrono::duration<double> timeduration;
 };
 
 #endif /* !MOVE_HPP_ */

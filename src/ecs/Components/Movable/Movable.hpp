@@ -26,12 +26,22 @@ class Movable : public IComponent {
         MOVABLE_TYPE getMovableType();
         std::chrono::duration<double> getElapsedSeconds();
         void RestartClock();
+        void setstartIAclock();
+        void setEndIAclock();
+        void setTimedurationIAclock();
+        void restartTimedurationIAclock();
+        std::chrono::time_point<std::chrono::system_clock> getStartIA();
+        std::chrono::time_point<std::chrono::system_clock> getEndIA();
+        std::chrono::duration<double> getTimedurationIA();
 
     protected:
     private:
         float _speed = 1;
         MOVABLE_TYPE _type;
         std::chrono::time_point<std::chrono::system_clock> _clock;
+        std::chrono::time_point<std::chrono::system_clock> _start;
+        std::chrono::time_point<std::chrono::system_clock>  _end;
+        std::chrono::duration<double> timeduration;
 };
 
 #endif /* !MOVABLE_HPP_ */

@@ -35,15 +35,15 @@ void Move::apply(std::vector<IComponent *> component)
     Placable *placable = static_cast<Placable *> (component[2]);
     Collisionable *collision;
     Movable *movable = static_cast<Movable *> (component[4]);
+    auto timelimit = std::chrono::seconds{1};
 
     std::chrono::duration<double> elapsed_seconds = movable->getElapsedSeconds();
     float to_move = movable->getSpeed() * elapsed_seconds.count();
     movable->RestartClock();
     MOVABLE_TYPE type = movable->getMovableType();
-    // time_t start;
-    // start = time(0);
-    int a=clock()/CLOCKS_PER_SEC;//this gets the time in sec.
-
+    movable->setEndIAclock();
+    movable->setTimedurationIAclock();
+    this->timeduration = movable->getTimedurationIA();
 
     if (type == MOVABLE_PLAYER) {
         collision = static_cast<Collisionable *> (component[3]);
@@ -68,13 +68,7 @@ void Move::apply(std::vector<IComponent *> component)
     }
     else if (type == MOVABLE_AI) {
         collision = static_cast<Collisionable *> (component[3]);
-        while(clock()/CLOCKS_PER_SEC-a<1);
-        // while (timeDelta <= 1) {
-        //     temp = clock() - clk;
-        //     clk = clock();
-        //     timeDelta += (float)((float)temp / CLOCKS_PER_SEC);
-        // }
-        // if(time(0)-start == 1) {
+        if (this->timeduration >= timelimit) {
             //TODO: AI moving parameters here Alexandre
             int rngvalue = Raylib_encp.GetRngValue(0, 3);
             // int rngvalue = getdirection(collision, placable);
@@ -105,12 +99,11 @@ void Move::apply(std::vector<IComponent *> component)
             // nothing
             else
                 anims->setAnimationType(IDLE);
-            // placable->setX(placable->getX() + to_move);
-            // start += 1;
-           a=clock()/CLOCKS_PER_SEC;
+            movable->restartTimedurationIAclock();
         }
-    // }
- }
+    }
+    movable->setstartIAclock();
+}
 
 int Move::getdirection(Collisionable *collision, Placable *placable)
 {
