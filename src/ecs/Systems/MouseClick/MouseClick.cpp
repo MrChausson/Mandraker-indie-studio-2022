@@ -213,7 +213,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         delete(save);
         click->setEcs(menu->getECS());
         if (scene != nullptr)
-            delete (static_cast<Settings *>(scene));
+            scene->Unload();
     break;
     case CLICKABLE_ACTION_LOAD_GAME:
         save = new Save("game.save");

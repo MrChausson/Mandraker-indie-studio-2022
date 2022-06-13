@@ -18,6 +18,7 @@ class Soundable : public IComponent {
         void setSound(Sound sound);
         void playSound();
         void setSoundPlaying(bool playing);
+        void stopSound();
 
     protected:
         Sound _sound;

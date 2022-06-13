@@ -27,10 +27,11 @@ Timer::~Timer()
 
 void Timer::apply(std::vector<IComponent *> component)
 {
-    // Components [0] Timable [1] DrawableText [2] Placable [3] Animable
+    // Components [0] Timable [1] DrawableText [2] Placable [3] Animable [4] Soundable
     Timable *time = static_cast<Timable *>(component[0]);
     Placable *place = static_cast<Placable *>(component[2]);
     Animable *anim = static_cast<Animable *>(component[3]);
+    Soundable *sound;
     DrawableText *text;
     TIMABLE_TYPE time_type = time->getTimeType();
     Playable *playable;
@@ -40,17 +41,19 @@ void Timer::apply(std::vector<IComponent *> component)
         text->setText(std::to_string(time->getTimeLeft()) + "s");
     } else if (time_type == GAME_MANDRAKE) {
         if (time->isTimeOut()) {
-            time->setTimer(0.15);
+            time->setTimer(0.2);
             time->RestartClock();
             time->setTimeType(GAME_MANDRAKE_SECOND);
             anim->setAnimationType(ANIMATION_TYPE::RUN);
         }
     } else if  (time_type == GAME_MANDRAKE_SECOND) {
         if (time->isTimeOut()) {
+            sound = static_cast<Soundable *>(component[4]);
+            sound->stopSound();
             time->setFinished(true);
             playable = static_cast<Playable *>(time->getPlayable());
             playable->setNbMandrake(playable->getNbMandrake() - 1);
-            this->updateGnome(place->getPosition(), time->getPlayable());
+            this->deleteGnome(place->getPosition(), time->getPlayable());
             this->_ecsManager->deleteEntity(time->getIdEntity());
         }
     } else if (time_type == GAME_GNOME) {
@@ -97,9 +100,8 @@ void Timer::updateGnome(Vector3 position, void *play)
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
             if (pos.x - position.x < range && pos.x - position.x > - range && pos.z - position.z < range && pos.z - position.z > - range) {
-                // (this->_ecsManager->getEntity(entity->getId())->getComponentsByType(ANIMABLE))->setAnimationType(ANIMATION_TYPE::RUN);
-                this->_ecsManager->addComponent(entity->getId(), std::make_unique<Animable>("assets/models/gnome/gnome.iqm", ANIMATION_TYPE::RUN));
-                this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(1, GAME_GNOME, -1, playable));
+                this->_ecsManager->addComponent(entity->getId(), std::make_unique<Animable>("assets/models/gnome/gnome.iqm", ANIMATION_TYPE::RUN, 40));
+                this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
                 this->_ecsManager->addComponent(entity->getId(), std::make_unique<Playable>(3));
                 this->_ecsManager->addComponent(entity->getId(), std::make_unique<Movable>());
             }

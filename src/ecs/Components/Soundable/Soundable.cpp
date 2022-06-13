@@ -40,3 +40,10 @@ COMPONENT_TYPES Soundable::getType()
 {
     return SOUNDABLE;
 }
+
+void Soundable::stopSound()
+{
+    Raylib::Raylib_encap r;
+    if (IsSoundPlaying(this->_sound))
+        r.StopS(this->_sound);
+}
