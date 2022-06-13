@@ -29,17 +29,19 @@ Player::Player(ECSManager *ecsManager)
     this->_meshOrderMandrake = {
        1, 0
     };
-    this->_scaleMandrake = {0.0002f, 0.0002f, 0.0002f};
+    this->_scaleMandrake = {0.00025f, 0.00025f, 0.00025f};
     this->_plantSound = Raylib_encp.LSound("assets/sounds/mandrake/potting.mp3");
     this->_shoutSound = Raylib_encp.LSound("assets/sounds/mandrake/cries.wav");
     Raylib_encp.SetSVolume(this->_plantSound, soundVolume);
+    Raylib_encp.SetSVolume(this->_shoutSound, soundVolume/5);
 }
 
 Player::~Player()
 {
     Raylib::Raylib_encap Raylib_encp;
-    UnloadModel(this->_mandrakeModel);
+    Raylib_encp.UnloadMdl(this->_mandrakeModel);
     Raylib_encp.UnlSound(this->_plantSound);
+    Raylib_encp.UnlSound(this->_shoutSound);
     Raylib_encp.UnlTexture(this->_texturesMandrake[0]);
     Raylib_encp.UnlTexture(this->_texturesMandrake[1]);
 
@@ -59,7 +61,7 @@ void Player::apply(std::vector<IComponent *> component)
         bomb_id = this->_ecsManager->createEntity();
         Raylib_encp.PlayS(this->_shoutSound);
         Raylib_encp.PlayS(this->_plantSound);
-        this->_ecsManager->addComponent(bomb_id, std::make_unique<Placable>(playerPlace->getX(), playerPlace->getY(), playerPlace->getZ(), playerPos, -90.0f, this->_scaleMandrake));
+        this->_ecsManager->addComponent(bomb_id, std::make_unique<Placable>(round(playerPlace->getX()), round(playerPlace->getY()), round(playerPlace->getZ()), playerPos, -90.0f, this->_scaleMandrake));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableModel>(this->_texturesMandrake, this->_mandrakeModel, this->_meshOrderMandrake));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
@@ -69,7 +71,7 @@ void Player::apply(std::vector<IComponent *> component)
         bomb_id = this->_ecsManager->createEntity();
         Raylib_encp.PlayS(this->_shoutSound);
         Raylib_encp.PlayS(this->_plantSound);
-        this->_ecsManager->addComponent(bomb_id, std::make_unique<Placable>(playerPlace->getX(), playerPlace->getY(), playerPlace->getZ(), playerPos, -90.0f, this->_scaleMandrake));
+        this->_ecsManager->addComponent(bomb_id, std::make_unique<Placable>(round(playerPlace->getX()), round(playerPlace->getY()), round(playerPlace->getZ()), playerPos, -90.0f, this->_scaleMandrake));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableModel>(this->_texturesMandrake, this->_mandrakeModel, this->_meshOrderMandrake));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
