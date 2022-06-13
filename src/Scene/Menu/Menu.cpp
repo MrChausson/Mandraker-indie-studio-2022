@@ -26,6 +26,7 @@ Menu::Menu()
 
     // Loading Assets for the menu
     this->_music = Raylib_encp.LoadMStream("assets/sounds/menu_bg.mp3");
+    this->_click = Raylib_encp.LSound("assets/sounds/menu/click.wav");
     this->_type = SCENE_MENU;
     this->_background_texture = Raylib_encp.LTexture("assets/materials/menu/main_menu.png");
     this->_title_texture = Raylib_encp.LTexture("assets/materials/menu/title_bar.png");
@@ -47,9 +48,9 @@ Menu::Menu()
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_btn_textures, SCENE_CHARACTER_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS, this);
-    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_btn_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS, this);
-    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME, this);
+    Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_btn_textures, SCENE_PLAYERS_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS, this, &this->_click);
+    Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_btn_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS, this, &this->_click);
+    Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME, this, &this->_click);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 

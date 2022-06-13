@@ -117,7 +117,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Text
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 85));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 60));
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"choose your character", Color{255, 255, 255, 255}, this->_btn_font));
     // Background texture
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
@@ -239,4 +239,16 @@ void CharacterSelector::resetBoxClicked()
             sprite->setTexture(this->_box[1]);
         sprite->setSelected(false);
     }
+}
+
+float CharacterSelector::getMusicTimePlayed()
+{
+    Raylib::Raylib_encap Raylib_encp;
+    return Raylib_encp.GetMTimePlayed(this->_music);
+}
+
+void CharacterSelector::SetMusicTimePlayed(float dur)
+{
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.SeekMStream(this->_music, dur);
 }
