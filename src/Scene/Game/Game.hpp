@@ -20,6 +20,7 @@ class Game : public Scene {
     protected:
     private:
         std::unique_ptr<std::vector <Entity *>> _mapEntities;
+        std::unique_ptr<std::vector <Entity *>> _playerEntities;
         Texture2D _gryf_infos_texture;
         Texture2D _rav_infos_texture;
         Texture2D _slyth_infos_texture;

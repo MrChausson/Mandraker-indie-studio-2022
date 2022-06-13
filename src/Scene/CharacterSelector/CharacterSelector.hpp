@@ -39,6 +39,10 @@ class CharacterSelector : public Scene {
         Sound snapeSound;
         Sound trelawneySound;
         std::vector<int> _idBoxes;
+        std::vector<Sound> _SoundMcg;
+        std::vector<Sound> _SoundSprout;
+        std::vector<Sound> _SoundTrelawney;
+        std::vector<Sound> _SoundSnape;
 };
 
 #endif /* !CHARACTERSELECTOR_HPP_ */

@@ -14,7 +14,7 @@
 
 class Timer : public ISystem {
     public:
-        Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities);
+        Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::vector<Entity *> *playerEntities);
         ~Timer();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
@@ -25,6 +25,7 @@ class Timer : public ISystem {
         ECSManager *_ecsManager;
         bool _deleted = false;
         std::vector<Entity *> *_mapEntities;
+        std::vector<Entity *> *_playerEntities;
 };
 
 #endif /* !Timer_HPP_ */

@@ -38,6 +38,22 @@ Button::Button(ECSManager *ecsManager, int x, int y, Texture2D textures[3], Clic
     ecsManager->addComponent(this->_idSprite, std::make_unique<Hoverable>(ecsManager->getEntity(this->_idSprite), textures[0]));
 }
 
+Button::Button(ECSManager *ecsManager, int x, int y, Texture2D textures[3], ClickableActionType actionType, Scene *current_scene, std::vector<Sound> *sound)
+{
+    
+    Raylib::Raylib_encap r;
+    srand(time(NULL));
+    int number = rand() % 3;
+    if (sound != nullptr)
+        r.SetSVolume((*sound)[number], soundVolume);
+    this->_idSprite = ecsManager->createEntity();
+
+    ecsManager->addComponent(this->_idSprite, std::make_unique<Placable>(x, y));
+    ecsManager->addComponent(this->_idSprite, std::make_unique<DrawableSprite>(textures[1], 1));
+    ecsManager->addComponent(this->_idSprite, std::make_unique<Clickable>(ecsManager->getEntity(this->_idSprite) ,textures[2], SCENE_NONE, actionType, current_scene, &(*sound)[number]));
+    ecsManager->addComponent(this->_idSprite, std::make_unique<Hoverable>(ecsManager->getEntity(this->_idSprite), textures[0]));
+}
+
 Button::~Button()
 {
 }

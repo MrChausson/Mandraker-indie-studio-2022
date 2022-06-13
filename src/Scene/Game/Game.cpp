@@ -187,6 +187,12 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
         this->_ecsManager->addComponent(snape, std::make_unique<Collisionable>(this->_mapEntities.get()));
     }
 
+    // make the player vector
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(player));
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(trelawney));
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(snape));
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(sprout));
+
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
@@ -194,7 +200,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
-    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get()));
+    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get(), this->_playerEntities.get()));
 
     // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;
