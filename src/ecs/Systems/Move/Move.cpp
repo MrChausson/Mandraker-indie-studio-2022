@@ -61,7 +61,28 @@ void Move::apply(std::vector<IComponent *> component)
         } else
             anims->setAnimationType(IDLE);
     }
-    else if (type == MOVABLE_PLAYER_2) {
+    else if (type == MOVABLE_PLAYER_2 && IsGamepadAvailable(0)) {
+        collision = static_cast<Collisionable *> (component[3]);
+        if (IsGamepadButtonDown(0, BUTTON_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(-1.5);
+            placable->setX(placable->getX() + to_move);
+        } else if (IsGamepadButtonDown(0, BUTTON_LEFT) && !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ())) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
+            placable->setX(placable->getX() - to_move);
+        } else if (IsGamepadButtonDown(0, BUTTON_UP) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move)) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(3);
+            placable->setZ(placable->getZ() - to_move);
+        } else if (IsGamepadButtonDown(0, BUTTON_DOWN) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move)) {
+            anims->setAnimationType(RUN);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(0);
+            placable->setZ(placable->getZ() + to_move);
+        } else
+            anims->setAnimationType(IDLE);
+    }
+    else if (type == MOVABLE_PLAYER_2 ) {
         collision = static_cast<Collisionable *> (component[3]);
         if (Raylib_encp.IsKDown(KEY_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())) {
             anims->setAnimationType(RUN);
