@@ -22,7 +22,7 @@ class Move : public ISystem {
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
         int getdirection(Collisionable *collision, Placable *placable);
-
+        void checkBombPlacmeentIA(std::vector<IComponent *> component);
     protected:
     private:
         std::chrono::duration<double> timeduration;

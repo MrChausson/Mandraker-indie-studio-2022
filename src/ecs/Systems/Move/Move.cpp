@@ -10,6 +10,7 @@
 #include "../../Components/Drawable/Drawable.hpp"
 #include "../../Components/Drawable/DrawableModel.hpp"
 #include "../../Components/Animable/Animable.hpp"
+#include "../../Components/Playable/Playable.hpp"
 #include "raylib.hpp"
 #include <time.h>
 
@@ -142,3 +143,16 @@ int Move::getdirection(Collisionable *collision, Placable *placable)
     else
         return 42;
 }
+
+// void Move::checkBombPlacmeentIA(std::vector<IComponent *> component)
+// {
+//     Raylib::Raylib_encap Raylib_encp;
+//     Placable *playerPlace = static_cast<Placable *>(component[0]);
+//     Movable *playerMove = static_cast<Movable *>(component[1]);
+//     Playable *playable = static_cast<Playable *>(component[2]);
+//     Vector3 playerPos = {1.0f, 0.0f, 0.0f};
+//     MOVABLE_TYPE type = playerMove->getMovableType();
+//     int bomb_id;
+
+//     if (type == MOVABLE_AI)
+// }
