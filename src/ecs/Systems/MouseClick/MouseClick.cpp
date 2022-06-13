@@ -192,6 +192,11 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_SAVE_AND_QUIT:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
+        for (auto &entity : *scene->getECS()->getEntities())
+            entities.push_back(entity.get());
+        save = new Save("game.save");
+        save->save(entities);
+        delete(save);
         if (scene != nullptr)
             scene->Unload();
 
