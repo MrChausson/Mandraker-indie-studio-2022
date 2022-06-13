@@ -136,7 +136,9 @@ void Timer::updatePlayer(Vector3 position, void *play)
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimationType(ANIMATION_TYPE::FALL);
-                entity->addComponent(std::make_unique<Timable>(2, GAME_PLAYER_FALL, -1, playable));
+                static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimFrameCounter(0);
+
+                entity->addComponent(std::make_unique<Timable>(1.5, GAME_PLAYER_FALL, -1, playable));
             }
         }
     }

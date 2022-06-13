@@ -25,3 +25,4 @@ cmake_install.cmake
 CPackConfig.cmake
 CPackSourceConfig.cmake
 *.save
+CPack*

@@ -17,6 +17,8 @@ class CharacterSelector : public Scene {
         std::vector<Model> getModels();
         void Unload() override;
         void resetBoxClicked();
+        float getMusicTimePlayed();
+        void SetMusicTimePlayed(float dur);
         
     protected:
     private:

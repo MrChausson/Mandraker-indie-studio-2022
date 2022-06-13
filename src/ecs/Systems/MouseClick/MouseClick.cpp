@@ -15,6 +15,7 @@
 #include "../../../Scene/Settings/Settings.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
 #include "../../../Scene/CharacterSelector/CharacterSelector.hpp"
+#include "../../../Scene/CharacterSelector/NbPlayer.hpp"
 #include "../../../Engine/Save/Save.hpp"
 
 MouseClick::MouseClick()
@@ -35,6 +36,8 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
 {
     Clickable *click = static_cast<Clickable *>(component);
     DrawableSprite *sprite = static_cast<DrawableSprite *>(component2);
+    DrawableText *text;
+    Entity *entity;
     ECSManager *ecs = click->getEcsToChangeTo();
     Scene *scene = click->getScene();
     std::vector<Model> models;
@@ -46,6 +49,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     Menu *menu;
     Save *save;
     Game *game;
+    NbPlayer *nbPlayer;
     Raylib::Raylib_encap r;
 
     switch (actionType)
@@ -54,17 +58,23 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (click->_tmpEcs == SCENE_GAME && this->_characterChoosen != NO_CHARACTER) {
             if (scene == nullptr)
                 throw std::runtime_error("Scene is null");
+            if (click->_sound != nullptr)
+                r.PlayS(*click->_sound);
             std::cout << "Change scene" << std::endl;
             characterSelector = static_cast<CharacterSelector *>(scene);
             Game *game = new Game(characterSelector->getModels(), this->_characterChoosen);
             click->setEcs(game->getECS());
             std::cout << "Change scene" << std::endl;
         } else if (click->_tmpEcs == SCENE_MENU) {
+            if (click->_sound != nullptr)
+                r.PlayS(*click->_sound);
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
             if (scene != nullptr)
                 delete (static_cast<Settings *>(scene));
         } else if (click->_tmpEcs == SCENE_SETTINGS) {
+            if (click->_sound != nullptr)
+                r.PlayS(*click->_sound);
             menu = static_cast<Menu *>(scene);
             int dur = menu->getMusicTimePlayed();
             Settings *settings = new Settings();
@@ -74,14 +84,29 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
                 scene->Unload();
         }
         else if (click->_tmpEcs == SCENE_CHARACTER_SELECTOR) {
+            if (click->_sound != nullptr)
+                r.PlayS(*click->_sound);
+            nbPlayer = static_cast<NbPlayer *>(scene);
+            int dur = nbPlayer->getMusicTimePlayed();
             CharacterSelector *characterSelector = new CharacterSelector();
+            characterSelector->SetMusicTimePlayed(dur);
             click->setEcs(characterSelector->getECS());
+            if (scene != nullptr)
+                scene->Unload();
+        }
+        else if (click->_tmpEcs == SCENE_PLAYERS_SELECTOR) {
+            if (click->_sound != nullptr)
+                r.PlayS(*click->_sound);
+            NbPlayer *nbPlayer = new NbPlayer();
+            click->setEcs(nbPlayer->getECS());
             if (scene != nullptr)
                 scene->Unload();
         }
     break;
     case CLICKABLE_ACTION_QUIT_GAME:
         std::cout << "Goodbye!" << std::endl;
+        if (click->_sound != nullptr)
+            r.PlayS(*click->_sound);
         loop_status = false;
         if (scene != nullptr)
             scene->Unload();
@@ -125,9 +150,9 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_MINUS_MUSIC:
         if (click->_sound != nullptr && musicVolume > 0) {
             int mvolume = 0;
-            Settings *settings = static_cast<Settings *>(scene);
-            Entity *entity = settings->getECS()->getEntity(7);
-            DrawableText * text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+            settings = static_cast<Settings *>(scene);
+            entity = settings->getECS()->getEntity(7);
+            text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
             r.PlayS(*click->_sound);
             musicVolume -= 0.1;
             mvolume = round(musicVolume * 100);
@@ -137,9 +162,9 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_PLUS_MUSIC:
         if (click->_sound != nullptr && musicVolume < 1) {
             int mvolume = 0;
-            Settings *settings = static_cast<Settings *>(scene);
-            Entity *entity = settings->getECS()->getEntity(7);
-            DrawableText * text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+            settings = static_cast<Settings *>(scene);
+            entity = settings->getECS()->getEntity(7);
+            text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
             r.PlayS(*click->_sound);
             musicVolume += 0.1;
             mvolume = round(musicVolume * 100);
@@ -149,9 +174,9 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_MINUS_SOUND:
     if (click->_sound != nullptr && soundVolume > 0) {
             int svolume = 0;
-            Settings *settings = static_cast<Settings *>(scene);
-            Entity *entity = settings->getECS()->getEntity(11);
-            DrawableText * text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+            settings = static_cast<Settings *>(scene);
+            entity = settings->getECS()->getEntity(11);
+            text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
             r.PlayS(*click->_sound);
             soundVolume -= 0.1;
             svolume = round(soundVolume * 100);
@@ -161,9 +186,9 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_PLUS_SOUND:
         if (click->_sound != nullptr && soundVolume < 1) {
             int svolume = 0;
-            Settings *settings = static_cast<Settings *>(scene);
-            Entity *entity = settings->getECS()->getEntity(11);
-            DrawableText * text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+            settings = static_cast<Settings *>(scene);
+            entity = settings->getECS()->getEntity(11);
+            text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
             r.PlayS(*click->_sound);
             soundVolume += 0.1;
             svolume = round(soundVolume * 100);
@@ -172,9 +197,9 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     break;
     case CLICKABLE_ACTION_MINUS_FPS:
         if (click->_sound != nullptr && max_fps > 30) {
-            Settings *settings = static_cast<Settings *>(scene);
-            Entity *entity = settings->getECS()->getEntity(15);
-            DrawableText * text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+            settings = static_cast<Settings *>(scene);
+            entity = settings->getECS()->getEntity(15);
+            text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
             r.PlayS(*click->_sound);
             max_fps -= 30;
             r.SetTargFPS(max_fps);
@@ -183,13 +208,31 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     break;
     case CLICKABLE_ACTION_PLUS_FPS:
         if (click->_sound != nullptr && max_fps < 210) {
-            Settings *settings = static_cast<Settings *>(scene);
-            Entity *entity = settings->getECS()->getEntity(15);
-            DrawableText * text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+            settings = static_cast<Settings *>(scene);
+            entity = settings->getECS()->getEntity(15);
+            text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
             r.PlayS(*click->_sound);
             max_fps += 30;
             r.SetTargFPS(max_fps);
             text->setText(std::to_string(max_fps));
+        }
+    break;
+    case CLICKABLE_ACTION_MINUS_PLAYER:
+        nbPlayer = static_cast<NbPlayer *>(scene);
+        entity = nbPlayer->getECS()->getEntity(5);
+        text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+        if (click->_sound != nullptr && text->getText() != "1") {
+            r.PlayS(*click->_sound);
+            text->setText("1");
+        }
+    break;
+    case CLICKABLE_ACTION_PLUS_PLAYER:
+        nbPlayer = static_cast<NbPlayer *>(scene);
+        entity = nbPlayer->getECS()->getEntity(5);
+        text = static_cast<DrawableText *>(entity->getComponentsByType(DRAWABLE));
+        if (click->_sound != nullptr && text->getText() != "2") {
+            r.PlayS(*click->_sound);
+            text->setText("2");
         }
     break;
     case CLICKABLE_ACTION_SAVE_AND_QUIT:
