@@ -21,6 +21,7 @@ class Move : public ISystem {
         ~Move();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
+        int getdirection(Collisionable *collision, Placable *placable);
 
     protected:
     private:

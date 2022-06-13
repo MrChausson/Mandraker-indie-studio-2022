@@ -62,34 +62,54 @@ void Move::apply(std::vector<IComponent *> component)
             anims->setAnimationType(IDLE);
     }
     else if (type == MOVABLE_AI) {
+        collision = static_cast<Collisionable *> (component[3]);
         //TODO: AI moving parameters here Alexandre
         int rngvalue = Raylib_encp.GetRngValue(0, 3);
+        // int rngvalue = getdirection(collision, placable);
         // go right
-        if (rngvalue == 0) {
+        if (rngvalue == 0 /*&& !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())*/ && !collision->isColliding(placable->getX() + 0.5, placable->getY() ,placable->getZ())) {
             anims->setAnimationType(RUN);
-            model->getPtrModel()->transform = MatrixRotateZ(-1.5);
-            placable->setX(placable->getX() + to_move);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
+            placable->setX(placable->getX() + 0.5);
         }
         // go left
-        else if (rngvalue == 1) {
+        else if (rngvalue == 1 /*&& !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ())*/ && !collision->isColliding(placable->getX() - 1, placable->getY() ,placable->getZ())) {
             anims->setAnimationType(RUN);
-            model->getPtrModel()->transform = MatrixRotateZ(1.5);
-            placable->setX(placable->getX() - to_move);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
+            placable->setX(placable->getX() - 0.5);
         }
         // go up
-        else if (rngvalue == 2) {
+        else if (rngvalue == 2 /*&& !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - 1)) {
             anims->setAnimationType(RUN);
-            model->getPtrModel()->transform = MatrixRotateZ(3);
-            placable->setZ(placable->getZ() - to_move);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(3);
+            placable->setZ(placable->getZ() - 0.5);
         }
         // go down
-        else if (rngvalue == 3) {
+        else if (rngvalue == 3/* && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + 1)) {
             anims->setAnimationType(RUN);
-            model->getPtrModel()->transform = MatrixRotateZ(0);
-            placable->setZ(placable->getZ() + to_move);
+            model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(0);
+            placable->setZ(placable->getZ() + 0.5);
         }
         // nothing
         else
             anims->setAnimationType(IDLE);
     }
  }
+
+int Move::getdirection(Collisionable *collision, Placable *placable)
+{
+    int i = 0;
+    Raylib::Raylib_encap Raylib_encp;
+
+    while (1) {
+        i = Raylib_encp.GetRngValue(0, 3);
+        if (i = 0 && !collision->isColliding(placable->getX() + 0.5, placable->getY() ,placable->getZ()))
+            return i;
+        if (i = 1 && !collision->isColliding(placable->getX() - 0.5, placable->getY() ,placable->getZ()))
+            return i;
+        if (i = 2 && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - 0.5))
+            return i;
+        if (i = 3 && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + 0.5))
+            return i;
+    }
+}
