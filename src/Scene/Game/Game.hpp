@@ -12,7 +12,7 @@
 
 class Game : public Scene {
     public:
-        Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen);
+        Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::vector<std::unique_ptr<Entity>> entities = std::vector<std::unique_ptr<Entity>>());
         ~Game();
         void Unload() override;
         void loadMap(std::string map);

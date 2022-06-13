@@ -31,10 +31,12 @@ class Save {
         std::unique_ptr<IComponent> saveDrawablePlane(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveDrawableText(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveCollisionable(std::vector<std::string> lines);
+        std::unique_ptr<IComponent> saveBreakable();
     private:
         std::string _fileToSaveTo;
         Texture2D _grassTexture;
         Texture2D _stoneTexture;
+        Font _font;
         Model _mgmModel;
         Model _trelawneyModel;
         Model _snapeModel;

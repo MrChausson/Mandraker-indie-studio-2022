@@ -37,12 +37,15 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     DrawableSprite *sprite = static_cast<DrawableSprite *>(component2);
     ECSManager *ecs = click->getEcsToChangeTo();
     Scene *scene = click->getScene();
+    std::vector<Model> models;
+    CHARACTER_CHOOSEN character = CHARACTER_CHOOSEN::NO_CHARACTER;
     CharacterSelector *characterSelector;
     Settings *settings;
+    std::vector<std::unique_ptr<Entity>> entities_load;
     std::vector<Entity *> entities;
     Menu *menu;
     Save *save;
-    
+    Game *game;
     Raylib::Raylib_encap r;
 
     switch (actionType)
@@ -212,6 +215,11 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         if (scene != nullptr)
             delete (static_cast<Settings *>(scene));
     break;
+    case CLICKABLE_ACTION_LOAD_GAME:
+        save = new Save("game.save");
+        // entities_load = 
+        game = new Game(models, character, save->load());
+        break;
     case CLICKABLE_ACTION_RETURN_GAME:
         if (scene == nullptr)
            throw std::runtime_error("Scene is null");

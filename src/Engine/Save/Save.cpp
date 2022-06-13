@@ -17,6 +17,7 @@
 #include "../../ecs/Components/Drawable/DrawableSprite.hpp"
 #include "../../ecs/Components/Drawable/DrawableText.hpp"
 #include "../../ecs/Components/Movable/Movable.hpp"
+#include "../../ecs/Components/Breakable/Breakable.hpp"
 #include "Save.hpp"
 
 Save::Save(std::string file_to_save)
@@ -99,6 +100,7 @@ Save::Save(std::string file_to_save)
     this->_trelawneyModel.transform = r.MatrixRotZ(0.6);
     this->_gnomeModel = r.LModel("assets/models/gnome/gnome.iqm");
     this->_gnomeModel.transform = MatrixRotateX(1.55);
+    this->_font = r.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
 }
 
 Save::~Save()
@@ -121,6 +123,7 @@ void Save::save(std::vector<Entity *> entities)
     DrawablePlane *drawablePlane;
     DrawableSprite *drawableSprite;
     DrawableText *drawableText;
+    Breakable *breakable;
     Rectangle tmp_rect;
     Vector3 tmp_vector3;
     DRAWABLE_TYPE tmp_drawable_type;
@@ -174,6 +177,8 @@ void Save::save(std::vector<Entity *> entities)
                 buffer << std::to_string(tmp_vector3.z) << std::endl;
                 buffer << std::to_string(camera->getFov()) << std::endl;
                 buffer << std::to_string(camera->getProjection()) << std::endl;
+            } else if (component->getType() == BREAKABLE) {
+                buffer << "Breakable" << std::endl;
             } else if (component->getType() == DRAWABLE) {
                 drawable = static_cast<Drawable *>(component);
                 buffer << "Drawable" << std::endl;
@@ -202,6 +207,11 @@ void Save::save(std::vector<Entity *> entities)
                 } else if (tmp_drawable_type == DRAWABLE_TYPE_TEXT) {
                     drawableText = static_cast<DrawableText *>(drawable);
                     buffer << drawableText->getText() << std::endl;
+                    buffer << std::to_string(drawableText->getColor().r) << std::endl;
+                    buffer << std::to_string(drawableText->getColor().g) << std::endl;
+                    buffer << std::to_string(drawableText->getColor().b) << std::endl;
+                    buffer << std::to_string(drawableText->getColor().a) << std::endl;
+                    buffer << std::to_string(drawableText->getSize()) << std::endl;
                 } else if (tmp_drawable_type == DRAWABLE_TYPE_PLANE) {
                     drawablePlane = static_cast<DrawablePlane *>(drawable);
                     buffer << std::to_string(drawablePlane->getSize().x) << std::endl;
@@ -214,8 +224,8 @@ void Save::save(std::vector<Entity *> entities)
                     drawableModel = static_cast<DrawableModel *>(drawable);
                     buffer << drawableModel->getModelType() << std::endl;
                 }
-                }
             }
+        }
     }
     savefile << buffer.str();
     savefile.close();
@@ -266,14 +276,14 @@ std::unique_ptr<IComponent> Save::saveCamera(std::vector<std::string> lines)
 
 std::unique_ptr<IComponent> Save::saveDrawableCube(std::vector<std::string> lines)
 {
-    Color color = {std::stoi(lines[0]), std::stoi(lines[1]), std::stoi(lines[2]), std::stoi(lines[3])};
+    Color color = {(unsigned char) std::stoi(lines[0]), (unsigned char) std::stoi(lines[1]), (unsigned char) std::stoi(lines[2]), (unsigned char) std::stoi(lines[3])};
     std::unique_ptr<IComponent> component = std::make_unique<DrawableCube>(color, std::stoi(lines[4]), std::stoi(lines[5]), std::stoi(lines[6]));
     return component;
 }
 
 std::unique_ptr<IComponent> Save::saveDrawableCubeTexture(std::vector<std::string> lines)
 {
-    Color color = {std::stoi(lines[0]), std::stoi(lines[1]), std::stoi(lines[2]), std::stoi(lines[3])};
+    Color color = {(unsigned char) std::stoi(lines[0]), (unsigned char) std::stoi(lines[1]), (unsigned char) std::stoi(lines[2]), (unsigned char) std::stoi(lines[3])};
     CubeTextureType cube_texture_type = (CubeTextureType) std::stoi(lines[4]);
     std::unique_ptr<IComponent> component;
     if (cube_texture_type == CubeTextureType::GRASS)
@@ -285,14 +295,15 @@ std::unique_ptr<IComponent> Save::saveDrawableCubeTexture(std::vector<std::strin
 
 std::unique_ptr<IComponent> Save::saveDrawableText(std::vector<std::string> lines)
 {
-    std::unique_ptr<IComponent> component = std::make_unique<DrawableText>(0, lines[0]);
+    Color color = {(unsigned char) std::stoi(lines[1]), (unsigned char) std::stoi(lines[2]), (unsigned char) std::stoi(lines[3]), (unsigned char) std::stoi(lines[4])};
+    std::unique_ptr<IComponent> component = std::make_unique<DrawableText>(0, lines[0], color, this->_font, std::stoi(lines[5]));
     return component;
 }
 
 std::unique_ptr<IComponent> Save::saveDrawablePlane(std::vector<std::string> lines)
 {
     Vector2 size = {std::stof(lines[0]), std::stof(lines[1])};
-    Color color = {std::stoi(lines[2]), std::stoi(lines[3]), std::stoi(lines[4]), std::stoi(lines[5])};
+    Color color = {(unsigned char) std::stoi(lines[2]), (unsigned char) std::stoi(lines[3]), (unsigned char) std::stoi(lines[4]), (unsigned char) std::stoi(lines[5])};
     std::unique_ptr<IComponent> component = std::make_unique<DrawablePlane>(size, color);
     return component;
 }
@@ -313,6 +324,13 @@ std::unique_ptr<IComponent> Save::saveDrawableModel(std::vector<std::string> lin
         component = std::make_unique<DrawableModel>(this->_texturesGnome, this->_gnomeModel, this->_texture_gnome_mesh_order, 0, model_type);
     else if (model_type == ModelType::BAG)
         component = std::make_unique<DrawableModel>(this->_texturesBag, this->_bagModel, this->_textureBagMeshOrder, 0, model_type);
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveBreakable()
+{
+    std::unique_ptr<IComponent> component;
+    component = std::make_unique<Breakable>();
     return component;
 }
 
@@ -376,6 +394,8 @@ std::vector<std::unique_ptr<Entity>> Save::load()
                 lines.push_back(line);
             }
             entity.get()->addComponent(saveCamera(lines));
+        } else if (line == "Breakable") {
+            entity.get()->addComponent(saveBreakable());
         } else if (line == "Drawable") {
             getline(savefile, line);
             drawable_type = (DRAWABLE_TYPE) std::stoi(line);
@@ -392,7 +412,7 @@ std::vector<std::unique_ptr<Entity>> Save::load()
                 }
                 entity.get()->addComponent(saveDrawableCubeTexture(lines));
             } else if (drawable_type == DRAWABLE_TYPE_TEXT) {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 6; i++) {
                     getline(savefile, line);
                     lines.push_back(line);
                 }

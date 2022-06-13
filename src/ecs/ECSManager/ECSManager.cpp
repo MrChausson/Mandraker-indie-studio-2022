@@ -261,3 +261,8 @@ std::vector<std::unique_ptr<Entity>> *ECSManager::getEntities()
 {
     return (&this->_entities);
 }
+
+void ECSManager::addEntity(std::unique_ptr<Entity> entity)
+{
+    this->_entities.push_back(std::move(entity));
+}
