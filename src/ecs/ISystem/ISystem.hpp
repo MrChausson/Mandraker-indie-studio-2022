@@ -32,6 +32,25 @@ enum SYSTEM_TYPES {
     FINISH
 };
 
+enum GAMEPAD_BUTTON {
+    BUTTON_ZERO,
+    BUTTON_UP,
+    BUTTON_RIGHT,
+    BUTTON_DOWN,
+    BUTTON_LEFT,
+    BUTTON_Y,
+    BUTTON_B,
+    BUTTON_A,
+    BUTTON_X,
+    BUTTON_LB,
+    BUTTON_RB,
+    BUTTON_SELECT,
+    BUTTON_NONE,
+    BUTTON_START,
+    BUTTON_L3,
+    BUTTON_R3
+};
+
 class ISystem {
     public:
         ISystem() = default;

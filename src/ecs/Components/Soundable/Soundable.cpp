@@ -13,8 +13,8 @@ float soundVolume = 1.0f;
 Soundable::Soundable(Sound sound)
 {
     Raylib::Raylib_encap Raylib_encp;
-    Raylib_encp.SetSVolume(this->_sound, soundVolume);
     this->_sound = sound;
+    Raylib_encp.SetSVolume(this->_sound, soundVolume);
 }
 
 Soundable::~Soundable()
