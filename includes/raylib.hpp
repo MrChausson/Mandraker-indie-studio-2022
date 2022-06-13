@@ -11,8 +11,8 @@
 #include <iostream>
 #include <stddef.h>
 #include <utility>
-#include "../_deps/raylib-src/src/raylib.h"
-#include "../_deps/raylib-src/src/raymath.h"
+#include "raylib.h"
+#include "raymath.h"
 
 namespace Raylib
 {
