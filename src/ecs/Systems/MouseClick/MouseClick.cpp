@@ -15,6 +15,7 @@
 #include "../../../Scene/Settings/Settings.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
 #include "../../../Scene/CharacterSelector/CharacterSelector.hpp"
+#include "../../../Engine/Save/Save.hpp"
 
 MouseClick::MouseClick()
 {
@@ -34,12 +35,17 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
 {
     Clickable *click = static_cast<Clickable *>(component);
     DrawableSprite *sprite = static_cast<DrawableSprite *>(component2);
-    ECSManager *ecs = click->getEcs();
+    ECSManager *ecs = click->getEcsToChangeTo();
     Scene *scene = click->getScene();
+    std::vector<Model> models;
+    CHARACTER_CHOOSEN character = CHARACTER_CHOOSEN::NO_CHARACTER;
     CharacterSelector *characterSelector;
     Settings *settings;
+    std::vector<std::unique_ptr<Entity>> entities_load;
+    std::vector<Entity *> entities;
     Menu *menu;
-    
+    Save *save;
+    Game *game;
     Raylib::Raylib_encap r;
 
     switch (actionType)
@@ -189,16 +195,31 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_SAVE_AND_QUIT:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
+        for (auto &entity : *scene->getECS()->getEntities())
+            entities.push_back(entity.get());
+        save = new Save("game.save");
+        save->save(entities);
+        delete(save);
         if (scene != nullptr)
             scene->Unload();
 
     break;
     case CLICKABLE_ACTION_SAVE_AND_MENU:
         menu = new Menu();
+        for (auto &entity : *scene->getECS()->getEntities())
+            entities.push_back(entity.get());
+        save = new Save("game.save");
+        save->save(entities);
+        delete(save);
         click->setEcs(menu->getECS());
-            if (scene != nullptr)
-                scene->Unload();
+        if (scene != nullptr)
+            scene->Unload();
     break;
+    case CLICKABLE_ACTION_LOAD_GAME:
+        save = new Save("game.save");
+        // entities_load = 
+        game = new Game(models, character, save->load());
+        break;
     case CLICKABLE_ACTION_RETURN_GAME:
         if (scene == nullptr)
            throw std::runtime_error("Scene is null");

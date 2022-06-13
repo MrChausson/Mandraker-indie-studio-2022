@@ -73,7 +73,7 @@ COMPONENT_TYPES Clickable::getType()
     return (CLICKABLE);
 }
 
-ECSManager *Clickable::getEcs()
+ECSManager *Clickable::getEcsToChangeTo()
 {
     return (this->_ecsToChangeTo);
 }

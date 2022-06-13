@@ -26,45 +26,20 @@
 float mapHeight = 14;
 float mapWidth = 10;
 
-Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
+Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::vector<std::unique_ptr<Entity>> entities)
 {
     Raylib::Raylib_encap Raylib_encp;
 
+    // Set character chosen
     this->_characterChoosen = characterChoosen;
     this->_ecsManager = std::make_unique<ECSManager>();
+    // Create vector for map
     this->_mapEntities = std::make_unique<std::vector<Entity *>>();
+    // Load HUD textures
     this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
     this->_rav_infos_texture = Raylib_encp.LTexture("assets/materials/game/ravenclaw.png");
     this->_slyth_infos_texture = Raylib_encp.LTexture("assets/materials/game/slytherin.png");
     this->_huff_infos_texture = Raylib_encp.LTexture("assets/materials/game/hufflepuff.png");
-
-    // Create camera vectors
-    Vector3 position = { 7.0f, 50.0f, 25.0f };
-    Vector3 target = { 7.0f, -20.0f, 0.0f };
-    Vector3 up = { 0.0f, 1.0f, 0.0f };
-
-    // Createing plane vectors
-    Vector2 size = { 128.0f, 128.0f };
-
-    // Creating entities
-    int camera = this->_ecsManager->createEntity();
-    int text = this->_ecsManager->createEntity();
-    int player = this->_ecsManager->createEntity();
-    int ai = this->_ecsManager->createEntity();
-    int model = this->_ecsManager->createEntity();
-    int test_pot = this->_ecsManager->createEntity();
-    int trelawney = this->_ecsManager->createEntity();
-    int snape = this->_ecsManager->createEntity();
-    int plane = this->_ecsManager->createEntity();
-    int sprout = this->_ecsManager->createEntity();
-    int gryf_infos = this->_ecsManager->createEntity();
-    int rav_infos = this->_ecsManager->createEntity();
-    int slyth_infos = this->_ecsManager->createEntity();
-    int huff_infos = this->_ecsManager->createEntity();
-    int music_id = this->_ecsManager->createEntity();
-    // int plane = this->_ecsManager->createEntity();
-    int mandrake = this->_ecsManager->createEntity();
-    int game_clock = this->_ecsManager->createEntity();
 
     // Load Music
     this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
@@ -80,16 +55,41 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     // Configuring Player vector
     Vector3 position_player = { 1.0f, 0.0f, 0.0f };
 
-    //Configure Music
-    Raylib_encp.PlayMStream(music);
-    this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(music));
+    // Create camera vectors
+    Vector3 position = { 7.0f, 50.0f, 25.0f };
+    Vector3 target = { 7.0f, -20.0f, 0.0f };
+    Vector3 up = { 0.0f, 1.0f, 0.0f };
 
-    // Adding components
-    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-    //this->_ecsManager->addComponent(text, std::make_unique<Placable>(1000, 150));
-    //this->_ecsManager->addComponent(text, std::make_unique<DrawableText>(0,"Mandraker", Color{255, 255, 255, 255}));
+    // Createing plane vectors
+    Vector2 size = { 128.0f, 128.0f };
 
-    // Adding HUD
+    // Create variables for entities
+    int camera;
+    int text;
+    int player;
+    int ai;
+    int model;
+    int test_pot;
+    int trelawney;
+    int snape;
+    int plane;
+    int sprout;
+    int gryf_infos;
+    int rav_infos;
+    int slyth_infos;
+    int huff_infos;
+    int music_id;
+    int mandrake;
+    int game_clock;
+
+
+    // Creating HUD entities
+    gryf_infos = this->_ecsManager->createEntity();
+    rav_infos = this->_ecsManager->createEntity();
+    slyth_infos = this->_ecsManager->createEntity();
+    huff_infos = this->_ecsManager->createEntity();
+
+    // Adding HUD Components
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(gryf_infos, std::make_unique<DrawableSprite>(this->_gryf_infos_texture, 1));
     this->_ecsManager->addComponent(huff_infos, std::make_unique<Placable>(1792, 0));
@@ -100,64 +100,153 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addComponent(slyth_infos, std::make_unique<DrawableSprite>(this->_slyth_infos_texture, 1));
 
 
-    // Adding Timer
-    this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-    this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
-    this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
-    this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
+    // // Adding Timer
+    // this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
+    // this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
+    // this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
+    // this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
 
-    // Configuring player MCG
-    this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
-    if (characterChoosen == CHARACTER_CHOOSEN::MCG)
-        this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-    else
-        this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-    this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
-    this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
-    this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
-    this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
+    // // Configuring player MCG
+    // this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
+    // if (characterChoosen == CHARACTER_CHOOSEN::MCG)
+    //     this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    // else
+    //     this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    // this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
+    // this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
+    // this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
+    // this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
 
 
-    // Configuring player TRELAWNEY
-    this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
-    if (characterChoosen == CHARACTER_CHOOSEN::TRELAWNEY)
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-    else
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
-    this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
-    this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
-    this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
+    // // Configuring player TRELAWNEY
+    // this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
+    // if (characterChoosen == CHARACTER_CHOOSEN::TRELAWNEY)
+    //     this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    // else
+    //     this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    //     this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
+    // this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
+    // this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
+    // this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
 
-    // Configuring player SNAPE
-    this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
-    if (characterChoosen == CHARACTER_CHOOSEN::SNAPE)
-        this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-    else
-        this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-    this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
-    this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
-    this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
-    this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
+    // // Configuring player SNAPE
+    // this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
+    // if (characterChoosen == CHARACTER_CHOOSEN::SNAPE)
+    //     this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    // else
+    //     this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    // this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
+    // this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
+    // this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
+    // this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
 
-    // Configuring player SPROUT
-    this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
-    if (characterChoosen == CHARACTER_CHOOSEN::SPROUT)
-        this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-    else
-        this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-    this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
-    this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
-    this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
-    this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
+    // // Configuring player SPROUT
+    // this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+    // if (characterChoosen == CHARACTER_CHOOSEN::SPROUT)
+    //     this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+    // else
+    //     this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    // this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
+    // this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
+    // this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
+    // this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
 
-    //Drawing the plane
-    this->_ecsManager->addComponent(plane, std::make_unique<Placable>(0, -1, 0));
-    this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size, DARKBROWN));
+    // //Drawing the plane
+    // this->_ecsManager->addComponent(plane, std::make_unique<Placable>(0, -1, 0));
+    // this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size, DARKBROWN));
+    // //Drawing the plane
+    // this->_ecsManager->addComponent(plane, std::make_unique<Placable>(0, -1, 0));
+    // this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size, DARKBROWN));
 
-    // Configuring ai
-    // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
-    // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
+    if (entities.size() != 0) {
+        std::cout << "Constructing Game from saved entities" << std::endl;
+        for (auto &entity : entities)
+            this->_ecsManager->addEntity(std::move(entity));
+    } else {
+        // Creating entities
+        camera = this->_ecsManager->createEntity();
+        text = this->_ecsManager->createEntity();
+        player = this->_ecsManager->createEntity();
+        ai = this->_ecsManager->createEntity();
+        model = this->_ecsManager->createEntity();
+        test_pot = this->_ecsManager->createEntity();
+        trelawney = this->_ecsManager->createEntity();
+        snape = this->_ecsManager->createEntity();
+        plane = this->_ecsManager->createEntity();
+        sprout = this->_ecsManager->createEntity();
+        music_id = this->_ecsManager->createEntity();
+        mandrake = this->_ecsManager->createEntity();
+        game_clock = this->_ecsManager->createEntity();
+
+
+        // Adding Camera Component
+        this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
+
+
+        // Adding Timer
+        this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
+        this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
+        this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
+        this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
+
+        // Configuring player MCG
+        this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
+        if (characterChoosen == CHARACTER_CHOOSEN::MCG)
+            this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        else
+            this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+        this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
+        this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
+        this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
+        this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
+
+
+        // Configuring player TRELAWNEY
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
+        if (characterChoosen == CHARACTER_CHOOSEN::TRELAWNEY)
+            this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        else
+            this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+            this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
+        this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
+
+        // Configuring player SNAPE
+        this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
+        if (characterChoosen == CHARACTER_CHOOSEN::SNAPE)
+            this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        else
+            this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+        this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
+        this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
+        this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
+        this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
+
+        // Configuring player SPROUT
+        this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+        if (characterChoosen == CHARACTER_CHOOSEN::SPROUT)
+            this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        else
+            this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+        this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
+        this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
+        this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
+        this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
+
+        // Loading the map
+        this->loadMap("assets/map/map.txt");
+
+        // Collision configuration
+        this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
+        this->_ecsManager->addComponent(sprout, std::make_unique<Collisionable>(this->_mapEntities.get()));
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Collisionable>(this->_mapEntities.get()));
+        this->_ecsManager->addComponent(snape, std::make_unique<Collisionable>(this->_mapEntities.get()));
+    }
+
+    //Configure Music
+    Raylib_encp.PlayMStream(music);
+    this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(music));
 
     // make the player vector
     this->_playerEntities.push_back(this->_ecsManager->getEntity(player));
@@ -175,14 +264,11 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
-    this->loadMap("assets/map/map.txt");
     this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get(), &this->_playerEntities));
 
-    // Collision configuration
-    this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));
-    this->_ecsManager->addComponent(sprout, std::make_unique<Collisionable>(this->_mapEntities.get()));
-    this->_ecsManager->addComponent(trelawney, std::make_unique<Collisionable>(this->_mapEntities.get()));
-    this->_ecsManager->addComponent(snape, std::make_unique<Collisionable>(this->_mapEntities.get()));
+    //Drawing the plane
+    this->_ecsManager->addComponent(plane, std::make_unique<Placable>(0, -1, 0));
+    this->_ecsManager->addComponent(plane, std::make_unique<DrawablePlane>(size, DARKBROWN));
 
     // this->_ecsManager->addSystem(std::make_unique<Move>());
     std::cout << "Game created" << std::endl;

@@ -8,7 +8,6 @@
 #include "SaveSystem.hpp"
 #include "../../../Engine/Save/Save.hpp"
 
-
 SaveSystem::SaveSystem(std::vector<std::unique_ptr<Entity>> *entities)
 {
     this->_entities = entities;
