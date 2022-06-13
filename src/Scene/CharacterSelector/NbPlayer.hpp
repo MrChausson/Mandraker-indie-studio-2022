@@ -16,6 +16,7 @@ class NbPlayer : public Scene {
         void Unload() override;
         float getMusicTimePlayed();
         void SetMusicTimePlayed(float dur);
+        int nb_characters;
 
     protected:
     private:

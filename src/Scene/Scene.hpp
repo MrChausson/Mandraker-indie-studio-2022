@@ -24,8 +24,8 @@ class Scene {
         ~Scene() = default;
         virtual void Unload() = 0;
         ECSManager *getECS() { return this->_ecsManager.get();};
-    protected:
         SCENE_TYPE _type;
+    protected:
         std::unique_ptr<ECSManager> _ecsManager;
 };
 

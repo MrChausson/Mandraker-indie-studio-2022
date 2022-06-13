@@ -12,13 +12,14 @@
 
 class CharacterSelector : public Scene {
     public:
-        CharacterSelector(Engine *engine = nullptr);
+        CharacterSelector(int nb_characters);
         ~CharacterSelector();
         std::vector<Model> getModels();
         void Unload() override;
         void resetBoxClicked();
         float getMusicTimePlayed();
         void SetMusicTimePlayed(float dur);
+        int nb_characters;
         
     protected:
     private:
