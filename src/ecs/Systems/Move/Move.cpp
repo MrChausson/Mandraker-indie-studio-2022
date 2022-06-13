@@ -40,7 +40,7 @@ void Move::apply(std::vector<IComponent *> component)
     movable->RestartClock();
     MOVABLE_TYPE type = movable->getMovableType();
 
-    if (type == MOVABLE_PLAYER) {
+    if (type == MOVABLE_PLAYER && anims->getAnimationType() != ANIMATION_TYPE::FALL) {
         collision = static_cast<Collisionable *> (component[3]);
         if (Raylib_encp.IsKDown(KEY_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())) {
             anims->setAnimationType(RUN);
