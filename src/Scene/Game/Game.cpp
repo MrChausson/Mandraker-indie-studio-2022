@@ -156,6 +156,12 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     // this->_ecsManager->addComponent(ai, std::make_unique<Placable>(0, 0));
     // this->_ecsManager->addComponent(ai, std::make_unique<Movable>(1, MOVABLE_AI));
 
+    // make the player vector
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(player));
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(trelawney));
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(snape));
+    // this->_playerEntities->push_back(this->_ecsManager->getEntity(sprout));
+
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
@@ -164,7 +170,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen)
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
     this->loadMap("assets/map/map.txt");
-    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get()));
+    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get(), this->_playerEntities.get()));
 
     // Collision configuration
     this->_ecsManager->addComponent(player, std::make_unique<Collisionable>(this->_mapEntities.get()));

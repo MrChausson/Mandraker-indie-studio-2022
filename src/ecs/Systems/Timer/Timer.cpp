@@ -14,11 +14,13 @@
 #include "../../Components/Animable/Animable.hpp"
 
 
-Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities)
+Timer::Timer(ECSManager *ecsManager = nullptr, std::vector<Entity *> *mapEntities = nullptr, std::vector<Entity *> *playerEntities = nullptr)
+
 {
     Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager = ecsManager;
     this->_mapEntities = mapEntities;
+    this->_playerEntities = playerEntities;
 }
 
 Timer::~Timer()
