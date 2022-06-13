@@ -282,7 +282,7 @@ void Game::loadMap(std::string map_src)
     std::vector<int> texture_gnome_mesh_order = {
         0, 2
     };
-    Vector3 gnome_scale = {0.015, 0.015, 0.015};
+    Vector3 gnome_scale = {0.01, 0.01, 0.01};
     // 
     Vector3 zeroVector3 = {0.0f, 0.0f, 0.0f};
     Vector3 rotation_gnome = {0.0f, 90.0f, 0.0f};
@@ -298,30 +298,30 @@ void Game::loadMap(std::string map_src)
             Entity *grass_block = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
             if (line[j] == 'r') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-                entity->addComponent(std::make_unique<Placable>(j, -0.5f, i, zeroVector3 , -45, bag_scale));
+                entity->addComponent(std::make_unique<Placable>(round(j), 0, round(i), zeroVector3 , -45, bag_scale));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_bag, bagModel, texture_po_mesh_order));
                 // we have to put grass also
-                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
             } else if (line[j] == 'B') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-                entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                entity->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
                 // we have to put grass also
-                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
             } else if (line[j] == '*') {
-                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(stone_texture, CubeTextureType::STONE));
             } else {
                 if (std::rand() % 2 == 1) { // 50% chance to spawn a gnome
                     entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
-                    entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
+                    entity->addComponent(std::make_unique<Placable>(round(j), 0, round(i), zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
                     entity->addComponent(std::make_unique<Breakable>());
                 }
                 // we have to put grass also
-                grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
+                grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
             }
             if (entity != nullptr)
