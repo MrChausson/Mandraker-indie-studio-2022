@@ -31,6 +31,7 @@ class Player : public ISystem {
         Sound _plantSound;
         Sound _shoutSound;
         ECSManager *_ecsToChangeTo = nullptr;
+        std::vector<Entity *> *_mapEntities;
 };
 
 #endif /* !Player_HPP_ */

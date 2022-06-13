@@ -27,6 +27,11 @@ Timer::~Timer()
 {
 }
 
+std::vector<Entity *> *Timer::getMapEntites()
+{
+    return this->_mapEntities;
+}
+
 void Timer::apply(std::vector<IComponent *> component)
 {
     // Components [0] Timable [1] DrawableText [2] Placable [3] Animable [4] Soundable

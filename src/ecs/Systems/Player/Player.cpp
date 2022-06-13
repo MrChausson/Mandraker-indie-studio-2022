@@ -8,10 +8,12 @@
 
 #include "Player.hpp"
 #include "raylib.hpp"
+#include "../Timer/Timer.hpp"
 #include "../../Components/Animable/Animable.hpp"
 #include "../../Components/Timable/Timable.hpp"
 #include "../../Components/Playable/Playable.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
+#include "../../Components/Breakable/Breakable.hpp"
 
 
 Player::Player(ECSManager *ecsManager)
@@ -19,7 +21,7 @@ Player::Player(ECSManager *ecsManager)
     Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager= ecsManager;
     this->_toWait = std::chrono::system_clock::now();
-    
+
     // Creating Mandrake model
     this->_mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
     this->_texturesMandrake = {
@@ -100,5 +102,22 @@ void Player::setEcsToChangeTo(ECSManager *ecsToChangeTo)
 
 bool Player::checkNearBreakableBlock(Vector3 position)
 {
+    Timer *timer;
+    Vector3 pos;
+    Placable *place;
+    Breakable *breakable;
+    float range = 3;
 
+    this->_mapEntities = timer->getMapEntites();
+
+    for (auto &entity : *this->_mapEntities) {
+        if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
+            place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
+            pos = place->getPosition();
+            if (timer->isInRange(position, pos, range)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
