@@ -63,3 +63,8 @@ Font DrawableText::getFont()
 {
     return this->_font;
 }
+
+int DrawableText::getSize()
+{
+    return this->_fontsize;
+}

@@ -13,6 +13,7 @@
 #include "../Components/Clickable/Clickable.hpp"
 #include "../Components/Timable/Timable.hpp"
 #include "../Systems/Player/Player.hpp"
+#include "../Systems/Finish/Finish.hpp"
 
 ECSManager::ECSManager()
 {
@@ -121,6 +122,12 @@ ECSManager *ECSManager::applySystems()
         if (system->getType() == SAVE) {
             system->apply(components);
         }
+        if (system->getType() == FINISH) {
+            Finish *finish = static_cast<Finish *>(system.get());
+            if (finish->isFinished()) {
+                return (finish->getEcsManager());
+            }
+        }
         for (auto &entity : this->_entities)
             for (auto &component : entity.get()->getComponents()) {
                 components.clear();
@@ -139,7 +146,7 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(component);
                     system->apply(components);
                     Clickable *click = static_cast<Clickable *>(component);
-                    ECSManager *ecs = click->getEcs();
+                    ECSManager *ecs = click->getEcsToChangeTo();
                     if (ecs != nullptr)
                         return ecs;
                 }
@@ -261,4 +268,9 @@ IComponent *ECSManager::getCamera()
 std::vector<std::unique_ptr<Entity>> *ECSManager::getEntities()
 {
     return (&this->_entities);
+}
+
+void ECSManager::addEntity(std::unique_ptr<Entity> entity)
+{
+    this->_entities.push_back(std::move(entity));
 }

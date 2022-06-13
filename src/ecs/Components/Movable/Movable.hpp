@@ -13,6 +13,7 @@
 
 enum MOVABLE_TYPE {
     MOVABLE_PLAYER,
+    MOVABLE_PLAYER_2,
     MOVABLE_AI
 };
 

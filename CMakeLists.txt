@@ -27,6 +27,7 @@ src/Scene/SplashScreen/SplashScreen.cpp
 src/Scene/Settings/Settings.cpp
 src/Scene/GameSettings/GameSettings.cpp
 src/Scene/CharacterSelector/CharacterSelector.cpp
+src/Scene/CharacterSelector/NbPlayer.cpp
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
@@ -41,6 +42,7 @@ src/ecs/Systems/Bomber/Bomber.cpp
 src/ecs/Systems/Player/Player.cpp
 src/ecs/Systems/Timer/Timer.cpp
 src/ecs/Systems/Save/SaveSystem.cpp
+src/ecs/Systems/Finish/Finish.cpp
 # Components #
 src/ecs/IComponent/IComponent.cpp
 src/ecs/Components/Breakable/Breakable.cpp

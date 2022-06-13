@@ -1,31 +1,34 @@
 /*
 ** EPITECH PROJECT, 2022
-** Visual Studio Live Share (Workspace)
+** B-YEP-400-LIL-4-1-indiestudio-clement.chausson
 ** File description:
-** Menu
+** NbPlayer
 */
 
-#ifndef MENU_HPP_
-#define MENU_HPP_
+#ifndef NBPLAYER_HPP_
+#define NBPLAYER_HPP_
     #include "../Scene.hpp"
 
-class Menu : public Scene {
+class NbPlayer : public Scene {
     public:
-        Menu();
-        ~Menu();
+        NbPlayer();
+        ~NbPlayer();
         void Unload() override;
         float getMusicTimePlayed();
         void SetMusicTimePlayed(float dur);
+        int nb_characters;
 
     protected:
     private:
         Texture2D _background_texture;
         Texture2D _btn_textures[3];
+        Texture2D _minus_textures[3];
+        Texture2D _plus_textures[3];
         Texture2D _title_texture;
+        Texture2D _state_texture;
         Font _btn_font;
-        Font _title_font;
         Music _music;
         Sound _click;
 };
 
-#endif /* !MENU_HPP_ */
+#endif /* !NBPLAYER_HPP_ */

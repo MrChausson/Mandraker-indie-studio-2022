@@ -23,6 +23,7 @@ class DrawableText : public Drawable {
         int getFontsize();
         void setFont(Font font);
         Font getFont();
+        int getSize();
 
     protected:
     private:

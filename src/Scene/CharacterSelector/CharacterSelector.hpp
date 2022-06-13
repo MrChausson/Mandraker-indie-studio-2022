@@ -12,11 +12,14 @@
 
 class CharacterSelector : public Scene {
     public:
-        CharacterSelector(Engine *engine = nullptr);
+        CharacterSelector(int nb_characters);
         ~CharacterSelector();
         std::vector<Model> getModels();
         void Unload() override;
         void resetBoxClicked();
+        float getMusicTimePlayed();
+        void SetMusicTimePlayed(float dur);
+        int nb_characters;
         
     protected:
     private:
@@ -39,6 +42,10 @@ class CharacterSelector : public Scene {
         Sound snapeSound;
         Sound trelawneySound;
         std::vector<int> _idBoxes;
+        std::vector<Sound> _SoundMcg;
+        std::vector<Sound> _SoundSprout;
+        std::vector<Sound> _SoundTrelawney;
+        std::vector<Sound> _SoundSnape;
 };
 
 #endif /* !CHARACTERSELECTOR_HPP_ */

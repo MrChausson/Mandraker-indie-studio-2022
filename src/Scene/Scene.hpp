@@ -15,6 +15,7 @@ enum SCENE_TYPE {
     SCENE_SETTINGS,
     SCENE_GAME,
     SCENE_NONE,
+    SCENE_PLAYERS_SELECTOR,
     SCENE_CHARACTER_SELECTOR
 };
 class Scene {
@@ -23,8 +24,8 @@ class Scene {
         ~Scene() = default;
         virtual void Unload() = 0;
         ECSManager *getECS() { return this->_ecsManager.get();};
-    protected:
         SCENE_TYPE _type;
+    protected:
         std::unique_ptr<ECSManager> _ecsManager;
 };
 

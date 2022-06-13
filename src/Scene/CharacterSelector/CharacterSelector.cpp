@@ -16,7 +16,7 @@
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Sound/SoundSystem.hpp"
 
-CharacterSelector::CharacterSelector(Engine *engine)
+CharacterSelector::CharacterSelector(int nb_characters)
 {
     Raylib::Raylib_encap Raylib_encp;
     Vector3 position = { 0.0f, 10.0f, 180.0f };
@@ -26,6 +26,7 @@ CharacterSelector::CharacterSelector(Engine *engine)
 
     std::cout << "Options creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
+    this->nb_characters = nb_characters;
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
@@ -113,28 +114,49 @@ CharacterSelector::CharacterSelector(Engine *engine)
     Raylib_encp.PlayMStream(this->_music);
 
     // Title
-    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(347.5, 0));
+    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(960 - _title_texture.width / 2, 0));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Text
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 85));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 60));
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"choose your character", Color{255, 255, 255, 255}, this->_btn_font));
     // Background texture
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
     // Sounds
-    this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
-    this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
-    this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
-    this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
+    // this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
+    // this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
+    // this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
+    // this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
+
+    this->_SoundMcg = {
+        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_03.wav"),
+    };
+    this->_SoundSprout = {
+        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_03.wav"),
+    };
+    this->_SoundSnape = {
+        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_03.wav"),
+    };
+    this->_SoundTrelawney = {
+        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav"),
+        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_02.wav"),
+        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_03.wav"),
+    };
     Scene *nullScene = nullptr;
 
     this->_idBoxes = {
-        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &mcgSound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &sproutSound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &trelawneySound).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &snapeSound).getIdSprite()
+        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &_SoundMcg).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &_SoundSprout).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &_SoundTrelawney).getIdSprite(),
+        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &_SoundSnape).getIdSprite()
     };
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
@@ -218,4 +240,16 @@ void CharacterSelector::resetBoxClicked()
             sprite->setTexture(this->_box[1]);
         sprite->setSelected(false);
     }
+}
+
+float CharacterSelector::getMusicTimePlayed()
+{
+    Raylib::Raylib_encap Raylib_encp;
+    return Raylib_encp.GetMTimePlayed(this->_music);
+}
+
+void CharacterSelector::SetMusicTimePlayed(float dur)
+{
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.SeekMStream(this->_music, dur);
 }

@@ -60,11 +60,11 @@ GameSettings::GameSettings(ECSManager *_ecsToReturn)
     Raylib_encp.PlayMStream(this->_music);
 
     // Title image
-    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(347.5, 0));
+    this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(960 - _title_texture.width / 2, 0));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Title Text
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(800, 70));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(800, 60));
     this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"settings", Color{255, 255, 255, 255}, this->_btn_font));
 
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));

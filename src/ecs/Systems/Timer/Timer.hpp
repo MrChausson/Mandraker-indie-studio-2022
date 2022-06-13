@@ -14,17 +14,20 @@
 
 class Timer : public ISystem {
     public:
-        Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities);
+        Timer(ECSManager *ecsManager = nullptr, std::vector<Entity *> *mapEntities = nullptr, std::vector<Entity *> *playerEntities = nullptr);
         ~Timer();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
         void deleteGnome(Vector3 position, void *play);
         void updateGnome(Vector3 position, void *play);
-
+        bool isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range);
+        void deletePlayer(Vector3 position, void *play);
+        void updatePlayer(Vector3 position, void *play);
     private:
         ECSManager *_ecsManager;
         bool _deleted = false;
         std::vector<Entity *> *_mapEntities;
+        std::vector<Entity *> *_playerEntities;
 };
 
 #endif /* !Timer_HPP_ */
