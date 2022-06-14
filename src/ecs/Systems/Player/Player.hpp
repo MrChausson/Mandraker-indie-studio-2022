@@ -14,7 +14,7 @@
 
 class Player : public ISystem {
     public:
-        Player(ECSManager *ecsManager);
+        Player(ECSManager *ecsManager, std::vector<Entity *> *mapEntities);
         ~Player();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;

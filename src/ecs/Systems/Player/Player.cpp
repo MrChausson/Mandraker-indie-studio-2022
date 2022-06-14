@@ -16,16 +16,17 @@
 #include "../../Components/Breakable/Breakable.hpp"
 
 
-Player::Player(ECSManager *ecsManager)
+Player::Player(ECSManager *ecsManager, std::vector<Entity *> *mapEntities)
 {
     Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager = ecsManager;
     this->_toWait = std::chrono::system_clock::now();
+    this->_mapEntities = mapEntities;
 
     this->_texturesBoom = {
         Raylib_encp.LTexture("assets/materials/game/sounds.png"),
     };
-    
+
     // Creating Mandrake model
     this->_mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
     this->_texturesMandrake = {
@@ -72,7 +73,7 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
-        this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
+        // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
     } else if ( ((Raylib_encp.isKeyPres(KEY_RIGHT_SHIFT)  && !IsGamepadAvailable(0))||  IsGamepadButtonPressed(0, BUTTON_A))&&  type == MOVABLE_PLAYER_2  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
         playable->setNbMandrake(playable->getNbMandrake() + 1);
         bomb_id = this->_ecsManager->createEntity();
@@ -83,7 +84,7 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
-        this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
+        // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
     }
     if ( checkNearBreakableBlock(playerPlace->getPosition()) && type == MOVABLE_AI  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
         playable->setNbMandrake(playable->getNbMandrake() + 1);
@@ -95,6 +96,7 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
+        // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
     }
     if (Raylib_encp.isKeyPres(KEY_ESCAPE)) {
         GameSettings *settings = new GameSettings(this->_ecsManager);
@@ -128,12 +130,10 @@ bool Player::checkNearBreakableBlock(Vector3 position)
     IComponent *component;
     Drawable *drawable;
 
-    this->_mapEntities = timer->getMapEntites();
-
-    for (auto &entity : *this->_mapEntities) {
+    for (auto entity : *this->_mapEntities) {
         component = entity->getComponentsByType(BREAKABLE);
         if (entity->getComponents().size() != 0 && component != nullptr) {
-            drawable = static_cast<Drawable *>(component);
+            breakable = static_cast<Breakable *>(component);
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
             if (timer->isInRange(position, pos, range)) {

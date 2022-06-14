@@ -244,7 +244,7 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
     this->_ecsManager->addSystem(std::make_unique<Move>(Move()));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
-    this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
+    this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get(), this->_mapEntities.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
     this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities.get(), &this->_playerEntities));
     this->_ecsManager->addSystem(std::make_unique<Finish>(&this->_playerEntities));
