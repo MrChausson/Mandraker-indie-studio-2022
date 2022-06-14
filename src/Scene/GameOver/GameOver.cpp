@@ -7,24 +7,19 @@
 
 #include "raylib.hpp"
 #include "GameOver.hpp"
-#include "../../ecs/Components/Clickable/Clickable.hpp"
-#include "../../Tools/Button.hpp"
 #include <string>
 #include "raymath.h"
+#include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Sound/SoundSystem.hpp"
+#include "../../Tools/Button.hpp"
 
 
 GameOver::GameOver()
 {
     Raylib::Raylib_encap Raylib_encp;
-    Vector3 position = { 0.0f, 10.0f, 180.0f };
-    Vector3 target = { 32.0f, 25.0f, 0.0f };
-    Vector3 up = { 0.0f, 1.0f, 0.0f };
-    Vector3 scale = { 0.5, 0.5, 0.5 };
-    Vector3 rotationAxis = {2.0f, 0.0f, 0.0f};
 
     std::cout << "End the game" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
@@ -35,6 +30,7 @@ GameOver::GameOver()
     int title_text_bis = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
     int character_salle = this->_ecsManager->createEntity();
+    int cameraover = this->_ecsManager->createEntity();
 
 
     // Loading Assets for the menu
@@ -53,11 +49,12 @@ GameOver::GameOver()
     this->_ecsManager->addComponent(title_id, std::make_unique<Placable>(1200, 100));
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
     this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(1400, 150));
-    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"winner :", Color{255, 255, 255, 255}, this->_btn_font));
+    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(3,"winner :", Color{255, 255, 255, 255}, this->_btn_font));
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
-    Button(this->_ecsManager.get(), "quit", 1400, 900, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME, this, &this->_click);
-    Button(this->_ecsManager.get(), "replay", 1400, 700, this->_btn_font, this->_btn_textures, SCENE_PLAYERS_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS, this, &this->_click);
+
+    Button(this->_ecsManager.get(), "quit", 1400, 900, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME, this, &this->_click, 2);
+    Button(this->_ecsManager.get(), "replay", 1400, 700, this->_btn_font, this->_btn_textures, SCENE_PLAYERS_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS, this, &this->_click, 2);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
 
@@ -68,20 +65,30 @@ GameOver::GameOver()
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
 
        this->_textures_salle = {
-       Raylib_encp.LTexture("assets/models/greathall/ceiling_M_wood_v25@4x.png"),
-       Raylib_encp.LTexture("assets/models/greathall/env_M_WoodPanels_color_v108@4x.png"),
-       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHallConcrete_01_v15@4x.png"),
-       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHall_M_Concrete_01_v77@4x.png"),
-       Raylib_encp.LTexture("assets/models/greathall/GreatHall_M_door_01_v34@4x.png"),
        Raylib_encp.LTexture("assets/models/greathall/MoldingsEntrance_M_01_v22@4x.png"),
        Raylib_encp.LTexture("assets/models/greathall/windows_columsConcrete_M_color_v63@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/windows_columsConcrete_M_color_v63@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHallConcrete_01_v15@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHallConcrete_01_v15@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHall_M_Walls_01_v77@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/GreatHall_M_door_01_v34@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/ceiling_M_wood_v25@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_M_WoodPanels_color_v108@4x.png"),
     };
     std::vector<int> meshOrder_salle = {
-        1, 2, 3, 4, 5, 6, 7, 8, 9
+        0, 1, 2, 3, 4, 5, 6, 7, 8
     };
 
-    this->_ecsManager->addComponent(character_salle, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
-    Model salleModel = Raylib_encp.LModel("assets/models/greathall/test.obj");
+    Vector3 position = { -108.0f, 600.0f, 90.0f };
+    Vector3 target = { 70.0f, 300.0f, 0.0f };
+    Vector3 up = { 0.0f, 1.0f, 0.0f };
+    Vector3 scale = { 1.5, 1.5, 1.5 };
+    Vector3 rotationAxis = { 1.5f, 1.3f, 1.0f };
+
+    
+    this->_ecsManager->addComponent(cameraover, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
+    this->_ecsManager->addComponent(character_salle, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, rotationAxis, -90.0f, scale));
+    Model salleModel = Raylib_encp.LModel("assets/models/greathall/greathall.obj");
     this->_ecsManager->addComponent(character_salle, std::make_unique<DrawableModel>(_textures_salle, salleModel, meshOrder_salle, 2));
 }
 
