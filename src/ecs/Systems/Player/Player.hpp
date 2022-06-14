@@ -27,6 +27,7 @@ class Player : public ISystem {
         ECSManager *_ecsManager;
         Model _mandrakeModel;
         std::vector<Texture2D> _texturesMandrake;
+        std::vector<Texture2D> _texturesBoom;
         std::vector<int> _meshOrderMandrake;
         Vector3 _scaleMandrake;
         Sound _plantSound;
