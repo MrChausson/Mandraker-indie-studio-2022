@@ -36,7 +36,7 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     this->_characterChoosen = characterChoosen;
     this->_ecsManager = std::make_unique<ECSManager>();
     // Create vector for map
-    this->_mapEntities = std::vector<Entity *>();
+    this->_mapEntities = new std::vector<Entity *>();
     // Load HUD textures
     this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
     this->_rav_infos_texture = Raylib_encp.LTexture("assets/materials/game/ravenclaw.png");
@@ -115,7 +115,9 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
             }
             this->_ecsManager->addEntity(std::move(entity));
         }
-    this->_mapEntities = this->getMapEntities();
+        //filters out the map entities
+        this->_mapEntities = this->getMapEntities();
+        std::cout << "test" << std::endl;
     } else {
         // Creating entities
         camera = this->_ecsManager->createEntity();
@@ -257,11 +259,11 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
-    this->_ecsManager->addSystem(std::make_unique<Move>(Move(&this->_mapEntities)));
+    this->_ecsManager->addSystem(std::make_unique<Move>(Move(this->_mapEntities)));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
     this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
-    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), &this->_mapEntities, &this->_playerEntities));
+    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities, &this->_playerEntities));
     this->_ecsManager->addSystem(std::make_unique<Finish>(&this->_playerEntities));
 
     //Drawing the plane
@@ -276,18 +278,23 @@ Game::~Game()
 {
 }
 
-std::vector<Entity *> Game::getMapEntities()
+std::vector<Entity *> *Game::getMapEntities()
 {
-    std::vector<Entity *> mapEntities;
+    std::vector<Entity *> *mapEntities = new std::vector<Entity *>();
     IComponent *component;
     Drawable *drawable;
+    DrawableModel *drawableModel;
+    ModelType modelType;
 
     for (auto &entity : this->_ecsManager->getEntitiesNoPtr()) {
         component = entity->getComponentsByType(DRAWABLE);
         if (component != nullptr) {
             drawable = dynamic_cast<Drawable *>(component);
-            if (drawable->getComponentType() == DRAWABLE_TYPE_MODEL)
-                mapEntities.push_back(entity);
+            if (drawable->getComponentType() == DRAWABLE_TYPE_MODEL) {
+                modelType = (ModelType) static_cast<DrawableModel *> (drawable)->getModelType();
+                if (modelType == ModelType::BAG || modelType == ModelType::GNOME || modelType == ModelType::TABLE)
+                    mapEntities->push_back(entity);
+            }
         }
     }
     return mapEntities;
@@ -378,7 +385,7 @@ void Game::loadMap(std::string map_src)
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
             }
             if (entity != nullptr)
-                this->_mapEntities.push_back(entity);
+                this->_mapEntities->push_back(entity);
         }
         i++;
     }
