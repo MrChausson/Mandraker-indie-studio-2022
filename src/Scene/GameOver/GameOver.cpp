@@ -67,14 +67,16 @@ GameOver::GameOver()
        this->_textures_salle = {
        Raylib_encp.LTexture("assets/models/greathall/MoldingsEntrance_M_01_v22@4x.png"),
        Raylib_encp.LTexture("assets/models/greathall/windows_columsConcrete_M_color_v63@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/windows_columsConcrete_M_color_v63@4x.png"),
        Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHallConcrete_01_v15@4x.png"),
-       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHall_M_Concrete_01_v77@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHallConcrete_01_v15@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_texture_GreatHall_M_Walls_01_v77@4x.png"),
        Raylib_encp.LTexture("assets/models/greathall/GreatHall_M_door_01_v34@4x.png"),
-       Raylib_encp.LTexture("assets/models/greathall/env_M_WoodPanels_color_v108@4x.png"),
        Raylib_encp.LTexture("assets/models/greathall/ceiling_M_wood_v25@4x.png"),
+       Raylib_encp.LTexture("assets/models/greathall/env_M_WoodPanels_color_v108@4x.png"),
     };
     std::vector<int> meshOrder_salle = {
-        1, 2, 3, 4, 5, 6, 7, 8, 9
+        0, 1, 2, 3, 4, 5, 6, 7, 8
     };
 
     Vector3 position = { -108.0f, 800.0f, 90.0f };
