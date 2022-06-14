@@ -17,14 +17,14 @@
 
 class Move : public ISystem {
     public:
-        Move();
+        Move(std::vector<Entity *> *mapEntities);
         ~Move();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
 
     protected:
     private:
-        
+        std::vector<Entity *> *mapEntities;
 };
 
 #endif /* !MOVE_HPP_ */
