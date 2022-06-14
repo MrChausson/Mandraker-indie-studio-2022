@@ -21,7 +21,7 @@ GameOver::GameOver()
 {
     Raylib::Raylib_encap Raylib_encp;
     Vector3 position = { 0.0f, 10.0f, 180.0f };
-    Vector3 target = { 32.0f, 25.0f, 0.0f }; //  Gauche-Droite|Haut-bas|??
+    Vector3 target = { 32.0f, 25.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 0.5, 0.5, 0.5 };
     Vector3 rotationAxis = {2.0f, 0.0f, 0.0f};
