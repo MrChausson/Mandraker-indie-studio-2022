@@ -175,6 +175,7 @@ ECSManager *ECSManager::applySystems()
                     components.push_back(entity->getComponentsByType(PLACABLE));
                     components.push_back(entity->getComponentsByType(MOVABLE));
                     components.push_back(component);
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
                     system->apply(components);
                     Player *player = static_cast<Player *>(system.get());
                     if (player != nullptr && player->getEcsToChangeTo() != nullptr) {

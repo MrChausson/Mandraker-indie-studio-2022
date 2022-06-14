@@ -10,6 +10,7 @@
 
 #include "../../IComponent/IComponent.hpp"
 #include <chrono>
+#include <vector>
 
 enum TIMABLE_TYPE {
     GAME_CLOCK,
@@ -37,6 +38,8 @@ class Timable : public IComponent {
         void setTimer(float timer);
         float getTimer();
         void setTimeType(TIMABLE_TYPE time_type);
+        void setPlayerToDelete(std::vector<int> playerEntities);
+        std::vector<int> getPlayerToDelete();
 
     protected:
     private:
@@ -46,6 +49,7 @@ class Timable : public IComponent {
         int _id_entity;
         bool _finished = false;
         void *_playable;
+        std::vector<int> _playerEntities;
 };
 
 #endif /* !TIMABLE_HPP_ */
