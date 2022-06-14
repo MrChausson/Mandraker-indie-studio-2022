@@ -70,7 +70,11 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
+<<<<<<< HEAD
+       // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
+=======
         // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
+>>>>>>> d9a260da6611f61eb76ca08cc1d7e569b2a194a3
     } else if ( ((Raylib_encp.isKeyPres(KEY_RIGHT_SHIFT)  && !IsGamepadAvailable(0))||  IsGamepadButtonPressed(0, BUTTON_A))&&  type == MOVABLE_PLAYER_2  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
         playable->setNbMandrake(playable->getNbMandrake() + 1);
         bomb_id = this->_ecsManager->createEntity();
@@ -81,7 +85,11 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Animable>("assets/models/mandrake/mandrake.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
+<<<<<<< HEAD
+       // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
+=======
         // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
+>>>>>>> d9a260da6611f61eb76ca08cc1d7e569b2a194a3
     }
     if (Raylib_encp.isKeyPres(KEY_ESCAPE)) {
         GameSettings *settings = new GameSettings(this->_ecsManager);
