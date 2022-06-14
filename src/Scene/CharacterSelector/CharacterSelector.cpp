@@ -16,7 +16,7 @@
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Sound/SoundSystem.hpp"
 
-CharacterSelector::CharacterSelector(Engine *engine)
+CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CHOOSEN> *characterChoosen)
 {
     Raylib::Raylib_encap Raylib_encp;
     Vector3 position = { 0.0f, 10.0f, 180.0f };
@@ -24,8 +24,10 @@ CharacterSelector::CharacterSelector(Engine *engine)
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 0.5, 0.5, 0.5 };
 
+    this->_characterChoosen = characterChoosen;
     std::cout << "Options creating" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
+    this->nb_characters = nb_characters;
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
@@ -241,6 +243,12 @@ void CharacterSelector::resetBoxClicked()
     }
 }
 
+void CharacterSelector::resetCharacterChoosen()
+{
+    if (this->getCharChoosen() != nullptr && this->getCharChoosen()->size() != 0)
+        this->getCharChoosen()->pop_back();
+}
+
 float CharacterSelector::getMusicTimePlayed()
 {
     Raylib::Raylib_encap Raylib_encp;
@@ -251,4 +259,14 @@ void CharacterSelector::SetMusicTimePlayed(float dur)
 {
     Raylib::Raylib_encap Raylib_encp;
     Raylib_encp.SeekMStream(this->_music, dur);
+}
+
+std::vector<CHARACTER_CHOOSEN> *CharacterSelector::getCharChoosen()
+{
+    return this->_characterChoosen;
+}
+
+void CharacterSelector::addCharacterChoosen(CHARACTER_CHOOSEN charChoosen)
+{
+    this->_characterChoosen->push_back(charChoosen);
 }

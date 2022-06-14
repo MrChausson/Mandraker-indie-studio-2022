@@ -24,6 +24,7 @@ NbPlayer::NbPlayer()
     int music_id = this->_ecsManager->createEntity();
     int player_id = this->_ecsManager->createEntity();
     int player_text = this->_ecsManager->createEntity();
+    this->nb_characters = 1;
 
     this->_music = Raylib_encp.LoadMStream("assets/sounds/menu_bg.mp3");
     this->_click = Raylib_encp.LSound("assets/sounds/menu/click.wav");

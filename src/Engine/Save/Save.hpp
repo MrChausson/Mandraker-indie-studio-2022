@@ -11,6 +11,7 @@
     #include <fstream>
     #include <sstream>
     #include "../../ecs/Entity/Entity.hpp"
+    #include "../../ecs/Systems/MouseClick/MouseClick.hpp"
 
 class Save {
     public:
@@ -18,6 +19,7 @@ class Save {
         ~Save();
         void save(std::vector<Entity *> entities);
         std::vector<std::unique_ptr<Entity>> load();
+        std::vector<CHARACTER_CHOOSEN> *getCharacterChosen();
 
     protected:
         std::unique_ptr<IComponent> saveTimable(std::vector<std::string> lines);
