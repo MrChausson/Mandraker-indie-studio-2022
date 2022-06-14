@@ -107,11 +107,15 @@ bool Player::checkNearBreakableBlock(Vector3 position)
     Placable *place;
     Breakable *breakable;
     float range = 3;
+    IComponent *component;
+    Drawable *drawable;
 
     this->_mapEntities = timer->getMapEntites();
 
     for (auto &entity : *this->_mapEntities) {
-        if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
+        component = entity->getComponentsByType(BREAKABLE);
+        if (entity->getComponents().size() != 0 && component != nullptr) {
+            drawable = static_cast<Drawable *>(component);
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
             if (timer->isInRange(position, pos, range)) {
