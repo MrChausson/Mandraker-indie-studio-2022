@@ -20,7 +20,7 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
 {
     Raylib::Raylib_encap Raylib_encp;
     Vector3 position = { 0.0f, 10.0f, 180.0f };
-    Vector3 target = { 32.0f, 25.0f, 0.0f }; //  Gauche-Droite|Haut-bas|??
+    Vector3 target = { 32.0f, 25.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 0.5, 0.5, 0.5 };
 
@@ -153,12 +153,23 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     };
     Scene *nullScene = nullptr;
 
-    this->_idBoxes = {
-        Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &_SoundMcg).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &_SoundSprout).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &_SoundTrelawney).getIdSprite(),
-        Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &_SoundSnape).getIdSprite()
-    };
+    // Box for the characters selection
+    if ((*characterChoosen).size() == 1 && (*characterChoosen)[0] == MCG)
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos, 260, this->_box).getIdSprite());
+    else
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos, 260, this->_box, CLICKABLE_ACTION_CHOOSE_MCG, this, &_SoundMcg).getIdSprite());
+    if ((*characterChoosen).size() == 1 && (*characterChoosen)[0] == SPROUT)
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box).getIdSprite());
+    else
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos + (420*1), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPROUT, this, &_SoundSprout).getIdSprite());
+    if ((*characterChoosen).size() == 1 && (*characterChoosen)[0] == TRELAWNEY)
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box).getIdSprite());
+    else
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos + (420*2), 260, this->_box, CLICKABLE_ACTION_CHOOSE_TRELAWNEY, this, &_SoundTrelawney).getIdSprite());
+    if ((*characterChoosen).size() == 1 && (*characterChoosen)[0] == SNAPE)
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box).getIdSprite());
+    else
+        this->_idBoxes.push_back(Button(this->_ecsManager.get(), start_pos + (420*3), 260, this->_box, CLICKABLE_ACTION_CHOOSE_SPANE, this, &_SoundSnape).getIdSprite());
     //mcg
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
