@@ -17,6 +17,11 @@ class AError : public std::exception {
         std::string _msg;
 };
 
+class MissingModelType : public AError {
+    public:
+        MissingModelType(std::string msg) {this->_msg = msg;};
+};
+
 class Error_file : public AError {
     public:
         Error_file() {this->_msg = "Failed to open the file"; };

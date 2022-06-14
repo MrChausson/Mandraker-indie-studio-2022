@@ -14,17 +14,19 @@
 #include "Drawable.hpp"
 
 enum class ModelType {
+    NONE,
     MCG,
     SPROUT,
     TRELAWNEY,
     SNAPE,
     GNOME,
-    BAG
+    BAG,
+    TABLE
 };
 
 class DrawableModel : public Drawable{
     public:
-        DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan = 0, ModelType modelType = ModelType::MCG);
+        DrawableModel(std::vector<Texture2D> textures, Model model, std::vector<int> meshOrder, int plan = 0, ModelType modelType = ModelType::NONE);
         ~DrawableModel();
         Model getModel();
         Model *getPtrModel();
