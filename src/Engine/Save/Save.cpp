@@ -24,7 +24,7 @@ Save::Save(std::string file_to_save)
 {
     Raylib::Raylib_encap r;
     this->_fileToSaveTo = file_to_save;
-    this->_grassTexture = r.LTexture("assets/meterials/grass.png");
+    this->_grassTexture = r.LTexture("assets/materials/grass.png");
     this->_stoneTexture = r.LTexture("assets/materials/game/stone.png");
     // Creating vector texture and the mesh order for mcg
     this->_textures_mcg = {
