@@ -47,11 +47,6 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
 
     // Load Music
     this->music = Raylib_encp.LoadMStream("assets/sounds/game_bg.mp3");
-    // Creating Model , vector texture and the mesh order for mcg
-    this->mgmModel = models[0];
-    this->trelawneyModel = models[1];
-    this->snapeModel = models[2];
-    this->sproutModel = models[3];
 
     // Creating Mandrake model
     this->mandrakeModel = Raylib_encp.LModel("assets/models/mandrake/mandrake.iqm");
@@ -103,10 +98,25 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
     this->_ecsManager->addComponent(slyth_infos, std::make_unique<Placable>(1792, 937));
     this->_ecsManager->addComponent(slyth_infos, std::make_unique<DrawableSprite>(this->_slyth_infos_texture, 1));
 
+    IComponent *tmp_component = nullptr;
+    ModelType model_type;
     if (entities.size() != 0) {
         std::cout << "Constructing Game from saved entities" << std::endl;
-        for (auto &entity : entities)
+        for (auto &entity : entities) {
+            tmp_component = entity.get()->getComponentsByType(COMPONENT_TYPES::DRAWABLE);
+            if (tmp_component != nullptr && static_cast<Drawable *>(tmp_component)->getComponentType() == DRAWABLE_TYPE::DRAWABLE_TYPE_MODEL) {
+                model_type = (ModelType) static_cast<DrawableModel *> (tmp_component)->getModelType();
+                if (model_type == ModelType::MCG)
+                    player = entity.get()->getId();
+                else if (model_type == ModelType::TRELAWNEY)
+                    trelawney = entity.get()->getId();
+                else if (model_type == ModelType::SNAPE)
+                    snape = entity.get()->getId();
+                else if (model_type == ModelType::SPROUT)
+                    sprout = entity.get()->getId();
+            }
             this->_ecsManager->addEntity(std::move(entity));
+        }
     } else {
         // Creating entities
         camera = this->_ecsManager->createEntity();
@@ -123,6 +133,11 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
         mandrake = this->_ecsManager->createEntity();
         game_clock = this->_ecsManager->createEntity();
 
+        // Creating Model , vector texture and the mesh order for mcg
+        this->mgmModel = models[0];
+        this->trelawneyModel = models[1];
+        this->snapeModel = models[2];
+        this->sproutModel = models[3];
 
         // Adding Camera Component
         this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));

@@ -49,6 +49,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     Menu *menu;
     Save *save;
     Game *game;
+    GameSettings *gameSet;
     NbPlayer *nbPlayer;
     Raylib::Raylib_encap r;
 
@@ -238,18 +239,19 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
     case CLICKABLE_ACTION_SAVE_AND_QUIT:
         std::cout << "Goodbye!" << std::endl;
         loop_status = false;
-        for (auto &entity : *scene->getECS()->getEntities())
+        gameSet = static_cast<GameSettings *>(scene);
+        for (auto &entity : *gameSet->_previousEcs->getEntities())
             entities.push_back(entity.get());
         save = new Save("game.save");
         save->save(entities);
         delete(save);
         if (scene != nullptr)
             scene->Unload();
-
     break;
     case CLICKABLE_ACTION_SAVE_AND_MENU:
         menu = new Menu();
-        for (auto &entity : *scene->getECS()->getEntities())
+        gameSet = static_cast<GameSettings *>(scene);
+        for (auto &entity : *gameSet->_previousEcs->getEntities())
             entities.push_back(entity.get());
         save = new Save("game.save");
         save->save(entities);
@@ -262,12 +264,15 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
         save = new Save("game.save");
         // entities_load = 
         game = new Game(models, character, save->load());
+        click->setEcs(game->getECS());
+        if (scene != nullptr)
+            scene->Unload();
         break;
     case CLICKABLE_ACTION_RETURN_GAME:
         if (scene == nullptr)
            throw std::runtime_error("Scene is null");
         std::cout << "Change scene" << std::endl;
-        GameSettings *gameSet = static_cast<GameSettings *>(scene);
+        gameSet = static_cast<GameSettings *>(scene);
         click->setEcs(gameSet->_previousEcs);
         std::cout << "Change scene to game" << std::endl;
         if (scene != nullptr)

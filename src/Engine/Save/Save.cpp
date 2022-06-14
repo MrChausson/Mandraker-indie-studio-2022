@@ -100,6 +100,7 @@ Save::Save(std::string file_to_save)
     this->_trelawneyModel.transform = r.MatrixRotZ(0.6);
     this->_gnomeModel = r.LModel("assets/models/gnome/gnome.iqm");
     this->_gnomeModel.transform = MatrixRotateX(1.55);
+    this->_bagModel = r.LModel("assets/models/bag/bag.obj");
     this->_font = r.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
 }
 
@@ -158,7 +159,6 @@ void Save::save(std::vector<Entity *> entities)
             } else if (component->getType() == ANIMABLE) {
                 animable = static_cast<Animable *>(component);
                 buffer << "Animable" << std::endl;
-                buffer << std::to_string(animable->getAnimationType()) << std::endl;
                 buffer << animable->getPathToFile() << std::endl;
             } else if (component->getType() == CAMERA) {
                 camera = static_cast<CameraComponent *>(component);
@@ -179,11 +179,12 @@ void Save::save(std::vector<Entity *> entities)
                 buffer << std::to_string(camera->getProjection()) << std::endl;
             } else if (component->getType() == BREAKABLE) {
                 buffer << "Breakable" << std::endl;
-            } else if (component->getType() == DRAWABLE) {
+            } else if (component->getType() == DRAWABLE &&
+            static_cast<Drawable *>(component)->getComponentType() != DRAWABLE_TYPE_SPRITE) {
                 drawable = static_cast<Drawable *>(component);
-                buffer << "Drawable" << std::endl;
                 drawable->getPlan();
                 tmp_drawable_type = drawable->getComponentType();
+                buffer << "Drawable" << std::endl;
                 buffer << std::to_string(tmp_drawable_type) << std::endl;
                 if (tmp_drawable_type == DRAWABLE_TYPE_CUBE) {
                     drawableCube = static_cast<DrawableCube *>(drawable);
@@ -226,6 +227,7 @@ void Save::save(std::vector<Entity *> entities)
                 }
             }
         }
+        buffer << "--" << std::endl;
     }
     savefile << buffer.str();
     savefile.close();
@@ -257,9 +259,8 @@ std::unique_ptr<IComponent> Save::saveMovable(std::vector<std::string> lines)
 
 std::unique_ptr<IComponent> Save::saveAnimable(std::vector<std::string> lines)
 {
-    ANIMATION_TYPE animable_type = (ANIMATION_TYPE) std::stoi(lines[0]);
-    std::string path = lines[1];
-    std::unique_ptr<IComponent> component = std::make_unique<Animable>(path, animable_type);
+    std::string path = lines[0];
+    std::unique_ptr<IComponent> component = std::make_unique<Animable>(path, ANIMATION_TYPE::IDLE);
     return component;
 }
 
@@ -356,80 +357,109 @@ std::vector<std::unique_ptr<Entity>> Save::load()
     std::vector <std::string> lines;
     std::unique_ptr<Entity> entity;
     DRAWABLE_TYPE drawable_type;
+    std::unique_ptr<IComponent> componentToAdd;
 
     savefile.open(this->_fileToSaveTo);
     if (!savefile.is_open())
         throw Error_file("Could not open file to load");
     while (getline(savefile, line)) {
-        lines.clear();
         entity = std::make_unique<Entity>(std::stoi(line));
-        getline(savefile, line);
-        if (line == "Timable") {
-            for (int i = 0; i < 1; i++) {
-                getline(savefile, line);
-                lines.push_back(line);
-            }
-            entity.get()->addComponent(saveTimable(lines));
-        } else if (line == "Placable") {
-            for (int i = 0; i < 10; i++) {
-                getline(savefile, line);
-                lines.push_back(line);
-            }
-            entity.get()->addComponent(savePlacable(lines));
-        } else if (line == "Movable") {
-            for (int i = 0; i < 2; i++) {
-                getline(savefile, line);
-                lines.push_back(line);
-            }
-            entity.get()->addComponent(saveMovable(lines));
-        } else if (line == "Animable") {
-            for (int i = 0; i < 2; i++) {
-                getline(savefile, line);
-                lines.push_back(line);
-            }
-            entity.get()->addComponent(saveAnimable(lines));
-        } else if (line == "Camera") {
-            for (int i = 0; i < 11; i++) {
-                getline(savefile, line);
-                lines.push_back(line);
-            }
-            entity.get()->addComponent(saveCamera(lines));
-        } else if (line == "Breakable") {
-            entity.get()->addComponent(saveBreakable());
-        } else if (line == "Drawable") {
-            getline(savefile, line);
-            drawable_type = (DRAWABLE_TYPE) std::stoi(line);
-            if (drawable_type == DRAWABLE_TYPE_CUBE) {
-                for (int i = 0; i < 7; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.get()->addComponent(saveDrawableCube(lines));
-            } else if (drawable_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
-                for (int i = 0; i < 8; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.get()->addComponent(saveDrawableCubeTexture(lines));
-            } else if (drawable_type == DRAWABLE_TYPE_TEXT) {
-                for (int i = 0; i < 6; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.get()->addComponent(saveDrawableText(lines));
-            } else if (drawable_type == DRAWABLE_TYPE_PLANE) {
-                for (int i = 0; i < 6; i++) {
-                    getline(savefile, line);
-                    lines.push_back(line);
-                }
-                entity.get()->addComponent(saveDrawablePlane(lines));
-            } else if (drawable_type == DRAWABLE_TYPE_MODEL) {
+        while (getline(savefile, line) && line != "--") {
+            lines.clear();
+            if (line == "Timable") {
                 for (int i = 0; i < 1; i++) {
                     getline(savefile, line);
                     lines.push_back(line);
                 }
-                entity.get()->addComponent(saveDrawableModel(lines));
+                componentToAdd = std::move(this->saveTimable(lines));
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Placable") {
+                for (int i = 0; i < 10; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                componentToAdd = std::move(this->savePlacable(lines));
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Movable") {
+                for (int i = 0; i < 2; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                componentToAdd = std::move(this->saveMovable(lines));
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Animable") {
+                for (int i = 0; i < 1; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+                componentToAdd = std::move(this->saveAnimable(lines));
+                std::cout << "Animable Path = " << static_cast<Animable *>(componentToAdd.get())->getPathToFile() << std::endl;
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Camera") {
+                for (int i = 0; i < 11; i++) {
+                    getline(savefile, line);
+                    lines.push_back(line);
+                }
+               componentToAdd = std::move(this->saveCamera(lines));
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Breakable") {
+                componentToAdd = std::move(this->saveBreakable());
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Drawable") {
+                getline(savefile, line);
+                drawable_type = (DRAWABLE_TYPE) std::stoi(line);
+                if (drawable_type == DRAWABLE_TYPE_CUBE) {
+                    for (int i = 0; i < 7; i++) {
+                        getline(savefile, line);
+                        lines.push_back(line);
+                    }
+                    componentToAdd = std::move(this->saveDrawableCube(lines));
+                    if (componentToAdd != nullptr)
+                        entity->addComponent(std::move(componentToAdd));
+                } else if (drawable_type == DRAWABLE_TYPE_TEXTURE_CUBE) {
+                    for (int i = 0; i < 8; i++) {
+                        getline(savefile, line);
+                        lines.push_back(line);
+                    }
+                   componentToAdd = std::move(this->saveDrawableCubeTexture(lines));
+                    if (componentToAdd != nullptr)
+                        entity->addComponent(std::move(componentToAdd));
+                } else if (drawable_type == DRAWABLE_TYPE_TEXT) {
+                    for (int i = 0; i < 6; i++) {
+                        getline(savefile, line);
+                        lines.push_back(line);
+                    }
+                    componentToAdd = std::move(this->saveDrawableText(lines));
+                    if (componentToAdd != nullptr)
+                        entity->addComponent(std::move(componentToAdd));
+                } else if (drawable_type == DRAWABLE_TYPE_PLANE) {
+                    for (int i = 0; i < 6; i++) {
+                        getline(savefile, line);
+                        lines.push_back(line);
+                    }
+                    componentToAdd = std::move(this->saveDrawablePlane(lines));
+                    if (componentToAdd != nullptr)
+                        entity->addComponent(std::move(componentToAdd));
+                } else if (drawable_type == DRAWABLE_TYPE_MODEL) {
+                    for (int i = 0; i < 1; i++) {
+                        getline(savefile, line);
+                        lines.push_back(line);
+                    }
+                    componentToAdd = std::move(this->saveDrawableModel(lines));
+                    if (componentToAdd != nullptr)
+                        entity->addComponent(std::move(componentToAdd));
+                }
             }
+        }
+        for (auto &component : entity->getComponents()) {
+            if (component == nullptr)
+                std::cout << "Component is null" << std::endl;
         }
         entities.push_back(std::move(entity));
     }
