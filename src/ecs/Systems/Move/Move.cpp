@@ -63,7 +63,7 @@ void Move::apply(std::vector<IComponent *> component)
         } else
             anims->setAnimationType(IDLE);
     }
-    else if (type == MOVABLE_PLAYER_2 && IsGamepadAvailable(0)) {
+    else if (type == MOVABLE_PLAYER_2 && IsGamepadAvailable(0) && anims->getAnimationType() != ANIMATION_TYPE::FALL) {
         collision = static_cast<Collisionable *> (component[3]);
         if (IsGamepadButtonDown(0, BUTTON_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ(), this->mapEntities)) {
             anims->setAnimationType(RUN);
@@ -84,7 +84,7 @@ void Move::apply(std::vector<IComponent *> component)
         } else
             anims->setAnimationType(IDLE);
     }
-    else if (type == MOVABLE_PLAYER_2 ) {
+    else if (type == MOVABLE_PLAYER_2  && anims->getAnimationType() != ANIMATION_TYPE::FALL) {
         collision = static_cast<Collisionable *> (component[3]);
         if (Raylib_encp.IsKDown(KEY_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ(), this->mapEntities)) {
             anims->setAnimationType(RUN);
