@@ -21,11 +21,14 @@ class Player : public ISystem {
         ECSManager  *getEcsToChangeTo();
         void setEcsToChangeTo(ECSManager *ecsManager);
         bool checkNearBreakableBlock(Vector3 position);
+        Texture2D assetSounds;
+
     private:
         std::chrono::time_point<std::chrono::system_clock>  _toWait;
         ECSManager *_ecsManager;
         Model _mandrakeModel;
         std::vector<Texture2D> _texturesMandrake;
+        std::vector<Texture2D> _texturesBoom;
         std::vector<int> _meshOrderMandrake;
         Vector3 _scaleMandrake;
         Sound _plantSound;

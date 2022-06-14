@@ -7,6 +7,8 @@
 
 #include "Finish.hpp"
 #include "../../../Scene/Menu/Menu.hpp"
+#include "../../../Scene/GameOver/GameOver.hpp"
+
 
 Finish::Finish(std::vector<Entity *> *playerEntities)
 {
@@ -42,7 +44,7 @@ bool Finish::isFinished()
             i++;
     }
     if (i >= 3) {
-        this->_ecsManager = (new Menu())->getECS();
+        this->_ecsManager = (new GameOver())->getECS();
         return (true);
     } else
         return (false);

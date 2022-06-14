@@ -12,7 +12,7 @@
 
 class Game : public Scene {
     public:
-        Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::vector<std::unique_ptr<Entity>> entities = std::vector<std::unique_ptr<Entity>>());
+        Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterChoosen, std::vector<std::unique_ptr<Entity>> entities = std::vector<std::unique_ptr<Entity>>());
         ~Game();
         void Unload() override;
         void loadMap(std::string map);
@@ -56,7 +56,7 @@ class Game : public Scene {
         Model tableModelRotate;
         Model gnome;
         std::vector<Texture2D> textures_gnome;
-        CHARACTER_CHOOSEN _characterChoosen;
+        std::vector<CHARACTER_CHOOSEN> *_characterChoosen;
         Font _font;
         std::vector<std::unique_ptr<Entity>> *_entities_ecs;
 };

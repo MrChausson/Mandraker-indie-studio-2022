@@ -28,6 +28,16 @@ src/Scene/Settings/Settings.cpp
 src/Scene/GameSettings/GameSettings.cpp
 src/Scene/CharacterSelector/CharacterSelector.cpp
 src/Scene/CharacterSelector/NbPlayer.cpp
+
+
+
+
+src/Scene/GameOver/GameOver.cpp
+
+
+
+
+
 # SYSTEMS #
 src/ecs/Systems/Gravity/Gravity.cpp
 src/ecs/Systems/Draw/Draw.cpp
