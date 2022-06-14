@@ -13,8 +13,19 @@ class GameOver : public Scene {
     public:
         GameOver();
         ~GameOver();
+        void Unload() override;
+        float getMusicTimePlayed();
+        void SetMusicTimePlayed(float dur);
+
     protected:
     private:
+        Texture2D _background_texture;
+        Texture2D _btn_textures[3];
+        Texture2D _title_texture;
+        Font _btn_font;
+        Font _title_font;
+        Music _music;
+        Sound _click;
 };
 
 #endif /* !GAMEOVER_HPP_ */
