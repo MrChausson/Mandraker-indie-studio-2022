@@ -26,6 +26,7 @@ class GameOver : public Scene {
         Font _title_font;
         Music _music;
         Sound _click;
+        std::vector<Texture2D> _textures_salle;
 };
 
 #endif /* !GAMEOVER_HPP_ */
