@@ -43,7 +43,7 @@ bool Finish::isFinished()
         if (components.size() == 0)
             i++;
     }
-    if (i >= 0) {
+    if (i >= 3) {
         this->_ecsManager = (new GameOver())->getECS();
         return (true);
     } else
