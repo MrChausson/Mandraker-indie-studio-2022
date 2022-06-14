@@ -10,7 +10,6 @@
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../Tools/Button.hpp"
 #include <string>
-#include "CharacterSelector.hpp"
 #include "raymath.h"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
@@ -26,8 +25,6 @@ GameOver::GameOver()
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 0.5, 0.5, 0.5 };
     Vector3 rotationAxis = {2.0f, 0.0f, 0.0f};
-
-    Raylib::Raylib_encap Raylib_encp;
 
     std::cout << "End the game" << std::endl;
     this->_ecsManager = std::make_unique<ECSManager>();
@@ -130,15 +127,12 @@ GameOver::GameOver()
        Raylib_encp.LTexture("assets/models/greathall/windows_Decal_LM_v12@4x.png"),
     };
     std::vector<int> meshOrder_salle = {
-        1, 5, 4, 0, 6, 3, 2
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
     };
 
     this->_ecsManager->addComponent(character_salle, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model salleModel = Raylib_encp.LModel("assets/models/greathall/greathall.obj");
     this->_ecsManager->addComponent(character_salle, std::make_unique<DrawableModel>(_textures_salle, salleModel, meshOrder_salle, 2));
-    this->_ecsManager->addComponent(character_salle, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
-
-
 }
 
 GameOver::~GameOver()
