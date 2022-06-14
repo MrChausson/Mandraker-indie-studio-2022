@@ -62,6 +62,7 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
             if (click->_sound != nullptr)
                 r.PlayS(*click->_sound);
             characterSelector = static_cast<CharacterSelector *>(scene);
+            characterSelector->addCharacterChoosen(this->_characterChoosen);
             if (characterSelector->nb_characters == 2) {
                 std::cout << "ici" << std::endl;
                 int dur = 0;
@@ -135,52 +136,45 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
             r.PlayS(*click->_sound);
         this->_characterChoosen = SNAPE;
         characterSelector = static_cast<CharacterSelector *>(scene);
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::SNAPE);
-        if (!sprite->isSelected()){
-            characterSelector->resetCharacterChoosen();
+        if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
-        }
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::SNAPE);
         sprite->setSelected(!sprite->isSelected());
+        if (!sprite->isSelected())
+            this->_characterChoosen = NO_CHARACTER;
     break;
     case CLICKABLE_ACTION_CHOOSE_MCG:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = MCG;
         characterSelector = static_cast<CharacterSelector *>(scene);
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::MCG);
-        if (!sprite->isSelected()){
-            characterSelector->resetCharacterChoosen();
+        if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
-        }
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::MCG);
         sprite->setSelected(!sprite->isSelected());
+        if (!sprite->isSelected())
+            this->_characterChoosen = NO_CHARACTER;
     break;
     case CLICKABLE_ACTION_CHOOSE_SPROUT:
         if (click->_sound != nullptr && !sprite->isSelected())
             r.PlayS(*click->_sound);
         this->_characterChoosen = SPROUT;
         characterSelector = static_cast<CharacterSelector *>(scene);
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::SPROUT);
-        if (!sprite->isSelected()){
-            characterSelector->resetCharacterChoosen();
+        if (!sprite->isSelected())
             characterSelector->resetBoxClicked();
-        }
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::SPROUT);
         sprite->setSelected(!sprite->isSelected());
+        if (!sprite->isSelected())
+            this->_characterChoosen = NO_CHARACTER;
     break;
     case CLICKABLE_ACTION_CHOOSE_TRELAWNEY:
         if (click->_sound != nullptr)
             r.PlayS(*click->_sound);
         this->_characterChoosen = TRELAWNEY;
         characterSelector = static_cast<CharacterSelector *>(scene);
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::TRELAWNEY);
         if (!sprite->isSelected()){
-            characterSelector->resetCharacterChoosen();
             characterSelector->resetBoxClicked();
         }
-        characterSelector->addCharacterChoosen(CHARACTER_CHOOSEN::TRELAWNEY);
         sprite->setSelected(!sprite->isSelected());
+        if (!sprite->isSelected())
+            this->_characterChoosen = NO_CHARACTER;
     break;
     case CLICKABLE_ACTION_MINUS_MUSIC:
         if (click->_sound != nullptr && musicVolume > 0) {
