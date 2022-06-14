@@ -12,6 +12,7 @@
 #include "../../Components/Timable/Timable.hpp"
 #include "../../Components/Playable/Playable.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
+#include "extern.hpp"
 
 
 Player::Player(ECSManager *ecsManager)
@@ -75,7 +76,7 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
         this->_ecsManager->addComponent(particles_id, std::make_unique<Placable>(round(playerPlace->getX()) + 1, round(playerPlace->getY()), round(playerPlace->getZ()), playerPos, -90.0f, this->_scaleMandrake));
         this->_ecsManager->addComponent(particles_id, std::make_unique<DrawableCubeTexture>(this->_soundTexture, CubeTextureType::SOUND));
-    } else if ( ((Raylib_encp.isKeyPres(KEY_RIGHT_SHIFT)  && !IsGamepadAvailable(0))||  IsGamepadButtonPressed(0, BUTTON_A))&&  type == MOVABLE_PLAYER_2  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
+    } else if ( ((Raylib_encp.isKeyPres(KEY_RIGHT_SHIFT)  && !IsGamepadAvailable(controllerId))||  IsGamepadButtonPressed(controllerId, BUTTON_A))&&  type == MOVABLE_PLAYER_2  && playable->getNbMandrake( ) < playable->getNbMaxMandrake()) {
         playable->setNbMandrake(playable->getNbMandrake() + 1);
         bomb_id = this->_ecsManager->createEntity();
         particles_id = this->_ecsManager->createEntity();

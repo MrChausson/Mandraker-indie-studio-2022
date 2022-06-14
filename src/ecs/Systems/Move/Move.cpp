@@ -11,10 +11,24 @@
 #include "../../Components/Drawable/DrawableModel.hpp"
 #include "../../Components/Animable/Animable.hpp"
 #include "raylib.hpp"
+#include "extern.hpp"
+
+int controllerId = 0;
 
 Move::Move(std::vector<Entity *> *map_entities)
 {
     this->mapEntities = map_entities;
+    std::string controllerStr("Controller");
+    std::string name;
+
+    for (int i = 0; i < 50; i++)
+        if (IsGamepadAvailable(i)) {
+            name = GetGamepadName(i);
+            if (name.find(controllerStr) != std::string::npos && name.find("Touchpad") == std::string::npos) {
+                controllerId = i;
+                break;
+            }
+        }
 }
 
 Move::~Move()
@@ -63,21 +77,21 @@ void Move::apply(std::vector<IComponent *> component)
         } else
             anims->setAnimationType(IDLE);
     }
-    else if (type == MOVABLE_PLAYER_2 && IsGamepadAvailable(0)) {
+    else if (type == MOVABLE_PLAYER_2 && IsGamepadAvailable(controllerId)) {
         collision = static_cast<Collisionable *> (component[3]);
-        if (IsGamepadButtonDown(0, BUTTON_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ(), this->mapEntities)) {
+        if (IsGamepadButtonDown(controllerId, BUTTON_RIGHT) && !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ(), this->mapEntities)) {
             anims->setAnimationType(RUN);
             model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(-1.5);
             placable->setX(placable->getX() + to_move);
-        } else if (IsGamepadButtonDown(0, BUTTON_LEFT) && !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ(), this->mapEntities)) {
+        } else if (IsGamepadButtonDown(controllerId, BUTTON_LEFT) && !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ(), this->mapEntities)) {
             anims->setAnimationType(RUN);
             model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
             placable->setX(placable->getX() - to_move);
-        } else if (IsGamepadButtonDown(0, BUTTON_UP) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move, this->mapEntities)) {
+        } else if (IsGamepadButtonDown(controllerId, BUTTON_UP) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move, this->mapEntities)) {
             anims->setAnimationType(RUN);
             model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(3);
             placable->setZ(placable->getZ() - to_move);
-        } else if (IsGamepadButtonDown(0, BUTTON_DOWN) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move, this->mapEntities)) {
+        } else if (IsGamepadButtonDown(controllerId, BUTTON_DOWN) && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move, this->mapEntities)) {
             anims->setAnimationType(RUN);
             model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(0);
             placable->setZ(placable->getZ() + to_move);
