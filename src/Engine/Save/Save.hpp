@@ -43,18 +43,21 @@ class Save {
         Model _sproutModel;
         Model _gnomeModel;
         Model _bagModel;
+        Model _tableModel;
         std::vector<Texture2D> _textures_mcg;
         std::vector<Texture2D> _textures_sprout;
         std::vector<Texture2D> _texturesTre;
         std::vector<Texture2D> _textures_snape;
         std::vector<Texture2D> _texturesGnome;
         std::vector<Texture2D> _texturesBag;
+        std::vector<Texture2D> _texturesTable;
         std::vector<int> _meshOrder_mcg;
         std::vector<int> _meshOrder_sprout;
         std::vector<int> _meshOrderTrelawney;
         std::vector<int> _meshOrderSnape;
         std::vector<int> _texture_gnome_mesh_order;
         std::vector<int> _textureBagMeshOrder;
+        std::vector<int> _textureTableMeshOrder;
 };
 
 #endif /* !SAVE_HPP_ */

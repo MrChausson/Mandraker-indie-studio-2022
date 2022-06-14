@@ -156,7 +156,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
         else
             this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
         this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
-        this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm));
+        this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm, 0, ModelType::MCG));
         this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
 
@@ -168,7 +168,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
         else
             this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
             this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney));
+        this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney, 0, ModelType::TRELAWNEY));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
 
@@ -179,7 +179,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
         else
             this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
         this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
-        this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape));
+        this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape, 0, ModelType::SNAPE));
         this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
 
@@ -190,7 +190,7 @@ Game::Game(std::vector<Model> models, CHARACTER_CHOOSEN characterChoosen, std::v
         else
             this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
         this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
-        this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout));
+        this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout, 0, ModelType::SPROUT));
         this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
 
@@ -270,8 +270,6 @@ void Game::loadMap(std::string map_src)
         2, 0, 1
     };
     this->tableModel = Raylib_encp.LModel("assets/models/table/table.obj");
-    this->tableModelRotate = Raylib_encp.LModel("assets/models/table/table.obj");
-    tableModelRotate.transform = MatrixRotateY(1.55 );
 
     // Gnome
     this->gnome = Raylib_encp.LModel("assets/models/gnome/gnome.iqm");
@@ -300,14 +298,14 @@ void Game::loadMap(std::string map_src)
             if (line[j] == 'r') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -0.5f, i, zeroVector3 , -45, bag_scale));
-                entity->addComponent(std::make_unique<DrawableModel>(textures_bag, bagModel, texture_po_mesh_order));
+                entity->addComponent(std::make_unique<DrawableModel>(textures_bag, bagModel, texture_po_mesh_order, 0, ModelType::BAG));
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
             } else if (line[j] == 'B') {
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
-                entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order));
+                entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order, 0, ModelType::TABLE));
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(j, -1.0f, i, zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
@@ -318,7 +316,7 @@ void Game::loadMap(std::string map_src)
                 if (std::rand() % 2 == 1) { // 50% chance to spawn a gnome
                     entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                     entity->addComponent(std::make_unique<Placable>(j, -0.7, i, zeroVector3, 0, gnome_scale));
-                    entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order));
+                    entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order, 0, ModelType::GNOME));
                     entity->addComponent(std::make_unique<Breakable>());
                 }
                 // we have to put grass also

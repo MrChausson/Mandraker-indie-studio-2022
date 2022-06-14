@@ -90,6 +90,18 @@ Save::Save(std::string file_to_save)
     this->_textureBagMeshOrder = {
         0
     };
+
+    // Table
+    this->_texturesTable = {
+        r.LTexture("assets/models/table/leaves2_v73@4x.png"),
+        r.LTexture("assets/models/table/Metal_potteryHolders_v11@4x.png"),
+        r.LTexture("assets/models/table/pottery02_v18@4x.png"),
+    };
+    this->_textureTableMeshOrder = {
+        2, 0, 1
+    };
+    this->_tableModel = r.LModel("assets/models/table/table.obj");
+
     this->_mgmModel = r.LModel("assets/models/mcg/mcg.iqm");
     this->_snapeModel.transform = r.MatrixRotZ(0.6);
     this->_snapeModel = r.LModel("assets/models/snape/snape.iqm");
@@ -325,6 +337,10 @@ std::unique_ptr<IComponent> Save::saveDrawableModel(std::vector<std::string> lin
         component = std::make_unique<DrawableModel>(this->_texturesGnome, this->_gnomeModel, this->_texture_gnome_mesh_order, 0, model_type);
     else if (model_type == ModelType::BAG)
         component = std::make_unique<DrawableModel>(this->_texturesBag, this->_bagModel, this->_textureBagMeshOrder, 0, model_type);
+    else if (model_type == ModelType::TABLE)
+        component = std::make_unique<DrawableModel>(this->_texturesTable, this->_tableModel, this->_textureTableMeshOrder, 0, model_type);
+    else if (model_type == ModelType::NONE)
+        throw MissingModelType("ModelType::NONE is not a valid model type");
     return component;
 }
 
