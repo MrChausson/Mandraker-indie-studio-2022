@@ -11,7 +11,7 @@
 
 class GameOver : public Scene {
     public:
-        GameOver();
+        GameOver(ModelType modelType);
         ~GameOver();
         void Unload() override;
         float getMusicTimePlayed();

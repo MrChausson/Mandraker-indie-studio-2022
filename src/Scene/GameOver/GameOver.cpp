@@ -17,7 +17,7 @@
 #include "../../Tools/Button.hpp"
 
 
-GameOver::GameOver()
+GameOver::GameOver(ModelType modelType)
 {
    Raylib::Raylib_encap Raylib_encp;
     Vector3 position = { 0.0f, 10.0f, 180.0f };
@@ -30,15 +30,30 @@ GameOver::GameOver()
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
-    int bg_perso1 = this->_ecsManager->createEntity();
-    int bg_perso2 = this->_ecsManager->createEntity();
-    int bg_perso3 = this->_ecsManager->createEntity();
-    int bg_perso4 = this->_ecsManager->createEntity();
     int character_mcg = this->_ecsManager->createEntity();
+    int mcg_bg = this->_ecsManager->createEntity();
     int character_sprout = this->_ecsManager->createEntity();
-    int camera = this->_ecsManager->createEntity();
-    int character_flit = this->_ecsManager->createEntity();
+    int sprout_bg = this->_ecsManager->createEntity();
+    int character_trelawney = this->_ecsManager->createEntity();
+    int trelawney_bg = this->_ecsManager->createEntity();
     int character_snape = this->_ecsManager->createEntity();
+    int snape_bg = this->_ecsManager->createEntity();
+    int camera = this->_ecsManager->createEntity();
+    int x = 0;
+    std::string winner = "time ! no one won";
+    if (modelType == ModelType::MCG) {
+        winner = "McGonagall won !";
+        x = 600;
+    } else if (modelType == ModelType::SPROUT) {
+        winner = "Sprout won !";
+        x = 720;
+    } else if (modelType == ModelType::TRELAWNEY) {
+        winner = "Trelawney won !";
+        x = 650;
+    } else if (modelType == ModelType::SNAPE) {
+        winner = "Snape won !";
+        x = 720;
+    }
 
     int total = 420 * 4;
     int start_pos = (1920/2 - total/2);
@@ -116,71 +131,111 @@ GameOver::GameOver()
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Text
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 60));
-    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"choose your character", Color{255, 255, 255, 255}, this->_btn_font));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(x, 60));
+    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2, winner, Color{255, 255, 255, 255}, this->_btn_font));
     // Background texture
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    // Sounds
-    // this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
-    // this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
-    // this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
-    // this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
-
-    this->_SoundMcg = {
-        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav"),
-        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_02.wav"),
-        Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_03.wav"),
-    };
-    this->_SoundSprout = {
-        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav"),
-        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_02.wav"),
-        Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_03.wav"),
-    };
-    this->_SoundSnape = {
-        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav"),
-        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_02.wav"),
-        Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_03.wav"),
-    };
-    this->_SoundTrelawney = {
-        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav"),
-        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_02.wav"),
-        Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_03.wav"),
-    };
-    Scene *nullScene = nullptr;
+    if (modelType == ModelType::MCG) {
+        this->_SoundMcg = {
+            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_won_03.wav"),
+        };
+    } else {
+        this->_SoundMcg = {
+            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_lost_03.wav"),
+        };
+    }
+    if (modelType == ModelType::SPROUT) {
+        this->_SoundSprout = {
+            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_won_03.wav"),
+        };
+    } else {
+        this->_SoundSprout = {
+            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_lost_03.wav"),
+        };
+    }
+    if (modelType == ModelType::TRELAWNEY) {
+        this->_SoundTrelawney = {
+            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_won_03.wav"),
+        };
+    } else {
+        this->_SoundTrelawney = {
+            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_lost_03.wav"),
+        };
+    }
+    if (modelType == ModelType::SNAPE) {
+        this->_SoundSnape = {
+            Raylib_encp.LSound("assets/sounds/snape/selection/snape_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/selection/snape_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/selection/snape_won_03.wav"),
+        };
+    } else {
+        this->_SoundSnape = {
+            Raylib_encp.LSound("assets/sounds/snape/selection/snape_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/selection/snape_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/selection/snape_lost_03.wav"),
+        };
+    }
 
     // Box for the characters selection
-    //mcg
+    
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
+
+    //mcg
+
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
     mgmModel.transform = Raylib_encp.MatrixRotZ(-0.1);
     this->_ecsManager->addComponent(character_mcg, std::make_unique<DrawableModel>(_textures_mcg, mgmModel, meshOrder_mcg, 2));
-    this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
+    if (modelType == ModelType::MCG)
+        this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::WON));
+    else
+        this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
 
     //sprout
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
     this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(_textures_sprout, sproutModel, meshOrder_sprout, 2));
-    this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
+    if (modelType == ModelType::SPROUT)
+        this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::WON));
+    else
+        this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::LOST));
 
     //Trelawney
-    this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
     trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);
-    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
-    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
+    if (modelType == ModelType::TRELAWNEY)
+        this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::WON));
+    else
+        this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::LOST));
 
     //Snape
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
     snapeModel.transform = Raylib_encp.MatrixRotZ(0.6);
     this->_ecsManager->addComponent(character_snape, std::make_unique<DrawableModel>(_textures_snape, snapeModel, meshOrderSnape, 2));
-    this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
+    if (modelType == ModelType::SNAPE)
+        this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::WON));
+    else
+        this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::LOST));
 
     //button play
-    Button(this->_ecsManager.get(), "confirm", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS, this);
+    Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS, this);
 
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(this->_music));
     // System to add
