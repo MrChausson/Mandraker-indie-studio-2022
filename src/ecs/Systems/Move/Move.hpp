@@ -21,7 +21,8 @@ class Move : public ISystem {
         ~Move();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
-        int getdirection(Collisionable *collision, Placable *placable);
+        //int getdirection(Collisionable *collision, Placable *placable);
+        bool checkNear_Bomb(Vector3 IA_pos);
     protected:
     private:
         std::chrono::duration<double> timeduration;
