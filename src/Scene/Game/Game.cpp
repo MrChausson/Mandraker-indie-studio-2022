@@ -165,7 +165,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         }
         if (done != 1)
             this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm, 0, ModelType::MCG));
         this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
@@ -186,7 +185,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         }
         if (done != 1)
             this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney, 0, ModelType::TRELAWNEY));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
@@ -207,7 +205,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         if (done != 1)
             this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
 
-        this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape, 0, ModelType::SNAPE));
         this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
@@ -228,7 +225,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         if (done != 1)
             this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
 
-        this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout, 0, ModelType::SPROUT));
         this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
@@ -248,6 +244,10 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(music));
 
     // make the player vector
+    this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
+    this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
     this->_playerEntities.push_back(this->_ecsManager->getEntity(player));
     this->_playerEntities.push_back(this->_ecsManager->getEntity(trelawney));
     this->_playerEntities.push_back(this->_ecsManager->getEntity(snape));
