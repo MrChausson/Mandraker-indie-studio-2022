@@ -46,6 +46,10 @@ class Timer : public ISystem {
         std::vector<Sound> _SoundSprout;
         std::vector<Sound> _SoundTrelawney;
         std::vector<Sound> _SoundSnape;
+        bool mcg = false;
+        bool sprout = false;
+        bool tre = false;
+        bool snape = false;
 };
 
 #endif /* !Timer_HPP_ */

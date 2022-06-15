@@ -61,9 +61,9 @@ Timer::Timer(ModelType modelType)
     Raylib::Raylib_encap Raylib_encp;
     if (modelType == ModelType::MCG) {
         this->_SoundMcg = {
-            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_won_03.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_win_01.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_win_02.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_win_03.wav"),
         };
     } else {
         this->_SoundMcg = {
@@ -74,9 +74,9 @@ Timer::Timer(ModelType modelType)
     }
     if (modelType == ModelType::SPROUT) {
         this->_SoundSprout = {
-            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_won_03.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_win_01.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_win_02.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_win_03.wav"),
         };
     } else {
         this->_SoundSprout = {
@@ -87,9 +87,9 @@ Timer::Timer(ModelType modelType)
     }
     if (modelType == ModelType::TRELAWNEY) {
         this->_SoundTrelawney = {
-            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_won_03.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_win_01.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_win_02.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_win_03.wav"),
         };
     } else {
         this->_SoundTrelawney = {
@@ -100,9 +100,9 @@ Timer::Timer(ModelType modelType)
     }
     if (modelType == ModelType::SNAPE) {
         this->_SoundSnape = {
-            Raylib_encp.LSound("assets/sounds/snape/win/snape_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/snape/win/snape_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/snape/win/snape_won_03.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/win/snape_win_01.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/win/snape_win_02.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/win/snape_win_03.wav"),
         };
     } else {
         this->_SoundSnape = {
@@ -182,24 +182,29 @@ void Timer::apply(std::vector<IComponent *> component)
             this->deletePlayer(place->getPosition(), time->getPlayable());
         }
     } else if (time_type == END_MCG) {
-        if (time->isTimeOut()) {
+        if (time->isTimeOut() && this->mcg == false) {
             i = rand() % 3;
             Raylib_encp.PlayS(this->_SoundMcg[i]);
+            this->mcg = true;
+
         }
     } else if (time_type == END_SPROUT) {
-        if (time->isTimeOut()) {
+        if (time->isTimeOut() && this->sprout == false) {
             i = rand() % 3;
             Raylib_encp.PlayS(this->_SoundSprout[i]);
+            this->sprout = true;
         }
     } else if (time_type == END_TRELAWNEY) {
-        if (time->isTimeOut()) {
+        if (time->isTimeOut() && this->tre == false) {
             i = rand() % 3;
             Raylib_encp.PlayS(this->_SoundTrelawney[i]);
+            this->tre = true;
         }
-    } else if (time_type == END_SNAPE) {
+    } else if (time_type == END_SNAPE && this->snape == false) {
         if (time->isTimeOut()) {
             i = rand() % 3;
             Raylib_encp.PlayS(this->_SoundSnape[i]);
+            this->snape = true;
         }
     }
 }

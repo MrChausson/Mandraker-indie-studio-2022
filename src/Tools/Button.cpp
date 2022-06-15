@@ -47,7 +47,7 @@ Button::Button(ECSManager *ecsManager, int x, int y, Texture2D textures[3])
     this->_idSprite = ecsManager->createEntity();
 
     ecsManager->addComponent(this->_idSprite, std::make_unique<Placable>(x, y));
-    ecsManager->addComponent(this->_idSprite, std::make_unique<DrawableSprite>(textures[1], 1));
+    ecsManager->addComponent(this->_idSprite, std::make_unique<DrawableSprite>(textures[3], 1));
 }
 
 Button::Button(ECSManager *ecsManager, int x, int y, Texture2D textures[3], ClickableActionType actionType, Scene *current_scene, std::vector<Sound> *sound)

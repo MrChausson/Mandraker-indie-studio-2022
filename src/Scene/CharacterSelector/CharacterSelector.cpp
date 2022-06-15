@@ -37,6 +37,7 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     int character_trelawney = this->_ecsManager->createEntity();
     int character_snape = this->_ecsManager->createEntity();
     int camera = this->_ecsManager->createEntity();
+    std::string text = "";
 
     int total = 420 * 4;
     int start_pos = (1920/2 - total/2);
@@ -54,6 +55,7 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     this->_box[0] = Raylib_encp.LTexture("assets/materials/selection/btn_hovered.png");
     this->_box[1] = Raylib_encp.LTexture("assets/materials/selection/btn_inactive.png");
     this->_box[2] = Raylib_encp.LTexture("assets/materials/selection/btn_clicked.png");
+    this->_box[3] = Raylib_encp.LTexture("assets/materials/selection/btn_selected.png");
 
     // Creating vector texture and the mesh order for mcg
     this->_textures_mcg = {
@@ -115,8 +117,12 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     this->_ecsManager->addComponent(title_id, std::make_unique<DrawableSprite>(this->_title_texture, 1));
 
     // Text
-    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(430, 60));
-    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2,"choose your character", Color{255, 255, 255, 255}, this->_btn_font));
+    this->_ecsManager->addComponent(title_text, std::make_unique<Placable>(500, 60));
+    if (nb_characters == 1)
+        text = "player 1 : character";
+    else
+        text = "player 2 : character";
+    this->_ecsManager->addComponent(title_text, std::make_unique<DrawableText>(2, text, Color{255, 255, 255, 255}, this->_btn_font));
     // Background texture
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));

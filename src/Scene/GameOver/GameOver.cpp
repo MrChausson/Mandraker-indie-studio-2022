@@ -177,7 +177,7 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::WON));
     else
         this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::LOST));
-    this->_ecsManager->addComponent(character_sprout, std::make_unique<Timable>(5, END_SPROUT, character_sprout));
+    this->_ecsManager->addComponent(character_sprout, std::make_unique<Timable>(4, END_SPROUT, character_sprout));
 
     //Trelawney
     if (modelType == ModelType::TRELAWNEY) {
@@ -196,7 +196,7 @@ GameOver::GameOver(ModelType modelType)
 
     else
         this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::LOST));
-    this->_ecsManager->addComponent(character_trelawney, std::make_unique<Timable>(10, END_TRELAWNEY, character_trelawney));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<Timable>(8, END_TRELAWNEY, character_trelawney));
 
     //Snape
     if (modelType == ModelType::SNAPE) {
@@ -214,7 +214,7 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::WON));
     else
         this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::LOST));
-    this->_ecsManager->addComponent(character_snape, std::make_unique<Timable>(15, END_SNAPE, character_snape));
+    this->_ecsManager->addComponent(character_snape, std::make_unique<Timable>(12, END_SNAPE, character_snape));
 
     //button play
     Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS, this);

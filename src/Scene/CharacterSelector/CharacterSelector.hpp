@@ -30,7 +30,7 @@ class CharacterSelector : public Scene {
         Texture2D _btn_textures[3];
         Texture2D _title_texture;
         Texture2D _box_texture;
-        Texture2D _box[3];
+        Texture2D _box[4];
         Font _btn_font;
         Font _title_font;
         Music _music;
