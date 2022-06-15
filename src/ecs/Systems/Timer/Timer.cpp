@@ -36,10 +36,19 @@ Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::ve
     this->_meshOrderPowerUps = {
         0
     };
+    this->_soundSize = {0.00025f, 0.00025f, 0.00025f};
+    this->_soundTexture = Raylib_encp.LTexture("assets/materials/game/sound.png");
 }
 
 Timer::~Timer()
 {
+    Raylib::Raylib_encap Raylib_encp;
+    Raylib_encp.UnlTexture(this->_soundTexture);
+}
+
+std::vector<Entity *> *Timer::getMapEntites()
+{
+    return this->_mapEntities;
 }
 
 void Timer::apply(std::vector<IComponent *> component)
@@ -52,6 +61,7 @@ void Timer::apply(std::vector<IComponent *> component)
     DrawableText *text;
     TIMABLE_TYPE time_type = time->getTimeType();
     Playable *playable;
+    Vector3 playerPos = {1.0f, 0.0f, 0.0f};
 
     if (time_type == GAME_CLOCK) {
         text = static_cast<DrawableText *>(component[1]);
@@ -74,6 +84,10 @@ void Timer::apply(std::vector<IComponent *> component)
             this->updatePlayer(place->getPosition(), time->getPlayable());
             this->deleteGnome(place->getPosition(), time->getPlayable());
             this->_ecsManager->deleteEntity(time->getIdEntity());
+
+            int particles_id = this->_ecsManager->createEntity();
+            this->_ecsManager->addComponent(particles_id, std::make_unique<Placable>(round(place->getX()) + 1, round(place->getY()), round(place->getZ()), playerPos, -90.0f, this->_soundSize));
+            this->_ecsManager->addComponent(particles_id, std::make_unique<DrawableCubeTexture>(this->_soundTexture, CubeTextureType::SOUND));
         }
     } else if (time_type == GAME_GNOME) {
         if (time->isTimeOut()) {

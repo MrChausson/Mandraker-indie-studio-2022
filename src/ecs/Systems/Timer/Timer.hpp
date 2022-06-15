@@ -19,6 +19,7 @@ class Timer : public ISystem {
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
         void deleteGnome(Vector3 position, void *play);
+        std::vector<Entity *> *getMapEntites();
         void updateGnome(Vector3 position, void *play);
         bool isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range);
         void deletePlayer(Vector3 position, void *play);
@@ -32,6 +33,9 @@ class Timer : public ISystem {
         std::vector<Model> _powerUps;
         std::vector<int> _meshOrderPowerUps;
         std::vector<Texture> _powerUpsTexture;
+        Sound _shoutSound;
+        Texture2D _soundTexture;
+        Vector3 _soundSize;
 };
 
 #endif /* !Timer_HPP_ */

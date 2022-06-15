@@ -14,12 +14,13 @@
 
 class Player : public ISystem {
     public:
-        Player(ECSManager *ecsManager);
+        Player(ECSManager *ecsManager, std::vector<Entity *> *mapEntities);
         ~Player();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
         ECSManager  *getEcsToChangeTo();
         void setEcsToChangeTo(ECSManager *ecsManager);
+        bool checkNearBreakableBlock(Vector3 position);
         Texture2D assetSounds;
 
     private:
@@ -33,7 +34,7 @@ class Player : public ISystem {
         Sound _plantSound;
         Sound _shoutSound;
         ECSManager *_ecsToChangeTo = nullptr;
-        Texture2D _soundTexture;
+        std::vector<Entity *> *_mapEntities;
 };
 
 #endif /* !Player_HPP_ */

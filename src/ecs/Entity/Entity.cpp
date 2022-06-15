@@ -25,7 +25,7 @@ int Entity::getId()
 
 void Entity::addComponent(std::unique_ptr<IComponent> component)
 {
-    this->_components.push_back(std::move(component)); 
+    this->_components.push_back(std::move(component));
 }
 
 std::vector<IComponent *> Entity::getComponents()

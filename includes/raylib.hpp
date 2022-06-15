@@ -96,6 +96,7 @@ namespace Raylib
             void DwPlane(Vector3 centerPos, Vector2 size, Color color) noexcept;
             void DwTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint) noexcept;
             void UpdtModelAnimation(Model model, ModelAnimation anim, int frame) noexcept;
+            int GetRngValue(int min, int max) noexcept;
             Matrix MatrixRotZ(float angle) noexcept;
             bool CheckCollBoxes(BoundingBox box1, BoundingBox box2) noexcept;
             float GetMTimePlayed(Music music) noexcept;

@@ -393,6 +393,10 @@ void Raylib::Raylib_encap::UpdtModelAnimation(Model model, ModelAnimation anim, 
     return UpdateModelAnimation(model, anim, frame);
 }
 
+int Raylib::Raylib_encap::GetRngValue(int min, int max) noexcept
+{
+    return GetRandomValue(min, max);
+}
 Matrix Raylib::Raylib_encap::MatrixRotZ(float angle) noexcept
 {
     return MatrixRotateZ(angle);

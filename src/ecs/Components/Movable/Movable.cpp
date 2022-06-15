@@ -42,3 +42,48 @@ void Movable::RestartClock()
 {
     this->_clock = std::chrono::system_clock::now();;
 }
+
+void Movable::setstartIAclock()
+{
+    this->_start = std::chrono::system_clock::now();
+}
+
+void Movable::setEndIAclock()
+{
+    this->_end = std::chrono::system_clock::now();
+}
+
+void Movable::setTimedurationIAclock()
+{
+    this->timeduration += this->_end - this->_start;
+}
+
+std::chrono::time_point<std::chrono::system_clock> Movable::getStartIA()
+{
+    return this->_start;
+}
+
+std::chrono::time_point<std::chrono::system_clock> Movable::getEndIA()
+{
+    return this->_end;
+}
+
+std::chrono::duration<double> Movable::getTimedurationIA()
+{
+    return this->timeduration;
+}
+
+void Movable::restartTimedurationIAclock()
+{
+    this->timeduration = std::chrono::duration<double> (0);
+}
+
+void Movable::setIAActionType(IA_ACTION action)
+{
+    this->_action_type = action;
+}
+
+IA_ACTION Movable::getIAActionType()
+{
+    return this->_action_type;
+}

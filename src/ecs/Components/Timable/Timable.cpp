@@ -6,7 +6,7 @@
 */
 
 #include "Timable.hpp"
-
+#include "../../Entity/Entity.hpp"
 
 Timable::Timable(float timer, TIMABLE_TYPE time_type, int id_entiy, void *playable)
 {
@@ -79,4 +79,14 @@ float Timable::getTimer()
 void Timable::setTimeType(TIMABLE_TYPE time_type)
 {
     this->_time_type = time_type;
+}
+
+void Timable::setPlayerToDelete(std::vector<int> playerEntities)
+{
+    this->_playerEntities = playerEntities;
+}
+
+std::vector<int> Timable::getPlayerToDelete()
+{
+    return (this->_playerEntities);
 }

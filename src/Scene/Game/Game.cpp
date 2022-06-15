@@ -36,7 +36,7 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     this->_characterChoosen = characterChoosen;
     this->_ecsManager = std::make_unique<ECSManager>();
     // Create vector for map
-    this->_mapEntities = std::vector<Entity *>();
+    this->_mapEntities = new std::vector<Entity *>();
     // Load HUD textures
     this->_gryf_infos_texture = Raylib_encp.LTexture("assets/materials/game/gryffindor.png");
     this->_rav_infos_texture = Raylib_encp.LTexture("assets/materials/game/ravenclaw.png");
@@ -75,7 +75,7 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     int rav_infos;
     int slyth_infos;
     int huff_infos;
-    int music_id;
+    int music_id = this->_ecsManager->createEntity();
     int mandrake;
     int game_clock;
 
@@ -115,7 +115,9 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
             }
             this->_ecsManager->addEntity(std::move(entity));
         }
-    this->_mapEntities = this->getMapEntities();
+        //filters out the map entities
+        this->_mapEntities = this->getMapEntities();
+        std::cout << "test" << std::endl;
     } else {
         // Creating entities
         camera = this->_ecsManager->createEntity();
@@ -128,7 +130,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         snape = this->_ecsManager->createEntity();
         plane = this->_ecsManager->createEntity();
         sprout = this->_ecsManager->createEntity();
-        music_id = this->_ecsManager->createEntity();
         mandrake = this->_ecsManager->createEntity();
         game_clock = this->_ecsManager->createEntity();
 
@@ -163,7 +164,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         }
         if (done != 1)
             this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm, 0, ModelType::MCG));
         this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
@@ -184,7 +184,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         }
         if (done != 1)
             this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney, 0, ModelType::TRELAWNEY));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
@@ -205,7 +204,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         if (done != 1)
             this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
 
-        this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape, 0, ModelType::SNAPE));
         this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
@@ -226,7 +224,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         if (done != 1)
             this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
 
-        this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
         this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout, 0, ModelType::SPROUT));
         this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
         this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
@@ -246,6 +243,10 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     this->_ecsManager->addComponent(music_id, std::make_unique<Musicable>(music));
 
     // make the player vector
+    this->_ecsManager->addComponent(player, std::make_unique<Playable>(1));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Playable>(1));
+    this->_ecsManager->addComponent(snape, std::make_unique<Playable>(1));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Playable>(1));
     this->_playerEntities.push_back(this->_ecsManager->getEntity(player));
     this->_playerEntities.push_back(this->_ecsManager->getEntity(trelawney));
     this->_playerEntities.push_back(this->_ecsManager->getEntity(snape));
@@ -257,11 +258,11 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
     // Adding systems
     this->_ecsManager->addSystem(std::make_unique<Draw>(Draw()));
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
-    this->_ecsManager->addSystem(std::make_unique<Move>(Move(&this->_mapEntities)));
+    this->_ecsManager->addSystem(std::make_unique<Move>(Move(this->_mapEntities)));
     this->_ecsManager->addSystem(std::make_unique<Animation>(Animation()));
-    this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get()));
+    this->_ecsManager->addSystem(std::make_unique<Player>(this->_ecsManager.get(), this->_mapEntities));
     this->_ecsManager->addSystem(std::make_unique<SaveSystem>(this->_ecsManager->getEntities()));
-    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), &this->_mapEntities, &this->_playerEntities));
+    this->_ecsManager->addSystem(std::make_unique<Timer>(this->_ecsManager.get(), this->_mapEntities, &this->_playerEntities));
     this->_ecsManager->addSystem(std::make_unique<Finish>(&this->_playerEntities));
 
     //Drawing the plane
@@ -276,18 +277,23 @@ Game::~Game()
 {
 }
 
-std::vector<Entity *> Game::getMapEntities()
+std::vector<Entity *> *Game::getMapEntities()
 {
-    std::vector<Entity *> mapEntities;
+    std::vector<Entity *> *mapEntities = new std::vector<Entity *>();
     IComponent *component;
     Drawable *drawable;
+    DrawableModel *drawableModel;
+    ModelType modelType;
 
     for (auto &entity : this->_ecsManager->getEntitiesNoPtr()) {
         component = entity->getComponentsByType(DRAWABLE);
         if (component != nullptr) {
             drawable = dynamic_cast<Drawable *>(component);
-            if (drawable->getComponentType() == DRAWABLE_TYPE_MODEL)
-                mapEntities.push_back(entity);
+            if (drawable->getComponentType() == DRAWABLE_TYPE_MODEL) {
+                modelType = (ModelType) static_cast<DrawableModel *> (drawable)->getModelType();
+                if (modelType == ModelType::BAG || modelType == ModelType::GNOME || modelType == ModelType::TABLE)
+                    mapEntities->push_back(entity);
+            }
         }
     }
     return mapEntities;
@@ -378,7 +384,7 @@ void Game::loadMap(std::string map_src)
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
             }
             if (entity != nullptr)
-                this->_mapEntities.push_back(entity);
+                this->_mapEntities->push_back(entity);
         }
         i++;
     }

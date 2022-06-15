@@ -132,80 +132,79 @@ ECSManager *ECSManager::applySystems()
             for (auto &component : entity.get()->getComponents()) {
                 components.clear();
                 // temp for saving
-                if (component != nullptr) {
-                    if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
-                        components.push_back(component);
-                        system->apply(components);
-                    }
-                    else if (system->getType() == MOUSE_HOVER && component->getType() == HOVERABLE) {
-                        components.push_back(entity->getComponentsByType(DRAWABLE));
-                        components.push_back(component);
-                        system->apply(components);
-                    }
-                    else if (system->getType() == MOUSE_CLICK && component->getType() == CLICKABLE) {
-                        components.push_back(entity->getComponentsByType(DRAWABLE));
-                        components.push_back(component);
-                        system->apply(components);
-                        Clickable *click = static_cast<Clickable *>(component);
-                        ECSManager *ecs = click->getEcsToChangeTo();
-                        if (ecs != nullptr)
-                            return ecs;
-                    }
-                    else if (system->getType() == MOVE && component->getType() == MOVABLE) {
-                        components.push_back(entity->getComponentsByType(ANIMABLE));
-                        components.push_back(entity->getComponentsByType(DRAWABLE));
-                        components.push_back(entity->getComponentsByType(PLACABLE));
-                        components.push_back(entity->getComponentsByType(COLLISIONABLE));
-                        components.push_back(component);
-                        system->apply(components);
-                    }
-                    else if (system->getType() == MUSIC && component->getType() == MUSICABLE) {
-                        components.push_back(component);
-                        system->apply(components);
-                    }
-                    else if (system->getType() == SOUND && component->getType() == SOUNDABLE) {
-                        components.push_back(component);
-                        system->apply(components);
-                    }
-                    else if (system->getType() == ANIMATION && component->getType() == ANIMABLE) {
-                        components.push_back(component);
-                        components.push_back(entity->getComponentsByType(DRAWABLE));
-                        system->apply(components);
-                    }
-                    else if (system->getType() == PLAYER && component->getType() == PLAYABLE) {
-                        components.push_back(entity->getComponentsByType(PLACABLE));
-                        components.push_back(entity->getComponentsByType(MOVABLE));
-                        components.push_back(component);
-                        system->apply(components);
-                        Player *player = static_cast<Player *>(system.get());
-                        if (player != nullptr && player->getEcsToChangeTo() != nullptr) {
-                            ECSManager *tmp = player->getEcsToChangeTo();
-                            player->setEcsToChangeTo(nullptr);
-                            return (tmp);
-                        }
-                    }
-                    else if (system->getType() == LOADING && component->getType() == LOADABLE) {
-                        components.push_back(component);
-                        components.push_back(entity->getComponentsByType(PLACABLE));
-                        system->apply(components);
-                        Loadable *load = static_cast<Loadable *>(component);
-                        if (load->isLoaded())
-                            return load->getEcs();
-                    }
-                    else if (system->getType() == TIMER && component->getType() == TIMABLE) {
-                        components.push_back(component);
-                        components.push_back(entity->getComponentsByType(DRAWABLE));
-                        components.push_back(entity->getComponentsByType(PLACABLE));
-                        components.push_back(entity->getComponentsByType(ANIMABLE));
-                        components.push_back(entity->getComponentsByType(SOUNDABLE));
-                        system->apply(components);
-                        Timable *time = static_cast<Timable *>(component);
-                        if (time->isFinished())
-                        return (nullptr);
-                    }
-                    if (!loop_status)
-                        return nullptr;
+                if (system->getType() == GRAVITY && component->getType() == PLACABLE) {
+                    components.push_back(component);
+                    system->apply(components);
                 }
+                else if (system->getType() == MOUSE_HOVER && component->getType() == HOVERABLE) {
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                }
+                else if (system->getType() == MOUSE_CLICK && component->getType() == CLICKABLE) {
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                    Clickable *click = static_cast<Clickable *>(component);
+                    ECSManager *ecs = click->getEcsToChangeTo();
+                    if (ecs != nullptr)
+                        return ecs;
+                }
+                else if (system->getType() == MOVE && component->getType() == MOVABLE) {
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(COLLISIONABLE));
+                    components.push_back(component);
+                    system->apply(components);
+                }
+                else if (system->getType() == MUSIC && component->getType() == MUSICABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
+                else if (system->getType() == SOUND && component->getType() == SOUNDABLE) {
+                    components.push_back(component);
+                    system->apply(components);
+                }
+                else if (system->getType() == ANIMATION && component->getType() == ANIMABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    system->apply(components);
+                }
+                else if (system->getType() == PLAYER && component->getType() == PLAYABLE) {
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(MOVABLE));
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
+                    system->apply(components);
+                    Player *player = static_cast<Player *>(system.get());
+                    if (player != nullptr && player->getEcsToChangeTo() != nullptr) {
+                        ECSManager *tmp = player->getEcsToChangeTo();
+                        player->setEcsToChangeTo(nullptr);
+                        return (tmp);
+                    }
+                }
+                else if (system->getType() == LOADING && component->getType() == LOADABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    system->apply(components);
+                    Loadable *load = static_cast<Loadable *>(component);
+                    if (load->isLoaded())
+                        return load->getEcs();
+                }
+                else if (system->getType() == TIMER && component->getType() == TIMABLE) {
+                    components.push_back(component);
+                    components.push_back(entity->getComponentsByType(DRAWABLE));
+                    components.push_back(entity->getComponentsByType(PLACABLE));
+                    components.push_back(entity->getComponentsByType(ANIMABLE));
+                    components.push_back(entity->getComponentsByType(SOUNDABLE));
+                    system->apply(components);
+                    Timable *time = static_cast<Timable *>(component);
+                    if (time->isFinished())
+                       return (nullptr);
+                }
+                if (!loop_status)
+                    return nullptr;
             }
     }
 
