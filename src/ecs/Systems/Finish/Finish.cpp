@@ -49,8 +49,10 @@ bool Finish::isFinished()
             drawableModel = static_cast<DrawableModel *>(drawable);
     }
     if (i >= 3) {
-        this->_ecsManager = (new GameOver((ModelType) drawableModel->getModelType()))->getECS();
+        this->_ecsManager = (new GameOver(static_cast<ModelType>(drawableModel->getModelType())))->getECS();
         return (true);
-    } else
+    } else if (i >= 4)
+        this->_ecsManager = (new GameOver(static_cast<ModelType>(0)))->getECS();
+    else
         return (false);
 }
