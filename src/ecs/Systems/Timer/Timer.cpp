@@ -35,6 +35,23 @@ Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::ve
     this->_meshOrderPowerUps = {
         0
     };
+    this->_playersFallSounds = {
+        Raylib_encp.LSound("assets/sounds/sprout/hurt/sprout_hurt_01.wav"),
+    };
+
+    this->_playersFallSoundsa = {
+
+        Raylib_encp.LSound("assets/sounds/trelawney/hurt/trelawney_hurt_01.wav"),
+    };
+
+    this->_playersFallSoundsz = {
+        Raylib_encp.LSound("assets/sounds/mcg/hurt/mcg_hurt_01.wav"),
+    };
+
+    this->_playersFallSoundse = {
+        Raylib_encp.LSound("assets/sounds/snape/hurt/snape_hurt_01.wav"),
+    };
+
     this->_soundSize = {0.00025f, 0.00025f, 0.00025f};
     this->_soundTexture = Raylib_encp.LTexture("assets/materials/game/sound.png");
 }
@@ -239,6 +256,8 @@ void Timer::updatePlayer(Vector3 position, void *play)
     Playable *playable = static_cast<Playable *>(play);
     Placable *place;
     Breakable *breakable;
+    ModelType modelType;
+    Raylib::Raylib_encap r;
     float range = playable->getRange();
     for (auto &entity : *this->_playerEntities) {
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
@@ -247,7 +266,21 @@ void Timer::updatePlayer(Vector3 position, void *play)
             if (isInRange(position, pos, range)) {
                 static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimationType(ANIMATION_TYPE::FALL);
                 static_cast<Animable *>(entity->getComponentsByType(ANIMABLE))->setAnimFrameCounter(0);
+                // play sound
+                modelType = (ModelType) static_cast<DrawableModel *> (entity->getComponentsByType(DRAWABLE))->getModelType();
+                if (modelType == ModelType::SPROUT)
+                    //play sprout sound
+                    r.PlayS(this->_playersFallSounds[0]);
+                entity->addComponent(std::make_unique<Timable>(1.5, GAME_PLAYER_FALL, -1, playable));
 
+                if (modelType == ModelType::TRELAWNEY)
+                    r.PlayS(this->_playersFallSoundsa[0]);
+                entity->addComponent(std::make_unique<Timable>(1.5, GAME_PLAYER_FALL, -1, playable));
+                if (modelType == ModelType::MCG)
+                    r.PlayS(this->_playersFallSoundsz[0]);
+                entity->addComponent(std::make_unique<Timable>(1.5, GAME_PLAYER_FALL, -1, playable));
+                if (modelType == ModelType::SNAPE)
+                    r.PlayS(this->_playersFallSoundse[0]);
                 entity->addComponent(std::make_unique<Timable>(1.5, GAME_PLAYER_FALL, -1, playable));
             }
         }

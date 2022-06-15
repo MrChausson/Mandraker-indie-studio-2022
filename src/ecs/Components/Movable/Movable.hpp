@@ -18,9 +18,11 @@ enum MOVABLE_TYPE {
 };
 
 enum class IA_ACTION{
-    IA_MOVE,
-    IA_STAY,
-    IA_BOMB,
+    MOVE_UP,
+    MOVE_DOWN,
+    MOVE_LEFT,
+    MOVE_RIGHT,
+    BOMB
 };
 
 class Movable : public IComponent {
