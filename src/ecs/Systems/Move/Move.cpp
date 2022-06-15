@@ -52,6 +52,7 @@ void Move::apply(std::vector<IComponent *> component)
     Collisionable *collision;
     Movable *movable = static_cast<Movable *> (component[4]);
     auto timelimit = std::chrono::seconds{1};
+    Vector3 IA_pos;
 
     std::chrono::duration<double> elapsed_seconds = movable->getElapsedSeconds();
     float to_move = movable->getSpeed() * elapsed_seconds.count();
@@ -128,8 +129,10 @@ void Move::apply(std::vector<IComponent *> component)
     }
     else if (type == MOVABLE_AI && anims->getAnimationType() != ANIMATION_TYPE::FALL) {
         collision = static_cast<Collisionable *> (component[3]);
+        IA_pos = placable->getPosition();
         if (this->timeduration >= timelimit) {
-            //TODO: AI moving parameters here Alexandre
+            /*if (checkNear_Bomb(IA_pos)) {
+            }*/
             int rngvalue = Raylib_encp.GetRngValue(0, 3);
             // int rngvalue = getdirection(collision, placable);
             // go right
@@ -170,8 +173,20 @@ void Move::apply(std::vector<IComponent *> component)
     }
     movable->setstartIAclock();
 }
+/*
+bool Move::checkNear_Bomb(Vector3 IA_pos)
+{
+    IComponent *component;
 
-int Move::getdirection(Collisionable *collision, Placable *placable)
+    for (auto &entity : *this->_mapEntities) {
+        component = entity->getComponentsByType(TIMABLE);
+        if (component->getType() == TIMABLE_TYPE::GAME_MANDRAKE || component->getType() == TIMABLE_TYPE::GAME_MANDRAKE_SECOND) {
+
+        }
+    }
+}
+*/
+/* int Move::getdirection(Collisionable *collision, Placable *placable)
 {
     Raylib::Raylib_encap Raylib_encp;
     int i = Raylib_encp.GetRngValue(0, 3);
@@ -186,4 +201,4 @@ int Move::getdirection(Collisionable *collision, Placable *placable)
         return i;
     else
         return 42;
-}
+}*/
