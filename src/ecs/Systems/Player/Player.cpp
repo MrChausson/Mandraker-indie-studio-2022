@@ -124,7 +124,7 @@ void Player::setEcsToChangeTo(ECSManager *ecsToChangeTo)
 
 bool Player::checkNearBreakableBlock(Vector3 position)
 {
-    Timer *timer;
+    //Timer *timer;
     Vector3 pos;
     Placable *place;
     Breakable *breakable;
@@ -138,9 +138,9 @@ bool Player::checkNearBreakableBlock(Vector3 position)
             breakable = static_cast<Breakable *>(component);
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (timer->isInRange(position, pos, range)) {
-                return true;
-            }
+           // if (timer->isInRange(position, pos, range)) {
+            return true;
+            //}
         }
     }
     return false;
