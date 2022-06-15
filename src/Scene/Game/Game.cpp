@@ -359,6 +359,7 @@ void Game::loadMap(std::string map_src)
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(round(j), 0, round(i), zeroVector3 , -45, bag_scale));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_bag, bagModel, texture_po_mesh_order, 0, ModelType::BAG));
+                entity->addComponent(std::make_unique<Collisionable>());
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
@@ -366,6 +367,7 @@ void Game::loadMap(std::string map_src)
                 entity = this->_ecsManager->getEntity(this->_ecsManager->createEntity());
                 entity->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 entity->addComponent(std::make_unique<DrawableModel>(textures_tables, tableModel, texture_table_mesh_order, 0, ModelType::TABLE));
+                entity->addComponent(std::make_unique<Collisionable>());
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));
                 grass_block->addComponent(std::make_unique<DrawableCubeTexture>(grass_texture, CubeTextureType::GRASS));
@@ -378,6 +380,7 @@ void Game::loadMap(std::string map_src)
                     entity->addComponent(std::make_unique<Placable>(round(j), 0, round(i), zeroVector3, 0, gnome_scale));
                     entity->addComponent(std::make_unique<DrawableModel>(textures_gnome, gnome, texture_gnome_mesh_order, 0, ModelType::GNOME));
                     entity->addComponent(std::make_unique<Breakable>());
+                    entity->addComponent(std::make_unique<Collisionable>());
                 }
                 // we have to put grass also
                 grass_block->addComponent(std::make_unique<Placable>(round(j), -1.0f, round(i), zeroVector3));

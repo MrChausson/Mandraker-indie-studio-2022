@@ -33,7 +33,7 @@ bool Collisionable::isColliding(float x, float y, float z, std::vector<Entity *>
     Raylib::Raylib_encap Raylib_encp;
 
     for (auto &entity : *mapEntities) {
-        if (entity->getComponents().size() != 0) {
+        if (entity->getComponents().size() != 0 && entity->getComponentsByType(COMPONENT_TYPES::COLLISIONABLE) != nullptr) {
             auto placeMap = static_cast<Placable *> (entity->getComponentsByType(COMPONENT_TYPES::PLACABLE));
             min_map.x = placeMap->getX() - 0.4;
             min_map.y = placeMap->getY();

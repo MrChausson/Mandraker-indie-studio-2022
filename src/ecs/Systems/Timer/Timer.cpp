@@ -89,7 +89,7 @@ void Timer::apply(std::vector<IComponent *> component)
             this->_ecsManager->addComponent(particles_id, std::make_unique<Placable>(round(place->getX()) + 1, round(place->getY()), round(place->getZ()), playerPos, -90.0f, this->_soundSize));
             this->_ecsManager->addComponent(particles_id, std::make_unique<DrawableCubeTexture>(this->_soundTexture, CubeTextureType::SOUND));
         }
-    } else if (time_type == GAME_GNOME) {
+    } else if (time_type == GAME_GNOME && place != nullptr) {
         if (time->isTimeOut()) {
             time->setFinished(true);
             this->deleteGnome(place->getPosition(), time->getPlayable());
@@ -188,7 +188,7 @@ void Timer::deletePlayer(Vector3 position, void *play)
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
-                this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
+                // this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
             }
         }
     }
