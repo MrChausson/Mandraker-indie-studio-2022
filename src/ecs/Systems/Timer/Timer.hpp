@@ -23,11 +23,15 @@ class Timer : public ISystem {
         bool isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range);
         void deletePlayer(Vector3 position, void *play);
         void updatePlayer(Vector3 position, void *play);
+        void createPowerups(Vector3 position);
     private:
         ECSManager *_ecsManager;
         bool _deleted = false;
         std::vector<Entity *> *_mapEntities;
         std::vector<Entity *> *_playerEntities;
+        std::vector<Model> _powerUps;
+        std::vector<int> _meshOrderPowerUps;
+        std::vector<Texture> _powerUpsTexture;
 };
 
 #endif /* !Timer_HPP_ */

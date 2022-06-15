@@ -21,6 +21,21 @@ Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::ve
     this->_ecsManager = ecsManager;
     this->_mapEntities = mapEntities;
     this->_playerEntities = playerEntities;
+    this->_powerUpsTexture = {
+        Raylib_encp.LTexture("assets/models/gloves/gloves.png"),
+        Raylib_encp.LTexture("assets/models/pot/target_plantpot_d.png"),
+        Raylib_encp.LTexture("assets/models/shoes/shoes.png"),
+        Raylib_encp.LTexture("assets/models/watering_can/wateringCan.obj")
+    };
+    this->_powerUps = {
+        Raylib_encp.LModel("assets/models/gloves/gloves.obj"),
+        Raylib_encp.LModel("assets/models/pot/pot.obj"),
+        Raylib_encp.LModel("assets/models/shoes/shoes.obj"),
+        Raylib_encp.LModel("assets/models/watering_can/wateringCan.obj")
+    };
+    this->_meshOrderPowerUps = {
+        0
+    };
 }
 
 Timer::~Timer()
@@ -64,6 +79,7 @@ void Timer::apply(std::vector<IComponent *> component)
         if (time->isTimeOut()) {
             time->setFinished(true);
             this->deleteGnome(place->getPosition(), time->getPlayable());
+            this->createPowerups(place->getPosition());
         }
     } else if (time_type == GAME_PLAYER_FALL) {
         if (time->isTimeOut()) {
@@ -159,5 +175,18 @@ void Timer::deletePlayer(Vector3 position, void *play)
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
             }
         }
+    }
+}
+
+void Timer::createPowerups(Vector3 position)
+{
+    srand(time(NULL));
+    int random = rand() % 5;
+    int power_up;
+
+    if (random == 0) {
+        power_up = this->_ecsManager->createEntity();
+        this->_ecsManager->addComponent(power_up, std::make_unique<Placable>(position.x, position.z, position.y));
+        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(this->_powerUpsTexture, this->_powerUps[0], this->_meshOrderPowerUps, 1 ));
     }
 }
