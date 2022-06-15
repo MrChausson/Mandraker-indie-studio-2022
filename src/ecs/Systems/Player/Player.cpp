@@ -14,6 +14,7 @@
 #include "../../Components/Playable/Playable.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
 #include "../../Components/Breakable/Breakable.hpp"
+#include "extern.hpp"
 
 
 Player::Player(ECSManager *ecsManager, std::vector<Entity *> *mapEntities)
@@ -51,7 +52,6 @@ Player::~Player()
     Raylib_encp.UnlSound(this->_shoutSound);
     Raylib_encp.UnlTexture(this->_texturesMandrake[0]);
     Raylib_encp.UnlTexture(this->_texturesMandrake[1]);
-
 }
 
 void Player::apply(std::vector<IComponent *> component)
@@ -76,7 +76,7 @@ void Player::apply(std::vector<IComponent *> component)
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Soundable>(this->_shoutSound));
         this->_ecsManager->addComponent(bomb_id, std::make_unique<Timable>(3, GAME_MANDRAKE, bomb_id, playable));
         // this->_ecsManager->addComponent(bomb_id, std::make_unique<DrawableSprite>(this->_texturesBoom, 2));
-    } else if ( ((Raylib_encp.isKeyPres(KEY_RIGHT_SHIFT)  && !IsGamepadAvailable(0))||  IsGamepadButtonPressed(0, BUTTON_A))&&  type == MOVABLE_PLAYER_2  && playable->getNbMandrake( ) < playable->getNbMaxMandrake() && animable->getAnimationType() != ANIMATION_TYPE::FALL) {
+    } else if ( ((Raylib_encp.isKeyPres(KEY_RIGHT_SHIFT)  && !IsGamepadAvailable(controllerId))||  IsGamepadButtonPressed(controllerId, BUTTON_A))&&  type == MOVABLE_PLAYER_2  && playable->getNbMandrake( ) < playable->getNbMaxMandrake() && animable->getAnimationType() != ANIMATION_TYPE::FALL) {
         playable->setNbMandrake(playable->getNbMandrake() + 1);
         bomb_id = this->_ecsManager->createEntity();
         Raylib_encp.PlayS(this->_shoutSound);
