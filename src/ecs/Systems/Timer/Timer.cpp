@@ -196,9 +196,9 @@ void Timer::deletePlayer(Vector3 position, void *play)
 
 void Timer::createPowerups(Vector3 position)
 {
-    srand(time(NULL));
+    std::srand(time(NULL));
     int random = 0;//rand() % 5;
-    int random_which_power_up = rand() % 4;
+    int random_which_power_up = std::rand() % 4;
     int power_up;
     PowerUp powerUp;
     std::vector <Texture2D> texturePowerup;
@@ -215,6 +215,6 @@ void Timer::createPowerups(Vector3 position)
         else
             powerUp = PowerUp::POWER_UP_RANGE;
 
-        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(texturePowerup, this->_powerUps[0], this->_meshOrderPowerUps, 1 ));
+        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(texturePowerup, this->_powerUps[(int)powerUp], this->_meshOrderPowerUps, 1 ));
     }
 }
