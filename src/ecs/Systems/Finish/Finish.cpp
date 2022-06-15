@@ -38,13 +38,18 @@ bool Finish::isFinished()
 {
     int i = 0;
     std::vector<IComponent *> components;
+    Drawable *drawable;
+    DrawableModel *drawableModel;
     for (auto &entity : *_playerEntities) {
+        drawable = static_cast<Drawable *>(entity->getComponentsByType(DRAWABLE));
         components = entity->getComponents();
         if (components.size() == 0)
             i++;
+        else
+            drawableModel = static_cast<DrawableModel *>(drawable);
     }
     if (i >= 3) {
-        this->_ecsManager = (new GameOver())->getECS();
+        this->_ecsManager = (new GameOver((ModelType) drawableModel->getModelType()))->getECS();
         return (true);
     } else
         return (false);

@@ -32,15 +32,11 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     int title_id = this->_ecsManager->createEntity();
     int title_text = this->_ecsManager->createEntity();
     int music_id = this->_ecsManager->createEntity();
-    int bg_perso1 = this->_ecsManager->createEntity();
-    int bg_perso2 = this->_ecsManager->createEntity();
-    int bg_perso3 = this->_ecsManager->createEntity();
-    int bg_perso4 = this->_ecsManager->createEntity();
     int character_mcg = this->_ecsManager->createEntity();
     int character_sprout = this->_ecsManager->createEntity();
-    int camera = this->_ecsManager->createEntity();
-    int character_flit = this->_ecsManager->createEntity();
+    int character_trelawney = this->_ecsManager->createEntity();
     int character_snape = this->_ecsManager->createEntity();
+    int camera = this->_ecsManager->createEntity();
 
     int total = 420 * 4;
     int start_pos = (1920/2 - total/2);
@@ -125,12 +121,6 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    // Sounds
-    // this->mcgSound = Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav");
-    // this->sproutSound = Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_select_01.wav");
-    // this->snapeSound = Raylib_encp.LSound("assets/sounds/snape/selection/snape_select_01.wav");
-    // this->trelawneySound = Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_01.wav");
-
     this->_SoundMcg = {
         Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_01.wav"),
         Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_select_02.wav"),
@@ -151,7 +141,6 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
         Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_02.wav"),
         Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_select_03.wav"),
     };
-    Scene *nullScene = nullptr;
 
     // Box for the characters selection
     if ((*characterChoosen).size() == 1 && (*characterChoosen)[0] == MCG)
@@ -185,11 +174,11 @@ CharacterSelector::CharacterSelector(int nb_characters, std::vector<CHARACTER_CH
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
 
     //Trelawney
-    this->_ecsManager->addComponent(character_flit, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
     trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);
-    this->_ecsManager->addComponent(character_flit, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
-    this->_ecsManager->addComponent(character_flit, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
 
     //Snape
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
