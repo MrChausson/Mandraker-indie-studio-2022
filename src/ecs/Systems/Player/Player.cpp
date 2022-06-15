@@ -124,11 +124,10 @@ void Player::setEcsToChangeTo(ECSManager *ecsToChangeTo)
 
 bool Player::checkNearBreakableBlock(Vector3 position)
 {
-    Timer timer;
     Vector3 pos;
     Placable *place;
     Breakable *breakable;
-    float range = 3;
+    float range = 1;
     IComponent *component;
     Drawable *drawable;
 
@@ -138,10 +137,17 @@ bool Player::checkNearBreakableBlock(Vector3 position)
             breakable = static_cast<Breakable *>(component);
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
-            if (timer.isInRange(position, pos, range)) {
+            if (this->isInRange(position, pos, range)) {
                 return true;
             }
         }
     }
     return false;
+}
+
+
+bool Player::isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range)
+{
+    return (std::abs(breakable_pos.x - bomb_pos.x) < 0.5 && (std::abs(breakable_pos.z - bomb_pos.z)) < range
+        || (std::abs(breakable_pos.z - bomb_pos.z) < 0.5 && (std::abs(breakable_pos.x - bomb_pos.x)) < range));
 }

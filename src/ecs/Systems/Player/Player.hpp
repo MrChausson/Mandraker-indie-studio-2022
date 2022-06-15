@@ -22,6 +22,7 @@ class Player : public ISystem {
         void setEcsToChangeTo(ECSManager *ecsManager);
         bool checkNearBreakableBlock(Vector3 position);
         Texture2D assetSounds;
+        bool isInRange(Vector3 bomb_pos, Vector3 breakable_pos, float range);
 
     private:
         std::chrono::time_point<std::chrono::system_clock>  _toWait;
