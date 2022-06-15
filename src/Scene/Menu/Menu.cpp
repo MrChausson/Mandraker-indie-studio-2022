@@ -51,8 +51,6 @@ Menu::Menu()
 
     Button(this->_ecsManager.get(), "play", 100, 300, this->_btn_font, this->_btn_textures, SCENE_PLAYERS_SELECTOR, CLICKABLE_ACTION_CHANGE_ECS, this, &this->_click);
     std::filesystem::path save_file{ "game.save" };
-    if (std::filesystem::exists(save_file))
-        Button(this->_ecsManager.get(), "load", 100, 100, this->_btn_font, this->_btn_textures, SCENE_PLAYERS_SELECTOR, CLICKABLE_ACTION_LOAD_GAME, this, &this->_click);
     Button(this->_ecsManager.get(), "settings", 100, 500, this->_btn_font, this->_btn_textures, SCENE_SETTINGS, CLICKABLE_ACTION_CHANGE_ECS, this, &this->_click);
     Button(this->_ecsManager.get(), "quit", 100, 700, this->_btn_font, this->_btn_textures, SCENE_NONE, CLICKABLE_ACTION_QUIT_GAME, this, &this->_click);
 
