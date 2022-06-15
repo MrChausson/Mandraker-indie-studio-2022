@@ -28,6 +28,9 @@ class Timer : public ISystem {
         bool _deleted = false;
         std::vector<Entity *> *_mapEntities;
         std::vector<Entity *> *_playerEntities;
+        Sound _shoutSound;
+        Texture2D _soundTexture;
+        Vector3 _soundSize;
 };
 
 #endif /* !Timer_HPP_ */

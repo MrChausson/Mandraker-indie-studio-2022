@@ -33,7 +33,6 @@ class Player : public ISystem {
         Sound _plantSound;
         Sound _shoutSound;
         ECSManager *_ecsToChangeTo = nullptr;
-        Texture2D _soundTexture;
 };
 
 #endif /* !Player_HPP_ */
