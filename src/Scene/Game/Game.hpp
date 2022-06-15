@@ -18,8 +18,9 @@ class Game : public Scene {
         void loadMap(std::string map);
 
     protected:
+        std::vector<Entity *> *getMapEntities();
     private:
-        std::unique_ptr<std::vector <Entity *>> _mapEntities;
+        std::vector <Entity *> *_mapEntities;
         std::vector <Entity *> _playerEntities;
         Texture2D _gryf_infos_texture;
         Texture2D _rav_infos_texture;

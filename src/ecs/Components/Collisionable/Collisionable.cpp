@@ -8,9 +8,8 @@
 #include "Collisionable.hpp"
 #include "raylib.hpp"
 
-Collisionable::Collisionable(std::vector<Entity *> *entities)
+Collisionable::Collisionable()
 {
-    this->_entities = entities;
 }
 
 Collisionable::~Collisionable()
@@ -22,7 +21,7 @@ COMPONENT_TYPES Collisionable::getType()
     return COLLISIONABLE;
 }
 
-bool Collisionable::isColliding(float x, float y, float z)
+bool Collisionable::isColliding(float x, float y, float z, std::vector<Entity *> *mapEntities)
 {
 
     Vector3 min = {x - 0.3f, y, z- 0.2f};
@@ -33,7 +32,7 @@ bool Collisionable::isColliding(float x, float y, float z)
     BoundingBox box_map = {min, max};
     Raylib::Raylib_encap Raylib_encp;
 
-    for (auto &entity : *this->_entities) {
+    for (auto &entity : *mapEntities) {
         if (entity->getComponents().size() != 0) {
             auto placeMap = static_cast<Placable *> (entity->getComponentsByType(COMPONENT_TYPES::PLACABLE));
             min_map.x = placeMap->getX() - 0.4;
@@ -48,9 +47,4 @@ bool Collisionable::isColliding(float x, float y, float z)
         }
     }
     return (false);
-}
-
-void Collisionable::setEntities(std::vector<Entity *> *entities)
-{
-    this->_entities = entities;
 }

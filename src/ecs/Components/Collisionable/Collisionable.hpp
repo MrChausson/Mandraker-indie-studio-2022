@@ -16,15 +16,13 @@
 
 class Collisionable : public IComponent {
     public:
-        Collisionable(std::vector<Entity *> *entities = nullptr);
+        Collisionable();
         ~Collisionable();
         COMPONENT_TYPES getType() override;
-        bool isColliding(float x, float y, float z);
-        void setEntities(std::vector<Entity *> *entities);
+        bool isColliding(float x, float y, float z, std::vector<Entity *> *mapEntities);
 
     protected:
     private:
-        std::vector<Entity *> *_entities;
 };
 
 #endif /* !COLLISIONABLE_HPP_ */

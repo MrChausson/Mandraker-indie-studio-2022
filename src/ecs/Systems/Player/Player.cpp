@@ -12,6 +12,7 @@
 #include "../../Components/Timable/Timable.hpp"
 #include "../../Components/Playable/Playable.hpp"
 #include "../../../Scene/GameSettings/GameSettings.hpp"
+#include "extern.hpp"
 
 
 Player::Player(ECSManager *ecsManager)
