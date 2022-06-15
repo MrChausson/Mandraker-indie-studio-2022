@@ -147,7 +147,7 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
         this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
         this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
         this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
-        this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(5, GAME_CLOCK, game_clock));
+        this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
 
         // Configuring player MCG
         this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));

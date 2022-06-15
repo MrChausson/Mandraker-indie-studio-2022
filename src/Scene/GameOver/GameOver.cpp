@@ -40,7 +40,7 @@ GameOver::GameOver(ModelType modelType)
     int snape_bg = this->_ecsManager->createEntity();
     int camera = this->_ecsManager->createEntity();
     int x = 0;
-    std::string winner = "time ! no one won";
+    std::string winner = "time ! no one have won !";
     if (modelType == ModelType::MCG) {
         winner = "McGonagall won !";
         x = 600;
@@ -53,7 +53,8 @@ GameOver::GameOver(ModelType modelType)
     } else if (modelType == ModelType::SNAPE) {
         winner = "Snape won !";
         x = 720;
-    }
+    } else
+        x = 450;
 
     int total = 420 * 4;
     int start_pos = (1920/2 - total/2);
@@ -68,7 +69,7 @@ GameOver::GameOver(ModelType modelType)
     this->_background_texture = Raylib_encp.LTexture("assets/materials/selection/background.png");
 
     //this->_box Textures
-    this->_looser = Raylib_encp.LTexture("assets/materials/selection/btn_hovered.png");
+    this->_defeat = Raylib_encp.LTexture("assets/materials/selection/btn_inactive.png");
     this->_victory = Raylib_encp.LTexture("assets/materials/selection/btn_clicked.png");
 
     // Creating vector texture and the mesh order for mcg
@@ -195,7 +196,13 @@ GameOver::GameOver(ModelType modelType)
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
 
     //mcg
-
+    if (modelType == ModelType::MCG) {
+        this->_ecsManager->addComponent(mcg_bg, std::make_unique<Placable>(start_pos, 260));
+        this->_ecsManager->addComponent(mcg_bg, std::make_unique<DrawableSprite>(this->_victory, 1));
+    } else {
+        this->_ecsManager->addComponent(mcg_bg, std::make_unique<Placable>(start_pos, 260));
+        this->_ecsManager->addComponent(mcg_bg, std::make_unique<DrawableSprite>(this->_defeat, 1));
+    }
     this->_ecsManager->addComponent(character_mcg, std::make_unique<Placable>(-52.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model mgmModel = Raylib_encp.LModel("assets/models/mcg/mcg.iqm");
     mgmModel.transform = Raylib_encp.MatrixRotZ(-0.1);
@@ -206,6 +213,13 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
 
     //sprout
+    if (modelType == ModelType::SPROUT) {
+        this->_ecsManager->addComponent(sprout_bg, std::make_unique<Placable>(start_pos + (420*1), 260));
+        this->_ecsManager->addComponent(sprout_bg, std::make_unique<DrawableSprite>(this->_victory, 1));
+    } else {
+        this->_ecsManager->addComponent(sprout_bg, std::make_unique<Placable>(start_pos + (420*1), 260));
+        this->_ecsManager->addComponent(sprout_bg, std::make_unique<DrawableSprite>(this->_defeat, 1));
+    }
     this->_ecsManager->addComponent(character_sprout, std::make_unique<Placable>(0.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model sproutModel = Raylib_encp.LModel("assets/models/sprout/sprout.iqm");
     this->_ecsManager->addComponent(character_sprout, std::make_unique<DrawableModel>(_textures_sprout, sproutModel, meshOrder_sprout, 2));
@@ -215,6 +229,13 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::LOST));
 
     //Trelawney
+    if (modelType == ModelType::TRELAWNEY) {
+        this->_ecsManager->addComponent(trelawney_bg, std::make_unique<Placable>(start_pos + (420*2), 260));
+        this->_ecsManager->addComponent(trelawney_bg, std::make_unique<DrawableSprite>(this->_victory, 1));
+    } else {
+        this->_ecsManager->addComponent(trelawney_bg, std::make_unique<Placable>(start_pos + (420*2), 260));
+        this->_ecsManager->addComponent(trelawney_bg, std::make_unique<DrawableSprite>(this->_defeat, 1));
+    }
     this->_ecsManager->addComponent(character_trelawney, std::make_unique<Placable>(59.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model trelawneyModel = Raylib_encp.LModel("assets/models/trelawney/trelawney.iqm");
     trelawneyModel.transform = Raylib_encp.MatrixRotZ(0.2);
@@ -225,6 +246,13 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::LOST));
 
     //Snape
+    if (modelType == ModelType::SNAPE) {
+        this->_ecsManager->addComponent(snape_bg, std::make_unique<Placable>(start_pos + (420*3), 260));
+        this->_ecsManager->addComponent(snape_bg, std::make_unique<DrawableSprite>(this->_victory, 1));
+    } else {
+        this->_ecsManager->addComponent(snape_bg, std::make_unique<Placable>(start_pos + (420*3), 260));
+        this->_ecsManager->addComponent(snape_bg, std::make_unique<DrawableSprite>(this->_defeat, 1));
+    }
     this->_ecsManager->addComponent(character_snape, std::make_unique<Placable>(126.0f, -2.0f, 0.0f, rotationAxis, -90.0f, scale));
     Model snapeModel = Raylib_encp.LModel("assets/models/snape/snape.iqm");
     snapeModel.transform = Raylib_encp.MatrixRotZ(0.6);

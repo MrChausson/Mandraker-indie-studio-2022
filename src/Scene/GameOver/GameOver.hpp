@@ -21,7 +21,7 @@ class GameOver : public Scene {
     private:
         Texture2D _background_texture;
         Texture2D _btn_textures[3];
-        Texture2D _looser;
+        Texture2D _defeat;
         Texture2D _victory;
         Texture2D _title_texture;
         Font _btn_font;
