@@ -12,7 +12,7 @@
 #include "../../Components/Playable/Playable.hpp"
 #include "../../Components/Breakable/Breakable.hpp"
 #include "../../Components/Animable/Animable.hpp"
-
+#include "powerUp.hpp"
 
 Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::vector<Entity *> *playerEntities)
 
@@ -127,6 +127,7 @@ void Timer::deleteGnome(Vector3 position, void *play)
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
+                this->createPowerups(pos);
             }
         }
     }
@@ -187,6 +188,7 @@ void Timer::deletePlayer(Vector3 position, void *play)
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
+                this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
             }
         }
     }
@@ -195,12 +197,24 @@ void Timer::deletePlayer(Vector3 position, void *play)
 void Timer::createPowerups(Vector3 position)
 {
     srand(time(NULL));
-    int random = rand() % 5;
+    int random = 0;//rand() % 5;
+    int random_which_power_up = rand() % 4;
     int power_up;
+    PowerUp powerUp;
+    std::vector <Texture2D> texturePowerup;
 
     if (random == 0) {
         power_up = this->_ecsManager->createEntity();
         this->_ecsManager->addComponent(power_up, std::make_unique<Placable>(position.x, position.z, position.y));
-        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(this->_powerUpsTexture, this->_powerUps[0], this->_meshOrderPowerUps, 1 ));
+        if (random_which_power_up == 0)
+            powerUp = PowerUp::POWER_UP_WALL_PASS;
+        else if (random_which_power_up == 1)
+            powerUp = PowerUp::POWER_UP_BOMB;
+        else if (random_which_power_up == 2)
+            powerUp = PowerUp::POWER_UP_SPEED;
+        else
+            powerUp = PowerUp::POWER_UP_RANGE;
+
+        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(texturePowerup, this->_powerUps[0], this->_meshOrderPowerUps, 1 ));
     }
 }
