@@ -279,12 +279,12 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
             scene->Unload();
     break;
     case CLICKABLE_ACTION_SAVE_AND_MENU:
+        save = new Save("game.save");
+        save->save(entities);
         menu = new Menu();
         gameSet = static_cast<GameSettings *>(scene);
         for (auto &entity : *gameSet->_previousEcs->getEntities())
             entities.push_back(entity.get());
-        save = new Save("game.save");
-        save->save(entities);
         delete(save);
         click->setEcs(menu->getECS());
         if (scene != nullptr)
