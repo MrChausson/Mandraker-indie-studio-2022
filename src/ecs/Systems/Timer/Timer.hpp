@@ -10,11 +10,13 @@
 
 #include "../../ISystem/ISystem.hpp"
 #include "../../../ecs/ECSManager/ECSManager.hpp"
+#include "../../../ecs/Components/Drawable/DrawableModel.hpp"
 #include <chrono>
 
 class Timer : public ISystem {
     public:
         Timer(ECSManager *ecsManager = nullptr, std::vector<Entity *> *mapEntities = nullptr, std::vector<Entity *> *playerEntities = nullptr);
+        Timer(ModelType modelType);
         ~Timer();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
@@ -40,6 +42,10 @@ class Timer : public ISystem {
         Sound _shoutSound;
         Texture2D _soundTexture;
         Vector3 _soundSize;
+        std::vector<Sound> _SoundMcg;
+        std::vector<Sound> _SoundSprout;
+        std::vector<Sound> _SoundTrelawney;
+        std::vector<Sound> _SoundSnape;
 };
 
 #endif /* !Timer_HPP_ */

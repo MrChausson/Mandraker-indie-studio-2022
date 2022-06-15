@@ -32,10 +32,6 @@ class GameOver : public Scene {
         std::vector<Texture2D> _textures_sprout;
         std::vector<Texture2D> _texturesTre;
         std::vector<Texture2D> _textures_snape;
-        std::vector<Sound> _SoundMcg;
-        std::vector<Sound> _SoundSprout;
-        std::vector<Sound> _SoundTrelawney;
-        std::vector<Sound> _SoundSnape;
 };
 
 #endif /* !GAMEOVER_HPP_ */

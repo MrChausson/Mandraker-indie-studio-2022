@@ -8,6 +8,7 @@
 #include "raylib.hpp"
 #include "GameOver.hpp"
 #include <string>
+#include <unistd.h>
 #include "raymath.h"
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
@@ -15,7 +16,8 @@
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Sound/SoundSystem.hpp"
 #include "../../Tools/Button.hpp"
-
+#include "../../ecs/Components/Timable/Timable.hpp"
+#include "../../ecs/Systems/Timer/Timer.hpp"
 
 GameOver::GameOver(ModelType modelType)
 {
@@ -25,6 +27,7 @@ GameOver::GameOver(ModelType modelType)
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 0.5, 0.5, 0.5 };
 
+    srand(time(NULL));
     this->_ecsManager = std::make_unique<ECSManager>();
     int bg_id = this->_ecsManager->createEntity();
     int title_id = this->_ecsManager->createEntity();
@@ -138,61 +141,8 @@ GameOver::GameOver(ModelType modelType)
     this->_ecsManager->addComponent(bg_id, std::make_unique<Placable>(0, 0));
     this->_ecsManager->addComponent(bg_id, std::make_unique<DrawableSprite>(this->_background_texture, 0));
 
-    if (modelType == ModelType::MCG) {
-        this->_SoundMcg = {
-            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_won_03.wav"),
-        };
-    } else {
-        this->_SoundMcg = {
-            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_lost_01.wav"),
-            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_lost_02.wav"),
-            Raylib_encp.LSound("assets/sounds/mcg/selection/mcg_lost_03.wav"),
-        };
-    }
-    if (modelType == ModelType::SPROUT) {
-        this->_SoundSprout = {
-            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_won_03.wav"),
-        };
-    } else {
-        this->_SoundSprout = {
-            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_lost_01.wav"),
-            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_lost_02.wav"),
-            Raylib_encp.LSound("assets/sounds/sprout/selection/sprout_lost_03.wav"),
-        };
-    }
-    if (modelType == ModelType::TRELAWNEY) {
-        this->_SoundTrelawney = {
-            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_won_03.wav"),
-        };
-    } else {
-        this->_SoundTrelawney = {
-            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_lost_01.wav"),
-            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_lost_02.wav"),
-            Raylib_encp.LSound("assets/sounds/trelawney/selection/trelawney_lost_03.wav"),
-        };
-    }
-    if (modelType == ModelType::SNAPE) {
-        this->_SoundSnape = {
-            Raylib_encp.LSound("assets/sounds/snape/selection/snape_won_01.wav"),
-            Raylib_encp.LSound("assets/sounds/snape/selection/snape_won_02.wav"),
-            Raylib_encp.LSound("assets/sounds/snape/selection/snape_won_03.wav"),
-        };
-    } else {
-        this->_SoundSnape = {
-            Raylib_encp.LSound("assets/sounds/snape/selection/snape_lost_01.wav"),
-            Raylib_encp.LSound("assets/sounds/snape/selection/snape_lost_02.wav"),
-            Raylib_encp.LSound("assets/sounds/snape/selection/snape_lost_03.wav"),
-        };
-    }
-
     // Box for the characters selection
-    
+
     this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
 
     //mcg
@@ -211,6 +161,7 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::WON));
     else
         this->_ecsManager->addComponent(character_mcg, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::LOST));
+    this->_ecsManager->addComponent(character_mcg, std::make_unique<Timable>(0, END_MCG, character_mcg));
 
     //sprout
     if (modelType == ModelType::SPROUT) {
@@ -227,6 +178,7 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::WON));
     else
         this->_ecsManager->addComponent(character_sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::LOST));
+    this->_ecsManager->addComponent(character_sprout, std::make_unique<Timable>(5, END_SPROUT, character_sprout));
 
     //Trelawney
     if (modelType == ModelType::TRELAWNEY) {
@@ -242,8 +194,10 @@ GameOver::GameOver(ModelType modelType)
     this->_ecsManager->addComponent(character_trelawney, std::make_unique<DrawableModel>(_texturesTre, trelawneyModel, meshOrderTrelawney, 2));
     if (modelType == ModelType::TRELAWNEY)
         this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::WON));
+
     else
         this->_ecsManager->addComponent(character_trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::LOST));
+    this->_ecsManager->addComponent(character_trelawney, std::make_unique<Timable>(10, END_TRELAWNEY, character_trelawney));
 
     //Snape
     if (modelType == ModelType::SNAPE) {
@@ -261,6 +215,7 @@ GameOver::GameOver(ModelType modelType)
         this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::WON));
     else
         this->_ecsManager->addComponent(character_snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::LOST));
+    this->_ecsManager->addComponent(character_snape, std::make_unique<Timable>(15, END_SNAPE, character_snape));
 
     //button play
     Button(this->_ecsManager.get(), "menu", 724, 900, this->_btn_font, this->_btn_textures, SCENE_MENU, CLICKABLE_ACTION_CHANGE_ECS, this);
@@ -273,6 +228,7 @@ GameOver::GameOver(ModelType modelType)
     this->_ecsManager->addSystem(std::make_unique<Music_sys>(Music_sys()));
     this->_ecsManager->addSystem(std::make_unique<Animation>());
     this->_ecsManager->addSystem(std::make_unique<SoundSystem>(SoundSystem()));
+    this->_ecsManager->addSystem(std::make_unique<Timer>(Timer(modelType)));
 }
 
 GameOver::~GameOver()
