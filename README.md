@@ -13,7 +13,7 @@ Build on windows and linux
 ## On Linux
 --------
 ### Build
-Run this command at the root of the project:
+Run these command at the root of the project:
 ```
 cmake .
 make
@@ -38,7 +38,7 @@ msbuild bomberman.sln
 
 ---
 ### Execute
-Run this command at the root of the project:
+Run this command at the root of the project, or double-click the bomberman.exe file:
 ```
 ./Debug/bonberman.exe
 ```
