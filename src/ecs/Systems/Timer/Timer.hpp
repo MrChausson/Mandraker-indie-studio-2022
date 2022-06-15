@@ -32,6 +32,10 @@ class Timer : public ISystem {
         std::vector<Entity *> *_playerEntities;
         std::vector<Model> _powerUps;
         std::vector<int> _meshOrderPowerUps;
+        std::vector<Sound> _playersFallSounds;
+        std::vector<Sound> _playersFallSoundsa;
+        std::vector<Sound> _playersFallSoundsz;
+        std::vector<Sound> _playersFallSoundse;
         std::vector<Texture> _powerUpsTexture;
         Sound _shoutSound;
         Texture2D _soundTexture;
