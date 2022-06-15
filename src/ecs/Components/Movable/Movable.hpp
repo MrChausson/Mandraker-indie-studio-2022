@@ -17,6 +17,11 @@ enum MOVABLE_TYPE {
     MOVABLE_AI
 };
 
+enum class IA_ACTION{
+    IA_MOVE,
+    IA_STAY,
+};
+
 class Movable : public IComponent {
     public:
         Movable(float speed = 1, MOVABLE_TYPE type = MOVABLE_AI);
@@ -34,11 +39,14 @@ class Movable : public IComponent {
         std::chrono::time_point<std::chrono::system_clock> getStartIA();
         std::chrono::time_point<std::chrono::system_clock> getEndIA();
         std::chrono::duration<double> getTimedurationIA();
+        void setIAActionType(IA_ACTION action);
+        IA_ACTION getIAActionType();
 
     protected:
     private:
         float _speed = 1;
         MOVABLE_TYPE _type;
+        IA_ACTION _action_type;
         std::chrono::time_point<std::chrono::system_clock> _clock;
         std::chrono::time_point<std::chrono::system_clock> _start;
         std::chrono::time_point<std::chrono::system_clock>  _end;

@@ -77,3 +77,13 @@ void Movable::restartTimedurationIAclock()
 {
     this->timeduration = std::chrono::duration<double> (0);
 }
+
+void Movable::setIAActionType(IA_ACTION action)
+{
+    this->_action_type = action;
+}
+
+IA_ACTION Movable::getIAActionType()
+{
+    return this->_action_type;
+}

@@ -120,28 +120,34 @@ void Move::apply(std::vector<IComponent *> component)
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
                 placable->setX(placable->getX() + 1);
+                movable->setIAActionType(IA_ACTION::IA_MOVE);
             }
             // go left
             else if (rngvalue == 1 /*&& !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ())*/ && !collision->isColliding(placable->getX() - 1, placable->getY() ,placable->getZ())) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
                 placable->setX(placable->getX() - 1);
+                movable->setIAActionType(IA_ACTION::IA_MOVE);
             }
             // go up
             else if (rngvalue == 2 /*&& !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - 1)) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(3);
                 placable->setZ(placable->getZ() - 1);
+                movable->setIAActionType(IA_ACTION::IA_MOVE);
             }
             // go down
             else if (rngvalue == 3/* && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + 1)) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(0);
                 placable->setZ(placable->getZ() + 1);
+                movable->setIAActionType(IA_ACTION::IA_MOVE);
             }
             // nothing
-            else
+            else {
                 anims->setAnimationType(IDLE);
+                movable->setIAActionType(IA_ACTION::IA_STAY);
+            }
             movable->restartTimedurationIAclock();
         }
     }
