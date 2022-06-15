@@ -15,7 +15,6 @@
 #include "powerUp.hpp"
 
 Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::vector<Entity *> *playerEntities)
-
 {
     Raylib::Raylib_encap Raylib_encp;
     this->_ecsManager = ecsManager;
@@ -40,6 +39,63 @@ Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::ve
     this->_soundTexture = Raylib_encp.LTexture("assets/materials/game/sound.png");
 }
 
+Timer::Timer(ModelType modelType)
+{
+    Raylib::Raylib_encap Raylib_encp;
+    if (modelType == ModelType::MCG) {
+        this->_SoundMcg = {
+            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/win/mcg_won_03.wav"),
+        };
+    } else {
+        this->_SoundMcg = {
+            Raylib_encp.LSound("assets/sounds/mcg/lost/mcg_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/lost/mcg_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/mcg/lost/mcg_lost_03.wav"),
+        };
+    }
+    if (modelType == ModelType::SPROUT) {
+        this->_SoundSprout = {
+            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/win/sprout_won_03.wav"),
+        };
+    } else {
+        this->_SoundSprout = {
+            Raylib_encp.LSound("assets/sounds/sprout/lost/sprout_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/lost/sprout_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/sprout/lost/sprout_lost_03.wav"),
+        };
+    }
+    if (modelType == ModelType::TRELAWNEY) {
+        this->_SoundTrelawney = {
+            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/win/trelawney_won_03.wav"),
+        };
+    } else {
+        this->_SoundTrelawney = {
+            Raylib_encp.LSound("assets/sounds/trelawney/lost/trelawney_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/lost/trelawney_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/trelawney/lost/trelawney_lost_03.wav"),
+        };
+    }
+    if (modelType == ModelType::SNAPE) {
+        this->_SoundSnape = {
+            Raylib_encp.LSound("assets/sounds/snape/win/snape_won_01.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/win/snape_won_02.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/win/snape_won_03.wav"),
+        };
+    } else {
+        this->_SoundSnape = {
+            Raylib_encp.LSound("assets/sounds/snape/lost/snape_lost_01.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/lost/snape_lost_02.wav"),
+            Raylib_encp.LSound("assets/sounds/snape/lost/snape_lost_03.wav"),
+        };
+    }
+}
+
 Timer::~Timer()
 {
     Raylib::Raylib_encap Raylib_encp;
@@ -54,6 +110,8 @@ std::vector<Entity *> *Timer::getMapEntites()
 void Timer::apply(std::vector<IComponent *> component)
 {
     // Components [0] Timable [1] DrawableText [2] Placable [3] Animable [4] Soundable
+    Raylib::Raylib_encap Raylib_encp;
+    srand(time(NULL));
     Timable *time = static_cast<Timable *>(component[0]);
     Placable *place = static_cast<Placable *>(component[2]);
     Animable *anim = static_cast<Animable *>(component[3]);
@@ -62,13 +120,9 @@ void Timer::apply(std::vector<IComponent *> component)
     TIMABLE_TYPE time_type = time->getTimeType();
     Playable *playable;
     Vector3 playerPos = {1.0f, 0.0f, 0.0f};
+    int i;
 
     if (time_type == GAME_CLOCK) {
-        if (time->isTimeOut()) {
-            for (auto &entity : *this->_playerEntities) {
-                this->_ecsManager->getEntity(entity->getId())->clearComponent();
-            }
-        }
         text = static_cast<DrawableText *>(component[1]);
         text->setText(std::to_string(time->getTimeLeft()) + "s");
     } else if (time_type == GAME_MANDRAKE) {
@@ -94,7 +148,7 @@ void Timer::apply(std::vector<IComponent *> component)
             this->_ecsManager->addComponent(particles_id, std::make_unique<Placable>(round(place->getX()) + 1, round(place->getY()), round(place->getZ()), playerPos, -90.0f, this->_soundSize));
             this->_ecsManager->addComponent(particles_id, std::make_unique<DrawableCubeTexture>(this->_soundTexture, CubeTextureType::SOUND));
         }
-    } else if (time_type == GAME_GNOME && place != nullptr) {
+    } else if (time_type == GAME_GNOME) {
         if (time->isTimeOut()) {
             time->setFinished(true);
             this->deleteGnome(place->getPosition(), time->getPlayable());
@@ -104,6 +158,26 @@ void Timer::apply(std::vector<IComponent *> component)
         if (time->isTimeOut()) {
             time->setFinished(true);
             this->deletePlayer(place->getPosition(), time->getPlayable());
+        }
+    } else if (time_type == END_MCG) {
+        if (time->isTimeOut()) {
+            i = rand() % 3;
+            Raylib_encp.PlayS(this->_SoundMcg[i]);
+        }
+    } else if (time_type == END_SPROUT) {
+        if (time->isTimeOut()) {
+            i = rand() % 3;
+            Raylib_encp.PlayS(this->_SoundSprout[i]);
+        }
+    } else if (time_type == END_TRELAWNEY) {
+        if (time->isTimeOut()) {
+            i = rand() % 3;
+            Raylib_encp.PlayS(this->_SoundTrelawney[i]);
+        }
+    } else if (time_type == END_SNAPE) {
+        if (time->isTimeOut()) {
+            i = rand() % 3;
+            Raylib_encp.PlayS(this->_SoundSnape[i]);
         }
     }
 }
@@ -193,7 +267,7 @@ void Timer::deletePlayer(Vector3 position, void *play)
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
-                // this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
+                this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
             }
         }
     }
@@ -201,9 +275,9 @@ void Timer::deletePlayer(Vector3 position, void *play)
 
 void Timer::createPowerups(Vector3 position)
 {
-    std::srand(time(NULL));
+    srand(time(NULL));
     int random = 0;//rand() % 5;
-    int random_which_power_up = std::rand() % 4;
+    int random_which_power_up = rand() % 4;
     int power_up;
     PowerUp powerUp;
     std::vector <Texture2D> texturePowerup;
@@ -220,6 +294,6 @@ void Timer::createPowerups(Vector3 position)
         else
             powerUp = PowerUp::POWER_UP_RANGE;
 
-        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(texturePowerup, this->_powerUps[(int)powerUp], this->_meshOrderPowerUps, 1 ));
+        this->_ecsManager->addComponent(power_up, std::make_unique<DrawableModel>(texturePowerup, this->_powerUps[0], this->_meshOrderPowerUps, 1 ));
     }
 }
