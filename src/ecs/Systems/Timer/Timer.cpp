@@ -22,7 +22,7 @@ Timer::Timer(ECSManager *ecsManager, std::vector<Entity *> *mapEntities, std::ve
     this->_mapEntities = mapEntities;
     this->_playerEntities = playerEntities;
     this->_soundSize = {0.00025f, 0.00025f, 0.00025f};
-    this->_soundTexture = Raylib_encp.LTexture("assets/materials/game/sounds.png");
+    this->_soundTexture = Raylib_encp.LTexture("assets/materials/game/sound.png");
 }
 
 Timer::~Timer()
