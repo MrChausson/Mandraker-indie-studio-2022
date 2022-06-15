@@ -64,6 +64,11 @@ void Timer::apply(std::vector<IComponent *> component)
     Vector3 playerPos = {1.0f, 0.0f, 0.0f};
 
     if (time_type == GAME_CLOCK) {
+        if (time->isTimeOut()) {
+            for (auto &entity : *this->_playerEntities) {
+                this->_ecsManager->getEntity(entity->getId())->clearComponent();
+            }
+        }
         text = static_cast<DrawableText *>(component[1]);
         text->setText(std::to_string(time->getTimeLeft()) + "s");
     } else if (time_type == GAME_MANDRAKE) {
