@@ -17,7 +17,7 @@
 
 class Move : public ISystem {
     public:
-        Move();
+        Move(std::vector<Entity *> *mapEntities);
         ~Move();
         void apply(std::vector<IComponent *> component) override;
         SYSTEM_TYPES getType() override;
@@ -25,6 +25,7 @@ class Move : public ISystem {
     protected:
     private:
         std::chrono::duration<double> timeduration;
+        std::vector<Entity *> *mapEntities;
 };
 
 #endif /* !MOVE_HPP_ */

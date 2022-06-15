@@ -33,6 +33,7 @@ class Save {
         std::unique_ptr<IComponent> saveDrawablePlane(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveDrawableText(std::vector<std::string> lines);
         std::unique_ptr<IComponent> saveCollisionable(std::vector<std::string> lines);
+        std::unique_ptr<IComponent> saveCollisionable();
         std::unique_ptr<IComponent> saveBreakable();
     private:
         std::string _fileToSaveTo;

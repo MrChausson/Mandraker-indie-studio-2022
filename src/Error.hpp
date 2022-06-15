@@ -22,6 +22,11 @@ class MissingModelType : public AError {
         MissingModelType(std::string msg) {this->_msg = msg;};
 };
 
+class MissingCollisionableComponent : public AError {
+    public:
+        MissingCollisionableComponent(std::string msg) {this->_msg = msg;};
+};
+
 class Error_file : public AError {
     public:
         Error_file() {this->_msg = "Failed to open the file"; };

@@ -13,7 +13,8 @@
 
 enum class CubeTextureType {
     GRASS,
-    STONE
+    STONE,
+    SOUND
 };
 
 class DrawableCubeTexture : public Drawable {

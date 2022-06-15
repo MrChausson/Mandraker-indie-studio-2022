@@ -7,14 +7,14 @@
 
 #include "raylib.hpp"
 #include "GameOver.hpp"
-#include "../../ecs/Components/Clickable/Clickable.hpp"
-#include "../../Tools/Button.hpp"
 #include <string>
 #include "raymath.h"
+#include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
 #include "../../ecs/Components/Animable/Animable.hpp"
 #include "../../ecs/Systems/Animation/Animation.hpp"
 #include "../../ecs/Systems/Sound/SoundSystem.hpp"
+#include "../../Tools/Button.hpp"
 
 
 GameOver::GameOver()
@@ -79,11 +79,12 @@ GameOver::GameOver()
         0, 1, 2, 3, 4, 5, 6, 7, 8
     };
 
-    Vector3 position = { -108.0f, 800.0f, 90.0f };
-    Vector3 target = { 70.0f, 400.0f, 0.0f };
+    Vector3 position = { -108.0f, 600.0f, 90.0f };
+    Vector3 target = { 70.0f, 300.0f, 0.0f };
     Vector3 up = { 0.0f, 1.0f, 0.0f };
     Vector3 scale = { 1.5, 1.5, 1.5 };
     Vector3 rotationAxis = { 1.5f, 1.3f, 1.0f };
+
     
     this->_ecsManager->addComponent(cameraover, std::make_unique<CameraComponent>(position, target, up, 45.0f, CAMERA_PERSPECTIVE));
     this->_ecsManager->addComponent(character_salle, std::make_unique<Placable>(0.0f, 0.0f, 0.0f, rotationAxis, -90.0f, scale));

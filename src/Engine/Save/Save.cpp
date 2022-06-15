@@ -24,7 +24,7 @@ Save::Save(std::string file_to_save)
 {
     Raylib::Raylib_encap r;
     this->_fileToSaveTo = file_to_save;
-    this->_grassTexture = r.LTexture("assets/meterials/grass.png");
+    this->_grassTexture = r.LTexture("assets/materials/grass.png");
     this->_stoneTexture = r.LTexture("assets/materials/game/stone.png");
     // Creating vector texture and the mesh order for mcg
     this->_textures_mcg = {
@@ -191,6 +191,8 @@ void Save::save(std::vector<Entity *> entities)
                 buffer << std::to_string(camera->getProjection()) << std::endl;
             } else if (component->getType() == BREAKABLE) {
                 buffer << "Breakable" << std::endl;
+            } else if (component->getType() == COLLISIONABLE) { 
+                buffer << "Collisionable" << std::endl;
             } else if (component->getType() == DRAWABLE &&
             static_cast<Drawable *>(component)->getComponentType() != DRAWABLE_TYPE_SPRITE) {
                 drawable = static_cast<Drawable *>(component);
@@ -297,7 +299,7 @@ std::unique_ptr<IComponent> Save::saveDrawableCube(std::vector<std::string> line
 std::unique_ptr<IComponent> Save::saveDrawableCubeTexture(std::vector<std::string> lines)
 {
     Color color = {(unsigned char) std::stoi(lines[0]), (unsigned char) std::stoi(lines[1]), (unsigned char) std::stoi(lines[2]), (unsigned char) std::stoi(lines[3])};
-    CubeTextureType cube_texture_type = (CubeTextureType) std::stoi(lines[4]);
+    CubeTextureType cube_texture_type = (CubeTextureType) std::stoi(lines[7]);
     std::unique_ptr<IComponent> component;
     if (cube_texture_type == CubeTextureType::GRASS)
         component = std::make_unique<DrawableCubeTexture>(this->_grassTexture, cube_texture_type, std::stoi(lines[4]), std::stoi(lines[5]), std::stoi(lines[6]), color);
@@ -348,6 +350,13 @@ std::unique_ptr<IComponent> Save::saveBreakable()
 {
     std::unique_ptr<IComponent> component;
     component = std::make_unique<Breakable>();
+    return component;
+}
+
+std::unique_ptr<IComponent> Save::saveCollisionable()
+{
+    std::unique_ptr<IComponent> component;
+    component = std::make_unique<Collisionable>();
     return component;
 }
 
@@ -427,6 +436,10 @@ std::vector<std::unique_ptr<Entity>> Save::load()
                 componentToAdd = std::move(this->saveBreakable());
                 if (componentToAdd != nullptr)
                     entity->addComponent(std::move(componentToAdd));
+            } else if (line == "Collisionable") {
+                componentToAdd = std::move(this->saveCollisionable());
+                if (componentToAdd != nullptr)
+                    entity->addComponent(std::move(componentToAdd));
             } else if (line == "Drawable") {
                 getline(savefile, line);
                 drawable_type = (DRAWABLE_TYPE) std::stoi(line);
@@ -461,7 +474,7 @@ std::vector<std::unique_ptr<Entity>> Save::load()
                     }
                     componentToAdd = std::move(this->saveDrawablePlane(lines));
                     if (componentToAdd != nullptr)
-                        entity->addComponent(std::move(componentToAdd));
+                        entity->addComponent(std::move(componentToAdd));                    
                 } else if (drawable_type == DRAWABLE_TYPE_MODEL) {
                     for (int i = 0; i < 1; i++) {
                         getline(savefile, line);
