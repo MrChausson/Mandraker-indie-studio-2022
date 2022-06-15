@@ -61,6 +61,7 @@ void Move::apply(std::vector<IComponent *> component)
     movable->setEndIAclock();
     movable->setTimedurationIAclock();
     this->timeduration = movable->getTimedurationIA();
+    std::srand(time(NULL));
 
     if (type == MOVABLE_PLAYER && anims->getAnimationType() != ANIMATION_TYPE::FALL) {
         collision = static_cast<Collisionable *> (component[3]);
@@ -130,45 +131,49 @@ void Move::apply(std::vector<IComponent *> component)
     else if (type == MOVABLE_AI && anims->getAnimationType() != ANIMATION_TYPE::FALL) {
         collision = static_cast<Collisionable *> (component[3]);
         IA_pos = placable->getPosition();
+        IA_ACTION action;
         if (this->timeduration >= timelimit) {
             /*if (checkNear_Bomb(IA_pos)) {
             }*/
+            movable->setIAActionType((IA_ACTION) (std::rand() % 5));
+            action = movable->getIAActionType();
             int rngvalue = Raylib_encp.GetRngValue(0, 3);
             // int rngvalue = getdirection(collision, placable);
             // go right
-            if (rngvalue == 0 /*&& !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())*/&& !collision->isColliding(placable->getX() + 1, placable->getY() ,placable->getZ(), this->mapEntities)) {
+            if (action == IA_ACTION::MOVE_RIGHT /*&& !collision->isColliding(placable->getX() + to_move, placable->getY() ,placable->getZ())*/&& !collision->isColliding(placable->getX() + 1, placable->getY() ,placable->getZ(), this->mapEntities)) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
                 placable->setX(placable->getX() + 1);
-                movable->setIAActionType(IA_ACTION::IA_MOVE);
             }
             // go left
-            else if (rngvalue == 1 /*&& !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ())*/ && !collision->isColliding(placable->getX() - 1, placable->getY() ,placable->getZ(), this->mapEntities)) {
+            else if (action == IA_ACTION::MOVE_LEFT /*&& !collision->isColliding(placable->getX() - to_move, placable->getY() ,placable->getZ())*/ && !collision->isColliding(placable->getX() - 1, placable->getY() ,placable->getZ(), this->mapEntities)) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(1.5);
                 placable->setX(placable->getX() - 1);
-                movable->setIAActionType(IA_ACTION::IA_MOVE);
+                movable->setIAActionType((IA_ACTION) (std::rand() % 5));
             }
             // go up
-            else if (rngvalue == 2 /*&& !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - 1, this->mapEntities)) {
+            else if (action == IA_ACTION::MOVE_UP /*&& !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() - 1, this->mapEntities)) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(3);
                 placable->setZ(placable->getZ() - 1);
-                movable->setIAActionType(IA_ACTION::IA_MOVE);
+                movable->setIAActionType((IA_ACTION) (std::rand() % 5));
             }
             // go down
-            else if (rngvalue == 3/* && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + 1, this->mapEntities)) {
+            else if (action == IA_ACTION::MOVE_DOWN/* && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + to_move)*/ && !collision->isColliding(placable->getX(), placable->getY() ,placable->getZ() + 1, this->mapEntities)) {
                 anims->setAnimationType(RUN);
                 model->getPtrModel()->transform = Raylib_encp.MatrixRotZ(0);
                 placable->setZ(placable->getZ() + 1);
-                movable->setIAActionType(IA_ACTION::IA_MOVE);
+                movable->setIAActionType((IA_ACTION) (std::rand() % 5));
             }
-            // nothing
+            // choose a new action
             else {
                 anims->setAnimationType(IDLE);
-                movable->setIAActionType(IA_ACTION::IA_STAY);
+                movable->setIAActionType((IA_ACTION) (std::rand() % 5));
             }
             movable->restartTimedurationIAclock();
+        }
+        else {
         }
     }
     movable->setstartIAclock();
