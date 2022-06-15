@@ -115,7 +115,7 @@ void Timer::apply(std::vector<IComponent *> component)
         if (time->isTimeOut()) {
             time->setFinished(true);
             this->deleteGnome(place->getPosition(), time->getPlayable());
-            this->createPowerups(place->getPosition());
+            // this->createPowerups(place->getPosition());
         }
     } else if (time_type == GAME_PLAYER_FALL) {
         if (time->isTimeOut()) {
@@ -149,7 +149,7 @@ void Timer::deleteGnome(Vector3 position, void *play)
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
-                this->createPowerups(pos);
+                // this->createPowerups(pos);
             }
         }
     }
