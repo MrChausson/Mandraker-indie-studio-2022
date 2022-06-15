@@ -8,7 +8,6 @@
 #include "raylib.hpp"
 #include "GameOver.hpp"
 #include <string>
-#include <unistd.h>
 #include "raymath.h"
 #include "../../ecs/Components/Clickable/Clickable.hpp"
 #include "../../ecs/Components/CameraComponent/CameraComponent.hpp"
