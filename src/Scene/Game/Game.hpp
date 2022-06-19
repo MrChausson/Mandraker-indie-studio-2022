@@ -18,7 +18,6 @@ class Game : public Scene {
         void loadMap(std::string map);
 
     protected:
-        std::vector<Entity *> *getMapEntities();
     private:
         std::vector <Entity *> *_mapEntities;
         std::vector <Entity *> _playerEntities;

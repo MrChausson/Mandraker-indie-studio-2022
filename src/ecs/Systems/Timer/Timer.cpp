@@ -138,11 +138,14 @@ void Timer::apply(std::vector<IComponent *> component)
     Playable *playable;
     Vector3 playerPos = {1.0f, 0.0f, 0.0f};
     int i;
+    int count = 0;
 
     if (time_type == GAME_CLOCK) {
         if (time->isTimeOut()) {
             for (auto &entity : *this->_playerEntities) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
+                //this->_playerEntities->erase(this->_playerEntities->begin() + count);
+                count++;
             }
         }
         text = static_cast<DrawableText *>(component[1]);
@@ -227,15 +230,19 @@ void Timer::deleteGnome(Vector3 position, void *play)
     Placable *place;
     Breakable *breakable;
     float range = playable->getRange();
-    for (auto &entity : *this->_mapEntities) {
+    int count = 0;
+
+    for (auto entity : *this->_mapEntities) {
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
+                this->_mapEntities->erase(this->_mapEntities->begin() + count);
                 // this->createPowerups(pos);
             }
         }
+        count++;
     }
 }
 
@@ -304,15 +311,18 @@ void Timer::deletePlayer(Vector3 position, void *play)
     Placable *place;
     Breakable *breakable;
     float range = playable->getRange();
+    int count = 0;
+
     for (auto &entity : *this->_playerEntities) {
         if (entity->getComponents().size() != 0 && static_cast<Breakable *>(entity->getComponentsByType(BREAKABLE)) != nullptr) {
             place = static_cast<Placable *>(entity->getComponentsByType(PLACABLE));
             pos = place->getPosition();
             if (isInRange(position, pos, range)) {
                 this->_ecsManager->getEntity(entity->getId())->clearComponent();
-                //this->_ecsManager->addComponent(entity->getId(),std::make_unique<Timable>(0.3, GAME_GNOME, -1, playable));
+                //this->_playerEntities->erase(this->_playerEntities->begin() + count);
             }
         }
+        count++;
     }
 }
 

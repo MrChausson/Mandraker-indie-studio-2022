@@ -31,8 +31,9 @@ void Entity::addComponent(std::unique_ptr<IComponent> component)
 std::vector<IComponent *> Entity::getComponents()
 {
     std::vector<IComponent *> components;
-    for (auto &component : this->_components)
-        components.push_back(component.get());
+    if (this->_components.size() < 20)
+        for (auto &component : this->_components)
+            components.push_back(component.get());
     return components;
 }
 
@@ -40,9 +41,10 @@ std::vector<IComponent *> Entity::getComponents()
 IComponent *Entity::getComponentsByType(COMPONENT_TYPES type)
 {
     std::vector<IComponent *> components;
-    for (auto &component : this->_components)
-        if (component->getType() == type)
-            return(component.get());
+    if (this->_components.size() < 20)
+        for (auto &component : this->_components)
+            if (component != nullptr && component->getType() == type)
+                return(component.get());
     return nullptr;
 }
 

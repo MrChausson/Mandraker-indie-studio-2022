@@ -98,144 +98,122 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
 
     IComponent *tmp_component = nullptr;
     ModelType model_type;
-    if (entities.size() != 0) {
-        std::cout << "Constructing Game from saved entities" << std::endl;
-        for (auto &entity : entities) {
-            tmp_component = entity.get()->getComponentsByType(COMPONENT_TYPES::DRAWABLE);
-            if (tmp_component != nullptr && static_cast<Drawable *>(tmp_component)->getComponentType() == DRAWABLE_TYPE::DRAWABLE_TYPE_MODEL) {
-                model_type = (ModelType) static_cast<DrawableModel *> (tmp_component)->getModelType();
-                if (model_type == ModelType::MCG)
-                    player = entity.get()->getId();
-                else if (model_type == ModelType::TRELAWNEY)
-                    trelawney = entity.get()->getId();
-                else if (model_type == ModelType::SNAPE)
-                    snape = entity.get()->getId();
-                else if (model_type == ModelType::SPROUT)
-                    sprout = entity.get()->getId();
-            }
-            this->_ecsManager->addEntity(std::move(entity));
+    // Creating entities
+    camera = this->_ecsManager->createEntity();
+    text = this->_ecsManager->createEntity();
+    player = this->_ecsManager->createEntity();
+    ai = this->_ecsManager->createEntity();
+    model = this->_ecsManager->createEntity();
+    test_pot = this->_ecsManager->createEntity();
+    trelawney = this->_ecsManager->createEntity();
+    snape = this->_ecsManager->createEntity();
+    plane = this->_ecsManager->createEntity();
+    sprout = this->_ecsManager->createEntity();
+    mandrake = this->_ecsManager->createEntity();
+    game_clock = this->_ecsManager->createEntity();
+
+    // Creating Model , vector texture and the mesh order for mcg
+    this->mgmModel = models[0];
+    this->trelawneyModel = models[1];
+    this->snapeModel = models[2];
+    this->sproutModel = models[3];
+
+    // Adding Camera Component
+    this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
+
+
+    // Adding Timer
+    this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
+    this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
+    this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
+    this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
+
+    // Configuring player MCG
+    this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
+    int done = 0;
+    for (int i = 0; i != (*characterChoosen).size(); i++) {
+        if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 0) {
+            done = 1;
+            this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
         }
-        //filters out the map entities
-        this->_mapEntities = this->getMapEntities();
-        std::cout << "test" << std::endl;
-    } else {
-        // Creating entities
-        camera = this->_ecsManager->createEntity();
-        text = this->_ecsManager->createEntity();
-        player = this->_ecsManager->createEntity();
-        ai = this->_ecsManager->createEntity();
-        model = this->_ecsManager->createEntity();
-        test_pot = this->_ecsManager->createEntity();
-        trelawney = this->_ecsManager->createEntity();
-        snape = this->_ecsManager->createEntity();
-        plane = this->_ecsManager->createEntity();
-        sprout = this->_ecsManager->createEntity();
-        mandrake = this->_ecsManager->createEntity();
-        game_clock = this->_ecsManager->createEntity();
-
-        // Creating Model , vector texture and the mesh order for mcg
-        this->mgmModel = models[0];
-        this->trelawneyModel = models[1];
-        this->snapeModel = models[2];
-        this->sproutModel = models[3];
-
-        // Adding Camera Component
-        this->_ecsManager->addComponent(camera, std::make_unique<CameraComponent>(position, target, up, 18.0f, CAMERA_PERSPECTIVE));
-
-
-        // Adding Timer
-        this->_font = Raylib_encp.LFontEx("assets/fonts/wizarding.ttf", 100, 0, 0);
-        this->_ecsManager->addComponent(game_clock, std::make_unique<Placable>(1792/2 - 3, 20));
-        this->_ecsManager->addComponent(game_clock, std::make_unique<DrawableText>(1, "", Color{255, 255, 255, 255}, this->_font, 80));
-        this->_ecsManager->addComponent(game_clock, std::make_unique<Timable>(120, GAME_CLOCK, game_clock));
-
-        // Configuring player MCG
-        this->_ecsManager->addComponent(player, std::make_unique<Placable>(1.0f, 0.0f, 1.0f, position_player, -90.0f));
-        int done = 0;
-        for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 0) {
-                done = 1;
-                this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            }
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 1) {
-                done = 1;
-                this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            }
+        else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::MCG && i == 1) {
+            done = 1;
+            this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
         }
-        if (done != 1)
-            this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm, 0, ModelType::MCG));
-        this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
-        this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
-
-
-        // Configuring player TRELAWNEY
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
-        done = 0;
-        for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 0) {
-                done = 1;
-                this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            }
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 1) {
-                done = 1;
-                this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            }
-        }
-        if (done != 1)
-            this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney, 0, ModelType::TRELAWNEY));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
-
-        // Configuring player SNAPE
-        this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
-        done = 0;
-        for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 0) {
-                done = 1;
-                this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            }
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 1) {
-                done = 1;
-                this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            }
-        }
-        if (done != 1)
-            this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-
-        this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape, 0, ModelType::SNAPE));
-        this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
-        this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
-
-        // Configuring player SPROUT
-        this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
-        done = 0;
-        for (int i = 0; i != (*characterChoosen).size(); i++) {
-            if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 0) {
-                done = 1;
-                this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
-            }
-            else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 1) {
-                done = 1;
-                this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
-            }
-        }
-        if (done != 1)
-            this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
-
-        this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout, 0, ModelType::SPROUT));
-        this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
-        this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
-
-        // Loading the map
-        this->loadMap("assets/map/map.txt");
-        // Collision configuration
-        this->_ecsManager->addComponent(player, std::make_unique<Collisionable>());
-        this->_ecsManager->addComponent(sprout, std::make_unique<Collisionable>());
-        this->_ecsManager->addComponent(trelawney, std::make_unique<Collisionable>());
-        this->_ecsManager->addComponent(snape, std::make_unique<Collisionable>());
     }
+    if (done != 1)
+        this->_ecsManager->addComponent(player, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(player, std::make_unique<DrawableModel>(texturesMgm, mgmModel, meshOrderMgm, 0, ModelType::MCG));
+    this->_ecsManager->addComponent(player, std::make_unique<Animable>("assets/models/mcg/mcg.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(player, std::make_unique<Breakable>());
+
+
+    // Configuring player TRELAWNEY
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Placable>(1.0f, 0.0f, 11.0f, position_player, -90.0f));
+    done = 0;
+    for (int i = 0; i != (*characterChoosen).size(); i++) {
+        if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 0) {
+            done = 1;
+            this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        }
+        else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::TRELAWNEY && i == 1) {
+            done = 1;
+            this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
+        }
+    }
+    if (done != 1)
+        this->_ecsManager->addComponent(trelawney, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<DrawableModel>(texturesTre, trelawneyModel, meshOrderTrelawney, 0, ModelType::TRELAWNEY));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Animable>("assets/models/trelawney/trelawney.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Breakable>());
+
+    // Configuring player SNAPE
+    this->_ecsManager->addComponent(snape, std::make_unique<Placable>(13.0f, 0.0f, 11.0f, position_player, -90.0f));
+    done = 0;
+    for (int i = 0; i != (*characterChoosen).size(); i++) {
+        if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 0) {
+            done = 1;
+            this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        }
+        else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SNAPE && i == 1) {
+            done = 1;
+            this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
+        }
+    }
+    if (done != 1)
+        this->_ecsManager->addComponent(snape, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+
+    this->_ecsManager->addComponent(snape, std::make_unique<DrawableModel>(texturesSnape, snapeModel, meshOrderSnape, 0, ModelType::SNAPE));
+    this->_ecsManager->addComponent(snape, std::make_unique<Animable>("assets/models/snape/snape.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(snape, std::make_unique<Breakable>());
+
+    // Configuring player SPROUT
+    this->_ecsManager->addComponent(sprout, std::make_unique<Placable>(13.0f, 0.0f, 1.0f, position_player, -90.0f));
+    done = 0;
+    for (int i = 0; i != (*characterChoosen).size(); i++) {
+        if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 0) {
+            done = 1;
+            this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER));
+        }
+        else if ((*characterChoosen)[i] == CHARACTER_CHOOSEN::SPROUT && i == 1) {
+            done = 1;
+            this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_PLAYER_2));
+        }
+    }
+    if (done != 1)
+        this->_ecsManager->addComponent(sprout, std::make_unique<Movable>(4.0f, MOVABLE_AI));
+
+    this->_ecsManager->addComponent(sprout, std::make_unique<DrawableModel>(texturesSprout, sproutModel, meshOrderSprout, 0, ModelType::SPROUT));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Animable>("assets/models/sprout/sprout.iqm", ANIMATION_TYPE::IDLE));
+    this->_ecsManager->addComponent(sprout, std::make_unique<Breakable>());
+
+    // Loading the map
+    this->loadMap("assets/map/map.txt");
+    // Collision configuration
+    this->_ecsManager->addComponent(player, std::make_unique<Collisionable>());
+    this->_ecsManager->addComponent(sprout, std::make_unique<Collisionable>());
+    this->_ecsManager->addComponent(trelawney, std::make_unique<Collisionable>());
+    this->_ecsManager->addComponent(snape, std::make_unique<Collisionable>());
 
 
     //Configure Music
@@ -275,28 +253,6 @@ Game::Game(std::vector<Model> models, std::vector<CHARACTER_CHOOSEN> *characterC
 
 Game::~Game()
 {
-}
-
-std::vector<Entity *> *Game::getMapEntities()
-{
-    std::vector<Entity *> *mapEntities = new std::vector<Entity *>();
-    IComponent *component;
-    Drawable *drawable;
-    DrawableModel *drawableModel;
-    ModelType modelType;
-
-    for (auto &entity : this->_ecsManager->getEntitiesNoPtr()) {
-        component = entity->getComponentsByType(DRAWABLE);
-        if (component != nullptr) {
-            drawable = dynamic_cast<Drawable *>(component);
-            if (drawable->getComponentType() == DRAWABLE_TYPE_MODEL) {
-                modelType = (ModelType) static_cast<DrawableModel *> (drawable)->getModelType();
-                if (modelType == ModelType::BAG || modelType == ModelType::GNOME || modelType == ModelType::TABLE)
-                    mapEntities->push_back(entity);
-            }
-        }
-    }
-    return mapEntities;
 }
 
 void Game::loadMap(std::string map_src)

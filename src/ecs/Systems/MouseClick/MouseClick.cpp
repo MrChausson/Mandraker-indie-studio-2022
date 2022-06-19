@@ -82,8 +82,8 @@ void MouseClick::clickAction(ClickableActionType actionType, IComponent *compone
                 r.PlayS(*click->_sound);
             Menu *menu = new Menu();
             click->setEcs(menu->getECS());
-            if (scene != nullptr)
-                delete (static_cast<Settings *>(scene));
+            /*if (scene != nullptr)
+                delete (static_cast<Settings *>(scene));*/
         } else if (click->_tmpEcs == SCENE_SETTINGS) {
             if (click->_sound != nullptr)
                 r.PlayS(*click->_sound);

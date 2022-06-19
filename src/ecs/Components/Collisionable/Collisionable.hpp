@@ -12,7 +12,6 @@
 #include "../../Entity/Entity.hpp"
 #include "../Drawable/DrawableModel.hpp"
 #include "../Placable/Placable.hpp"
-#include <vector>
 
 class Collisionable : public IComponent {
     public:
